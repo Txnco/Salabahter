@@ -18,25 +18,26 @@ $pathToLogout = "account/logout.php";
 $sqlSviInstruktori = "SELECT instruktori.instruktor_id, korisnik.korisnik_id, ime, prezime, email, adresa, naziv_grada, status_naziv FROM instruktori, korisnik, statuskorisnika, gradovi WHERE instruktori.korisnik_id=korisnik.korisnik_id AND korisnik.status_korisnika=statuskorisnika.status_id AND korisnik.mjesto=gradovi.grad_id";
 $rezultatSviInstruktori = $con->query($sqlSviInstruktori);
 
-if($_SERVER['REQUEST_METHOD']=='POST'){
-    
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
     $query = "SELECT instruktori.instruktor_id, korisnik.korisnik_id, ime, prezime, email, adresa, naziv_grada, status_naziv FROM instruktori, korisnik, statuskorisnika, gradovi WHERE instruktori.korisnik_id=korisnik.korisnik_id AND korisnik.status_korisnika=statuskorisnika.status_id AND korisnik.mjesto=gradovi.grad_id";
 
     if (isset($_POST['pretraga']) && $_POST['pretraga'] != '') {
         $searchTerm = $con->real_escape_string($_POST['pretraga']);
         $query .= " AND (ime LIKE '%$searchTerm%' OR prezime LIKE '%$searchTerm%' OR naziv_grada LIKE '%$searchTerm%' OR status_naziv LIKE '%$searchTerm%')";
     }
-    
+
     if (isset($_POST['predmet']) && $_POST['predmet'] != '') {
         $predmetId = $_POST['predmet'];
         $query .= " AND instruktor_id IN (SELECT instruktor_id FROM instruktorovipredmeti WHERE predmet_id = $predmetId)";
     }
-    
+
+    if (isset($_POST['grad']) && $_POST['grad'] != '') {
+        $gradId = $_POST['grad'];
+        $query .= " AND korisnik.mjesto = $gradId";
+    }
+
     $rezultatSviInstruktori = $con->query($query);
-    
-
- 
-
 }
 
 ?>
@@ -86,6 +87,20 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
                                             $rezultatPredmeti = $con->query("SELECT * FROM predmeti");
                                             while ($red = $rezultatPredmeti->fetch_assoc()) {
                                                 echo '<option value="' . $red['predmet_id'] . '">' . $red['naziv_predmeta'] . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-md-center mt-2">
+                                    <div class="col-sm">
+                                        <select class="form-control" name="grad">
+                                            <option value="">Odaberi grad</option>
+                                            <?php
+                                            $rezultatGradovi = $con->query("SELECT * FROM gradovi");
+                                            while ($red = $rezultatGradovi->fetch_assoc()) {
+                                                echo '<option value="' . $red['grad_id'] . '">' . $red['naziv_grada'] . '</option>';
                                             }
                                             ?>
                                         </select>

@@ -47,7 +47,7 @@ if ($korisnikJeInstruktor) { // Ako je korisnik instruktor onda se dohvaćaju pr
   $rezultatInstruktoroviPredmeti = $con->query($sqlInstruktoroviPredmeti);
 
   // Dohvati skripte instruktora
-  $sqlSkripteKorisnika = "SELECT * FROM skripte WHERE korisnik_id = {$instruktor['instruktor_id']}";
+  $sqlSkripteKorisnika = "SELECT * FROM skripte WHERE korisnik_id = {$korisnikID}";
   $resultSkripteKorisnika = $con->query($sqlSkripteKorisnika);
   if ($resultSkripteKorisnika->num_rows > 0) {
     $korisnikImaSkripte = true;
@@ -223,29 +223,28 @@ if ($korisnikJeInstruktor) { // Ako je korisnik instruktor onda se dohvaćaju pr
                   </div>
                 </div>
               </div>
+              
               <div class="col-sm-6 mb-3">
                 <div class="card h-100">
                   <div class="card-body">
                     <h6 class="d-flex align-items-center mb-3">Skripte</h6> <!-- Ispis skripti koje je instruktor dodao -->
                     <div class="row overflow-auto" style="max-height: 300px;">
-                      <div class="col-sm-8 mb-3">
+                      <div class="col-sm mb-3">
+                        <div class="card h-100">
                         <?php
                         if ($korisnikImaSkripte) :
                           while ($row = $resultSkripteKorisnika->fetch_assoc()) : ?>
-                            <div class="card h-100">
-                              <div class="card-body">
-                                <h6 class="d-flex align-items-center mb-3">Skripte</h6>
-                                <small><?php echo $row['naziv_skripte']; ?></small>
-                                <div class="progress mb-3" style="height: 5px">
-                                  <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-
-                                <a href="<?php echo $row['skripta_putanja']; ?>" class="btn btn-primary" download>Preuzmi</a>
-                              </div>
-                            </div>
-                        <?php endwhile;
+                                            <div class="card-body">
+                                                <small><?php echo $row['naziv_skripte']; ?></small>
+                                                <div class="progress mb-3" style="height: 5px">
+                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                                </div>
+                                                <a href="<?php echo $row['skripta_putanja']; ?>" class="btn btn-primary" download>Preuzmi</a>
+                                            </div>
+                                            <?php endwhile;
                         else : echo "Instruktor još nije dodao skripte";
-                        endif; ?>
+                      endif; ?>
+                      </div>
                       </div>
                     </div>
                   </div>
