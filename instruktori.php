@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     </div>
                                 </div>
 
-
+                                
 
                             </form>
                         </div>
@@ -135,22 +135,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 $rezultatPredmeta = $con->query($sviPredmetiInstruktora); // Iz baze uzima instruktor_id, predmeti.predmet_id i naziv_predmeta i sprema u $rezultatPredmeta
 
                                 $predmeti = array(); // Kreira prazan niz $predmeti
+                                $predmet_id = array();
                                 if ($rezultatPredmeta->num_rows > 0) {
                                     while ($predmetRed = $rezultatPredmeta->fetch_assoc()) { // Ako ima više od 0 redova, uzima red i sprema u $predmetRed
                                         $predmeti[] = $predmetRed['naziv_predmeta']; // Sprema naziv_predmeta u niz $predmeti
+                                        $predmet_id[] = $predmetRed['predmet_id'];
                                     }
                                 }
                         ?>
                                 <div class="col-sm-4 mb-3">
-                                    <div class="card">
+                                    <div class="card" style="height: 390px;">
                                         <div class="card-body">
                                             <div class="d-flex flex-column align-items-center text-center">
                                                 <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100">
                                                 <div class="mt-3">
                                                     <h4> <?php echo $red["ime"] . " " . $red["prezime"] ?></h4>
                                                     <?php
-                                                    foreach ($predmeti as $predmet) {
-                                                        echo $predmet . " ";
+                                                    $colors = [
+                                                        '12' => '#311183',
+                                                        '10' => '#e0618b',
+                                                        '11' => '#b21100',
+                                                        '13' => '#2c78b7',
+                                                        '9' => '#c04850',
+                                                        '8' => '#ff9d3f'
+                                                    ];
+
+                                                    $predmetiWithId = array_combine($predmet_id, $predmeti); // Combine predmet_id and predmeti arrays
+
+                                                    foreach ($predmetiWithId as $id => $predmet) {
+                                                        $color = isset($colors[$id]) ? $colors[$id] : '#000000'; // Default to black if the predmet_id is not in the colors array
+                                                        echo '<span class="badge" style="background-color: ' . $color . ';">' . $predmet . '</span> ';
                                                     }
                                                     ?>
                                                     <p class="text-secondary mb-1">
