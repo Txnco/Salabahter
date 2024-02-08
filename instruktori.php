@@ -20,12 +20,20 @@ $rezultatSviInstruktori = $con->query($sqlSviInstruktori);
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
     
+    $query = "SELECT instruktori.instruktor_id, korisnik.korisnik_id, ime, prezime, email, adresa, naziv_grada, status_naziv FROM instruktori, korisnik, statuskorisnika, gradovi WHERE instruktori.korisnik_id=korisnik.korisnik_id AND korisnik.status_korisnika=statuskorisnika.status_id AND korisnik.mjesto=gradovi.grad_id";
+
+    if (isset($_POST['pretraga']) && $_POST['pretraga'] != '') {
+        $searchTerm = $con->real_escape_string($_POST['pretraga']);
+        $query .= " AND (ime LIKE '%$searchTerm%' OR prezime LIKE '%$searchTerm%' OR naziv_grada LIKE '%$searchTerm%' OR status_naziv LIKE '%$searchTerm%')";
+    }
+    
     if (isset($_POST['predmet']) && $_POST['predmet'] != '') {
         $predmetId = $_POST['predmet'];
-        $rezultatSviInstruktori = $con->query("SELECT instruktori.instruktor_id, korisnik.korisnik_id, ime, prezime, email, adresa, naziv_grada, status_naziv FROM instruktori, korisnik, statuskorisnika, gradovi WHERE instruktor_id IN (SELECT instruktor_id FROM instruktorovipredmeti WHERE predmet_id = $predmetId) AND instruktori.korisnik_id=korisnik.korisnik_id AND korisnik.status_korisnika=statuskorisnika.status_id AND korisnik.mjesto=gradovi.grad_id");
-    } else {
-        $rezultatSviInstruktori = $con->query("SELECT * FROM instruktori");
+        $query .= " AND instruktor_id IN (SELECT instruktor_id FROM instruktorovipredmeti WHERE predmet_id = $predmetId)";
     }
+    
+    $rezultatSviInstruktori = $con->query($query);
+    
 
  
 
