@@ -1,11 +1,12 @@
 <?php
+$trenutnaStranica = "račun";
 
-$pathToPocetna = '../';
+$putanjaDoPocetna = '../';
 $putanjaDoSkripta = "../skripta.php";
 $putanjaDoInstruktora = '../instruktori.php';
 
-$pathToLogin = "account/login.php";
-$pathToRegister = "account/register.php";
+
+
 $pathToRacun = "../dashboard";
 $pathToLogout = "../account/logout.php";
 

@@ -3,6 +3,8 @@ session_start();
 $con = require "includes/connection/spajanje.php";
 include("includes/functions/funkcije.php");
 
+$trenutnaStranica = "skripte";
+
 $putanjaDoPocetna ='index.php';
 $pathToAutomobili='automobili.php';
 $putanjaDoInstruktora ='instruktori.php';
@@ -23,13 +25,12 @@ $resultPredmeti = $con->query($sqlPredmeti);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pretraži Skripte</title>
-    <link href="../assets/img/favicon.png" rel="icon">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-    <link href="../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-    <link href="assets/css/style.css" rel="stylesheet">
+    
+    <?php include 'assets/css/stiliranje.php'; ?>  <!-- Sve poveznice za stil web stranice -->
+
 </head>
 <body>
+
 <?php include 'includes/header.php'; ?>
 
 <div class="container mt-5 mb-4">

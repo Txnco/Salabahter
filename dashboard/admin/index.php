@@ -1,11 +1,12 @@
 <?php
 
-$pathToPocetna = '../';
+$trenutnaStranica = "račun";
+
+$putanjaDoPocetna = '../../';
 $putanjaDoInstruktora = '../../instruktori.php';
 $putanjaDoSkripta = "../../skripta.php";
 
-$pathToLogin = "account/login.php";
-$pathToRegister = "account/register.php";
+
 $pathToRacun = "../../dashboard";
 $pathToLogout = "../../account/logout.php";
 
@@ -15,7 +16,7 @@ include("../../includes/functions/funkcije.php");
 
 $user = provjeri_prijavu($con);
 if (!$user) {
-  header("Location: ../account/login.php");
+  header("Location: ../../account/login.php");
   die;
 }
 $user = check_privilegeUser($con);
@@ -151,7 +152,7 @@ if ($rezultatPoslanZahtjev) {
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
   <!-- Bootstrap CSS include -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

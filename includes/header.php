@@ -1,27 +1,20 @@
- <?php
-
- 
- ?>
-
-
  
  <!-- ======= Header ======= -->
  <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
       <div class="logo">
-        <h1 class="text-light"><a href="<?php echo $pathToPocetna?>"><span>Shuffle</span></a></h1>
+        <h1 class="text-light"><a href="<?php echo $pathToPocetna?>"><span>Šalabahter</span></a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto active" href="<?php echo $putanjaDoPocetna?>">Home</a></li>
-          <li><a class="nav-link scrollto" href="<?php echo $putanjaDoInstruktora?>">Instruktori</a></li>
-          <li><a class="nav-link scrollto" href="<?php echo $putanjaDoSkripta?>">Skripte</a></li>
-          <li><a class="nav-link scrollto" href="<?php echo $pathToPocetna?>#portfolio">Portfolio</a></li>
-          <li><a class="nav-link scrollto" href="<?php echo $pathToPocetna?>#team">Team</a></li>
+          <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "index" ? 'active' : '' ?>" href="<?php echo $putanjaDoPocetna?>">Home</a></li>
+          <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "instruktori" ? 'active' : '' ?>" href="<?php echo $putanjaDoInstruktora?>">Instruktori</a></li>
+          <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "skripte" ? 'active' : '' ?>" href="<?php echo $putanjaDoSkripta?>">Skripte</a></li>
+          <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "kartice" ? 'active' : '' ?>" href="<?php echo $pathToPocetna?>#portfolio">Kartice za ponavljanje</a></li>
           <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="#">Drop Down 1</a></li>
@@ -39,14 +32,14 @@
               <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li>
-          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "onama" ? 'active' : '' ?>" href="#contact">O nama</a></li>
 
           <?php if(!isset($_SESSION["user_id"])): ?>
               <a href="<?php echo $pathToLogin ?>" class="nav-link scrollto ml-3" role="button">Prijava</a>
               <a href="<?php echo $pathToRegister ?>" class="nav-link scrollto" role="button">Registracija</a>
       <?php else: ?>
-              <a href="<?php echo $pathToRacun ?>" class="nav-link scrollto mr-2" role="button">Račun</a>
-              <a href="<?php echo $pathToLogout ?>" id="logout" class="nav-link scrollto" role="button">Odjava</a>
+              <a href="<?php echo $pathToRacun ?>" class="nav-link scrollto mr-2 <?php echo $trenutnaStranica == "račun" ? 'active' : '' ?>" role="button">Račun</a>
+              <a href="<?php echo $pathToLogout ?>" id="logout" class="nav-link scrollto " role="button">Odjava</a>
       <?php endif; ?>
 
       </div>
