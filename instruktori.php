@@ -53,12 +53,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php include 'assets/css/stiliranje.php'; ?> <!-- Sve poveznice za stil web stranice -->
     <link href="assets/css/instruktori.css" rel="stylesheet">
 
-
 </head>
 
 <body>
 
     <?php include 'includes/header.php'; ?>
+
+    <div class="justify-content-md-center mb-4 mt-5">
+        <div class="hero-section text-center">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 mx-auto">
+                        <h1 class="display-4">Naši instruktori</h1>
+                        <p class="lead">Naši instruktori su tu da vam pomognu da savladate gradivo i položite ispite. Pronađite instruktora koji vam najviše odgovara.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         <div class="main-body m-5">

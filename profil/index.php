@@ -1,7 +1,7 @@
 <?php
 session_start();
 $putanjaDoPocetna = '../';
-$pathToAutomobili = 'automobili.php';
+$putanjaDoSkripta = "../skripta.php";
 $putanjaDoInstruktora = '../instruktori.php';
 
 $pathToLogin = "../account/login.php";
@@ -223,7 +223,7 @@ if ($korisnikJeInstruktor) { // Ako je korisnik instruktor onda se dohvaćaju pr
                   </div>
                 </div>
               </div>
-              
+
               <div class="col-sm-6 mb-3">
                 <div class="card h-100">
                   <div class="card-body">
