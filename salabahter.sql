@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 08, 2024 at 02:27 PM
+-- Generation Time: Feb 08, 2024 at 07:15 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -187,7 +187,9 @@ CREATE TABLE `instruktori` (
 INSERT INTO `instruktori` (`instruktor_id`, `korisnik_id`, `opisInstruktora`, `autentikacija`) VALUES
 (39, 21, 'Učenik Tehničke Srednje Škole Čakovec', 'autentikacija/65c4bc5c6281f_SKRIPTAB.pdf'),
 (40, 23, 'Državni prvak u hrvatskom jeziku', 'autentikacija/65c4bd1c44f1d_2.pdf'),
-(41, 22, 'Završio sam PMF i radio kao profesor 5 godina na fakultetu', 'autentikacija/65c4bcc9b8733_Sigurnost Crypto Walleta.pdf');
+(41, 22, 'Završio sam PMF i radio kao profesor 5 godina na fakultetu', 'autentikacija/65c4bcc9b8733_Sigurnost Crypto Walleta.pdf'),
+(43, 24, 'Profesor Tehničke Srednje Škole Čakovec', 'autentikacija/65c4d95972a07_raspored.pdf'),
+(44, 25, 'Profesor iz matematike studirao na FERu ', 'autentikacija/65c4f749856c0_Hacknite_dokument-v1.pdf');
 
 -- --------------------------------------------------------
 
@@ -211,7 +213,12 @@ INSERT INTO `instruktorovipredmeti` (`id`, `instruktor_id`, `predmet_id`) VALUES
 (46, 40, 11),
 (47, 41, 13),
 (48, 41, 11),
-(49, 41, 12);
+(49, 41, 12),
+(52, 43, 8),
+(53, 43, 13),
+(54, 43, 10),
+(55, 44, 8),
+(56, 44, 13);
 
 -- --------------------------------------------------------
 
@@ -243,7 +250,9 @@ INSERT INTO `korisnik` (`korisnik_id`, `ime`, `prezime`, `email`, `lozinka`, `ad
 (20, 'Bruno', 'Miklin', 'bruno@miklin.com', '$2y$10$13iQE7Q1iSLlPAw4dJTQ/el.fiEddyaMJpf8/WUYUXKhNFlyvKTNG', 'Gajeva', 276, '0000-00-00', NULL, 2, 0),
 (21, 'Ivek', 'Magdalenic', 'ivek@ivek.com', '$2y$10$VwmqsCGpgWdTkK1/f3wvf.PAWtGXGCQIO63VrMJzZP2TJJ68tFNZ2', 'Gradska 6', 300, '0000-00-00', NULL, 1, 0),
 (22, 'Noa', 'Turk', 'noa@noa', '$2y$10$ZIRi7qZj4XChFI0Ed/L5S.Ak/edDcHRF6icWMDFBjd6jvZsnfLCZC', 'Čakovec', 274, '0000-00-00', NULL, 3, 0),
-(23, 'Floki', 'Gotal', 'floki@floki', '$2y$10$fLuNASWv5pPeB7ctKpkuOu0a.ViQxkP7QbsZQ2wbyETd8Cm0grfu2', 'Kralja Tomislava 15', 300, '0000-00-00', NULL, 2, 0);
+(23, 'Floki', 'Gotal', 'floki@floki', '$2y$10$fLuNASWv5pPeB7ctKpkuOu0a.ViQxkP7QbsZQ2wbyETd8Cm0grfu2', 'Kralja Tomislava 15', 300, '0000-00-00', NULL, 2, 0),
+(24, 'Damir', 'Ivanovic', 'damir@damir', '$2y$10$gEe.LmMqZe.1ZWTrRDsAWelxnzqAYus2CLMrO6G.l8wzQwxYTvj5O', 'Školska 2', 279, '0000-00-00', NULL, 3, 0),
+(25, 'Tono', 'Ivanovic', 'a@a', '$2y$10$35kKpYbJmoQe/G3/OG6XouOfaX6ivG9anj6kqOqrRiwkCLqGviD5S', 'Srednja ulica', 300, '0000-00-00', NULL, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -507,19 +516,19 @@ ALTER TABLE `gradovi`
 -- AUTO_INCREMENT for table `instruktori`
 --
 ALTER TABLE `instruktori`
-  MODIFY `instruktor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `instruktor_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT for table `instruktorovipredmeti`
 --
 ALTER TABLE `instruktorovipredmeti`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=57;
 
 --
 -- AUTO_INCREMENT for table `korisnik`
 --
 ALTER TABLE `korisnik`
-  MODIFY `korisnik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `korisnik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `predmeti`
@@ -531,7 +540,7 @@ ALTER TABLE `predmeti`
 -- AUTO_INCREMENT for table `predmetizahtjeva`
 --
 ALTER TABLE `predmetizahtjeva`
-  MODIFY `predmetiZahtjeva_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `predmetiZahtjeva_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `recenzije`
@@ -549,7 +558,7 @@ ALTER TABLE `skripte`
 -- AUTO_INCREMENT for table `zahtjevzainstruktora`
 --
 ALTER TABLE `zahtjevzainstruktora`
-  MODIFY `zahtjev_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `zahtjev_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `zupanija`
