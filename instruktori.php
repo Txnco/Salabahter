@@ -45,12 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     $rezultatSviInstruktori = $con->query($query);
-     if (isset($rezultatSviInstruktori) && $rezultatSviInstruktori->num_rows > 0) {
+    if (isset($rezultatSviInstruktori) && $rezultatSviInstruktori->num_rows > 0) {
         $rezultat = true;
-     } 
-     else {
+    } else {
         $rezultat = false;
-     }
+    }
 }
 
 
@@ -80,7 +79,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="row">
                     <div class="col-lg-6 mx-auto">
                         <h1 class="display-4">Naši instruktori</h1>
-                        <p class="lead">Naši instruktori su tu da vam pomognu da savladate gradivo i položite ispite. Pronađite instruktora koji vam najviše odgovara.</p>
+                        <p class="lead">Naši instruktori su tu da vam pomognu da savladate gradivo i položite ispite.
+                            Pronađite instruktora koji vam najviše odgovara.</p>
                     </div>
                 </div>
             </div>
@@ -98,7 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                                 <div class="row justify-content-md-center mb-4">
                                     <div class="col-sm-8">
-                                        <input class="form-control" type="search" placeholder="Pretraži instruktore" aria-label="Search" name="pretraga">
+                                        <input class="form-control" type="search" placeholder="Pretraži instruktore"
+                                            aria-label="Search" name="pretraga">
                                     </div>
                                     <div class="col-sm">
                                         <button class="btn btn-outline-success" type="submit">Pretraži</button>
@@ -165,49 +166,45 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 <div class="col">
                     <div class="row instruktori-container h-100">
-                        <?php if (isset($rezultatSviInstruktori) > 0) : // Ako je rezultatSviInstruktori veći od 0, prikaži sve instruktore
-                            while ($red = $rezultatSviInstruktori->fetch_assoc()) : //
+                        <?php if (isset($rezultatSviInstruktori) > 0): // Ako je rezultatSviInstruktori veći od 0, prikaži sve instruktore
+                                while ($red = $rezultatSviInstruktori->fetch_assoc()): //
+                            
 
-                                $sviPredmetiInstruktora = "SELECT instruktor_id, predmeti.predmet_id, naziv_predmeta FROM instruktorovipredmeti, predmeti WHERE instruktorovipredmeti.predmet_id=predmeti.predmet_id AND instruktorovipredmeti.instruktor_id= {$red['instruktor_id']}";
-                                $rezultatPredmeta = $con->query($sviPredmetiInstruktora); // Iz baze uzima instruktor_id, predmeti.predmet_id i naziv_predmeta i sprema u $rezultatPredmeta
-
-                                $predmeti = array(); // Kreira prazan niz $predmeti
-                                $predmet_id = array();
-                                if ($rezultatPredmeta->num_rows > 0) {
-                                    while ($predmetRed = $rezultatPredmeta->fetch_assoc()) { // Ako ima više od 0 redova, uzima red i sprema u $predmetRed
-                                        $predmeti[] = $predmetRed['naziv_predmeta']; // Sprema naziv_predmeta u niz $predmeti
-                                        $predmet_id[] = $predmetRed['predmet_id'];
-                                    }
-                                }
-                        ?>
+                                    ?>
                                 <div class="col-sm-4 mb-3">
                                     <div class="card" style="height: 390px;">
                                         <div class="card-body">
                                             <div class="d-flex flex-column align-items-center text-center">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100">
+                                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin"
+                                                    class="rounded-circle" width="100">
                                                 <div class="mt-3">
-                                                    <h4> <?php echo $red["ime"] . " " . $red["prezime"] ?></h4>
+                                                    <h4>
+                                                        <?php echo $red["ime"] . " " . $red["prezime"] ?>
+                                                    </h4>
                                                     <?php
-                                                    $colors = [
-                                                        '12' => '#311183',
-                                                        '10' => '#e0618b',
-                                                        '11' => '#b21100',
-                                                        '13' => '#2c78b7',
-                                                        '9' => '#c04850',
-                                                        '8' => '#ff9d3f'
-                                                    ];
-
-                                                    $predmetiWithId = array_combine($predmet_id, $predmeti); // Combine predmet_id and predmeti arrays
-
-                                                    foreach ($predmetiWithId as $id => $predmet) {
-                                                        $color = isset($colors[$id]) ? $colors[$id] : '#000000'; // Default to black if the predmet_id is not in the colors array
-                                                        echo '<span class="badge" style="background-color: ' . $color . ';">' . $predmet . '</span> ';
+                                                    $sviPredmetiInstruktora = "SELECT instruktor_id, predmeti.predmet_id, naziv_predmeta, predmet_boja FROM instruktorovipredmeti, predmeti WHERE instruktorovipredmeti.predmet_id=predmeti.predmet_id AND instruktorovipredmeti.instruktor_id= {$red['instruktor_id']}";
+                                                    $rezultatPredmeta = $con->query($sviPredmetiInstruktora); // Iz baze uzima instruktor_id, predmeti.predmet_id i naziv_predmeta i sprema u $rezultatPredmeta
+                                            
+                                                    if ($rezultatPredmeta->num_rows > 0) {
+                                                        while ($predmetRed = $rezultatPredmeta->fetch_assoc()) {
+                                                            $naziv_predmeta = $predmetRed['naziv_predmeta'];
+                                                            $predmet_id = $predmetRed['predmet_id'];
+                                                            $predmetBoja = $predmetRed['predmet_boja'];
+                                                            echo '<span class="badge" style="background-color: ' . $predmetBoja . ';">' . $naziv_predmeta . '</span> ';
+                                                        }
                                                     }
+
+
                                                     ?>
                                                     <p class="text-secondary mb-1">
-                                                        <?php echo $red['status_naziv']; ?> </p>
-                                                    <p class="text-muted font-size-sm"><?php echo $red["naziv_grada"]; ?></p>
-                                                    <a class="btn btn-primary" href="profil?korisnik=<?php echo $red['korisnik_id'] ?>">Pogledaj profil</a>
+                                                        <?php echo $red['status_naziv']; ?>
+                                                    </p>
+                                                    <p class="text-muted font-size-sm">
+                                                        <?php echo $red["naziv_grada"]; ?>
+                                                    </p>
+                                                    <a class="btn btn-primary"
+                                                        href="profil?korisnik=<?php echo $red['korisnik_id'] ?>">Pogledaj
+                                                        profil</a>
 
                                                 </div>
                                             </div>
@@ -215,9 +212,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     </div>
                                 </div>
 
-                        <?php endwhile;
-                        else : echo "Nema rezultata za određenu filtraciju"; // ne radi
-                        endif; ?>
+                            <?php endwhile;
+                            else:
+                                echo "Nema rezultata za određenu filtraciju"; // ne radi
+                            endif; ?>
                     </div>
                 </div>
             </div>
