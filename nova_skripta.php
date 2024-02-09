@@ -29,7 +29,7 @@ $resultSviInstruktori = $con->query($sqlSviInstruktori);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skripte</title>
     
-    <?php include 'assets/css/stiliranje.php'; ?>  <!-- Sve poveznice za stil web stranice -->
+    <?php include 'assets/css/stiliranjeGlavno.php'; ?>   <!-- Sve poveznice za stil web stranice -->
 </head>
 <body>
     <?php include 'includes/header.php'; ?>

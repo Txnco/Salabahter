@@ -50,8 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instruktori</title>
 
-    <?php include 'assets/css/stiliranje.php'; ?> <!-- Sve poveznice za stil web stranice -->
+    <?php include 'assets/css/stiliranjeGlavno.php'; ?>  <!-- Sve poveznice za stil web stranice -->
     <link href="assets/css/instruktori.css" rel="stylesheet">
+    
 
 </head>
 

@@ -26,7 +26,7 @@ $resultPredmeti = $con->query($sqlPredmeti);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pretraži Skripte</title>
     
-    <?php include 'assets/css/stiliranje.php'; ?>  <!-- Sve poveznice za stil web stranice -->
+    <?php include 'assets/css/stiliranjeGlavno.php'; ?>  <!-- Sve poveznice za stil web stranice -->
 
 </head>
 <body>

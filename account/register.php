@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             <div class="col-lg-6">
                                 <div class="p-5">
                                     <div class="mb-3">
-                                        <h2><a class="h2 font-weight-bold text-theme" href="../index.php">Gear Shift Rent-a-car </a></h2>
+                                        <h2><a class="h2 font-weight-bold text-theme" href="../index.php">Šalabahter</a></h2>
                                         <h3 class="h4 font-weight-bold text-theme">Registracija</h3>
                                     </div>
 

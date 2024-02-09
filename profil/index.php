@@ -31,7 +31,7 @@ $rezultatOdabraniKorisnik = $con->query($sqlOdabraniKorisnik);
 
 $korisnik = $rezultatOdabraniKorisnik->fetch_assoc(); // Dohvati korisnika iz baze 
 
-$sqlProvjeraInstruktora = "SELECT * FROM instruktori WHERE korisnik_id =  {$korisnikID}" ; // Provjeri da li je korisnik instruktor
+$sqlProvjeraInstruktora = "SELECT * FROM instruktori WHERE korisnik_id =  {$korisnikID}"; // Provjeri da li je korisnik instruktor
 $rezultatInstruktor = $con->query($sqlProvjeraInstruktora);
 $instruktor = $rezultatInstruktor->fetch_assoc();
 if ($rezultatInstruktor->num_rows > 0) { // Ako je korisnik instruktor onda se prikažu predmeti koje predaje i njegove skripte
@@ -71,29 +71,7 @@ if ($korisnikJeInstruktor) { // Ako je korisnik instruktor onda se dohvaćaju pr
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <!-- Favicons -->
-  <link href="../assets/img/favicon.png" rel="icon">
-  <link href="../assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
-  <!-- Bootstrap CSS include -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-  <!-- Vendor CSS Files -->
-  <link href="../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-  <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-  <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-  <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-  <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-  <!-- Template Main CSS File -->
-  <link href="../assets/css/style.css" rel="stylesheet">
+  <?php include '../assets/css/stiliranjeSporedno.php'; ?> <!-- Sve poveznice za stil web stranice -->
 
   <link href="../assets/css/dashboard.css" rel="stylesheet">
 
@@ -230,21 +208,21 @@ if ($korisnikJeInstruktor) { // Ako je korisnik instruktor onda se dohvaćaju pr
                     <h6 class="d-flex align-items-center mb-3">Skripte</h6> <!-- Ispis skripti koje je instruktor dodao -->
                     <div class="row overflow-auto" style="max-height: 300px;">
                       <div class="col-sm mb-3">
-                        <div class="card h-100">
                         <?php
                         if ($korisnikImaSkripte) :
                           while ($row = $resultSkripteKorisnika->fetch_assoc()) : ?>
-                                            <div class="card-body">
-                                                <small><?php echo $row['naziv_skripte']; ?></small>
-                                                <div class="progress mb-3" style="height: 5px">
-                                                    <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                                </div>
-                                                <a href="<?php echo $row['skripta_putanja']; ?>" class="btn btn-primary" download>Preuzmi</a>
-                                            </div>
-                                            <?php endwhile;
+
+                            <div class="card-body">
+                              <small><?php echo $row['naziv_skripte']; ?></small>
+                              <div class="progress mb-3" style="height: 5px">
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              <a href="<?php echo $row['skripta_putanja']; ?>" class="btn btn-primary" download>Preuzmi</a>
+                            </div>
+
+                        <?php endwhile;
                         else : echo "Instruktor još nije dodao skripte";
-                      endif; ?>
-                      </div>
+                        endif; ?>
                       </div>
                     </div>
                   </div>
