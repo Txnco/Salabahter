@@ -12,7 +12,6 @@ function provjeri_prijavu($con){ //Funkcija za provjeru je li korisnik prijavlje
         return $user;
       }
 
-   
 }
 
 function check_privilegeUser($con){ //Funkcija za provjeru je li korisnik prijavljen ili ne
