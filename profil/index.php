@@ -301,13 +301,13 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                         <?php
                         if ($korisnikImaSkripte) :
                           while ($row = $resultSkripteKorisnika->fetch_assoc()) : ?>
-
+                            
                             <div class="card-body">
                               <small><?php echo $row['naziv_skripte']; ?></small>
                               <div class="progress mb-3" style="height: 5px">
                                 <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
-                              <a href="<?php echo $row['skripta_putanja']; ?>" class="btn btn-primary" download>Preuzmi</a>
+                              <a href="<?php echo "../skripte/".$row['skripta_putanja']; ?>" class="btn btn-primary" download>Preuzmi</a>
                             </div>
 
                         <?php endwhile;

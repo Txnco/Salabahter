@@ -4,7 +4,7 @@ $con = require "../includes/connection/spajanje.php";
 include("../includes/functions/funkcije.php");
 
 $trenutnaStranica = "skripte";
-
+$putanjaDoSkripta = "index.php";
 $putanjaDoPocetna = '../index.php';
 $putanjaDoInstruktora = '../instruktori.php';
 
@@ -17,42 +17,45 @@ $pathToLogout = "../account/logout.php";
 $skripta_id = $_GET['skripta_id'];
 $sqlSkripta = "SELECT * FROM skripte WHERE skripta_id = $skripta_id";
 $resultSkripta = $con->query($sqlSkripta);
-$rowSkripta = $resultSkripta->fetch_assoc();
-$nazivSkripte = $rowSkripta['naziv_skripte'];
-$skripta_putanja = $rowSkripta['skripta_putanja'];
-$opisSkripte = $rowSkripta['opis_skripte'];
-$predmet_id = $rowSkripta['predmet_id'];
-$brojpregleda= $rowSkripta['broj_pregleda'];
-$datum = date('d.m.Y', strtotime($rowSkripta['datum_kreiranja']));
 
-$putanjaDoOdabraneSkripte = $rowSkripta['skripta_putanja'];
-$kreator_id = $rowSkripta['korisnik_id'];
-$imePrezimeKorisnika = dohvatipodatkekreatora($kreator_id);
+if($rowSkripta = $resultSkripta->fetch_assoc()){
 
-$sqlPredmet = "SELECT naziv_predmeta, predmet_boja FROM predmeti WHERE predmet_id = $predmet_id";
-                        $resultPredmet = $con->query($sqlPredmet);
-                        $redPredmet = $resultPredmet->fetch_assoc();
-                        $predmetNaziv = $redPredmet['naziv_predmeta'];
-                        $predmetBoja = $redPredmet['predmet_boja'];
-
-
-
-$sqlUpdatePregleda = "UPDATE skripte SET broj_pregleda = broj_pregleda + 1 WHERE skripta_id = $skripta_id"; 
-$resultUpdatePregleda = $con->query($sqlUpdatePregleda);
-
-$sqlBrojPregleda = "SELECT broj_pregleda FROM skripte WHERE skripta_id = $skripta_id";
-$resultBrojPregleda = $con->query($sqlBrojPregleda);
-$rowBrojPregleda = $resultBrojPregleda->fetch_assoc();
-$brojpregleda = $rowBrojPregleda['broj_pregleda'];
-
-function dohvatiinstruktore($predmet_id){
-    $con = require "../includes/connection/spajanje.php";
-    $sqlInstruktori = "SELECT instruktor_id  FROM instruktorovipredmeti WHERE predmet_id = " . $predmet_id ;
-    $resultInstruktori = $con->query($sqlInstruktori);
-    return $resultInstruktori; 
+    $nazivSkripte = $rowSkripta['naziv_skripte'];
+    $skripta_putanja = $rowSkripta['skripta_putanja'];
+    $opisSkripte = $rowSkripta['opis_skripte'];
+    $predmet_id = $rowSkripta['predmet_id'];
+    $brojpregleda= $rowSkripta['broj_pregleda'];
+    $datum = date('d.m.Y', strtotime($rowSkripta['datum_kreiranja']));
+    
+    $putanjaDoOdabraneSkripte = $rowSkripta['skripta_putanja'];
+    $kreator_id = $rowSkripta['korisnik_id'];
+    $imePrezimeKorisnika = dohvatipodatkekreatora($kreator_id);
+    
+    $sqlPredmet = "SELECT naziv_predmeta, predmet_boja FROM predmeti WHERE predmet_id = $predmet_id";
+    $resultPredmet = $con->query($sqlPredmet);
+    $redPredmet = $resultPredmet->fetch_assoc();
+    $predmetNaziv = $redPredmet['naziv_predmeta'];
+    $predmetBoja = $redPredmet['predmet_boja'];
+    
+    
+    
+    $sqlUpdatePregleda = "UPDATE skripte SET broj_pregleda = broj_pregleda + 1 WHERE skripta_id = $skripta_id"; 
+    $resultUpdatePregleda = $con->query($sqlUpdatePregleda);
+    
+    $sqlBrojPregleda = "SELECT broj_pregleda FROM skripte WHERE skripta_id = $skripta_id";
+    $resultBrojPregleda = $con->query($sqlBrojPregleda);
+    $rowBrojPregleda = $resultBrojPregleda->fetch_assoc();
+    $brojpregleda = $rowBrojPregleda['broj_pregleda'];
+    
+    function dohvatiinstruktore($predmet_id){
+        $con = require "../includes/connection/spajanje.php";
+        $sqlInstruktori = "SELECT instruktor_id  FROM instruktorovipredmeti WHERE predmet_id = " . $predmet_id ;
+        $resultInstruktori = $con->query($sqlInstruktori);
+        return $resultInstruktori; 
+    }
+    
+    $sviInstruktori= dohvatiinstruktore($predmet_id);
 }
-
-$sviInstruktori= dohvatiinstruktore($predmet_id);
 
 
 

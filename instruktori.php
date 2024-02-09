@@ -6,7 +6,7 @@ session_start();
 $trenutnaStranica = "instruktori";
 
 $putanjaDoPocetna = 'index.php';
-$putanjaDoSkripta = 'skripta.php';
+$putanjaDoSkripta = 'skripte/';
 $putanjaDoInstruktora = 'instruktori.php';
 
 $pathToLogin = "account/login.php";

@@ -4,7 +4,7 @@ $trenutnaStranica = "račun";
 
 $putanjaDoPocetna = '../../';
 $putanjaDoInstruktora = '../../instruktori.php';
-$putanjaDoSkripta = "../../skripta.php";
+$putanjaDoSkripta = "../../skripte/";
 
 
 $pathToRacun = "../../dashboard";

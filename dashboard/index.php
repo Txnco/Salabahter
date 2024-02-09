@@ -2,7 +2,7 @@
 $trenutnaStranica = "račun";
 
 $putanjaDoPocetna = '../';
-$putanjaDoSkripta = "../skripta.php";
+$putanjaDoSkripta = "../skripte/";
 $putanjaDoInstruktora = '../instruktori.php';
 
 
