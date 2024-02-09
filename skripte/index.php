@@ -45,7 +45,7 @@ $resultPredmeti = $con->query($sqlPredmeti);
             <select class="form-select" id="selectedSubject" name="selectedSubject">
                 <option value="">Odaberi predmet</option>
                 <?php
-                // Iterirajte kroz rezultat i prikažite opcije u select elementu
+                
                 while ($row = $resultPredmeti->fetch_assoc()) {
                     echo "<option value='".$row['predmet_id']."'>".$row['naziv_predmeta']."</option>";
                 }
@@ -54,7 +54,7 @@ $resultPredmeti = $con->query($sqlPredmeti);
             <button class="btn btn-primary" type="submit">Pretraži</button>
         </div>
     </form>
-    <!-- Cards for displaying scripts -->
+    
     <div class="row">
         <?php
         // Pretraživanje skripti
@@ -84,9 +84,10 @@ $resultPredmeti = $con->query($sqlPredmeti);
                     <div class="col-md-4">
                         <div class="card mb-2">
                             <div class="card-body ">
-                                <h5 class="card-title">' . $row["naziv_skripte"] . '</h5>
-                                <p class="card-text">' . $row["opis_skripte"] . '</p>
-                                <a href="' . $row["skripta_putanja"] . '" class="btn btn-primary" download>Preuzmi PDF</a>
+                            <h5 class="card-title">' . $row["naziv_skripte"] . '</h5>
+                            <p class="card-text">' . $row["opis_skripte"] . '</p>
+                            <a href="skripta.php?skripta_id=' . $row["skripta_id"] . '" class="btn btn-primary" >Pregledaj</a>
+                            <a href="' . $row["skripta_putanja"] . '" class="btn btn-primary" download>Preuzmi PDF</a>
                             </div>
                         </div>
                     </div>';
@@ -96,7 +97,7 @@ $resultPredmeti = $con->query($sqlPredmeti);
             }
         } else {
             // Prikaz prvih 10 skripti ako korisnik nije još ništa pretraživao
-            $sql = "SELECT * FROM skripte LIMIT 10";
+            $sql = "SELECT * FROM skripte LIMIT 25";
             $result = $con->query($sql);
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
