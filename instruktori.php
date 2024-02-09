@@ -18,9 +18,11 @@ $pathToLogout = "account/logout.php";
 $sqlSviInstruktori = "SELECT instruktori.instruktor_id, korisnik.korisnik_id, ime, prezime, email, adresa, naziv_grada, status_naziv FROM instruktori, korisnik, statuskorisnika, gradovi WHERE instruktori.korisnik_id=korisnik.korisnik_id AND korisnik.status_korisnika=statuskorisnika.status_id AND korisnik.mjesto=gradovi.grad_id";
 $rezultatSviInstruktori = $con->query($sqlSviInstruktori);
 
+$rezultat;
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    $query = "SELECT instruktori.instruktor_id, korisnik.korisnik_id, ime, prezime, email, adresa, naziv_grada, status_naziv FROM instruktori, korisnik, statuskorisnika, gradovi WHERE instruktori.korisnik_id=korisnik.korisnik_id AND korisnik.status_korisnika=statuskorisnika.status_id AND korisnik.mjesto=gradovi.grad_id";
+    $query = "SELECT instruktori.instruktor_id, korisnik.korisnik_id, ime, prezime, email, adresa, naziv_grada, status_naziv, naziv_zupanije FROM instruktori, korisnik, statuskorisnika, gradovi, zupanija WHERE instruktori.korisnik_id=korisnik.korisnik_id AND korisnik.status_korisnika=statuskorisnika.status_id AND korisnik.mjesto=gradovi.grad_id AND gradovi.zupanija_id=zupanija.zupanija_id";
 
     if (isset($_POST['pretraga']) && $_POST['pretraga'] != '') {
         $searchTerm = $con->real_escape_string($_POST['pretraga']);
@@ -37,8 +39,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $query .= " AND korisnik.mjesto = $gradId";
     }
 
+    if (isset($_POST['zupanija']) && $_POST['zupanija'] != '') {
+        $zupanijaId = $_POST['zupanija'];
+        $query .= " AND gradovi.zupanija_id = $zupanijaId";
+    }
+
     $rezultatSviInstruktori = $con->query($query);
+     if (isset($rezultatSviInstruktori) && $rezultatSviInstruktori->num_rows > 0) {
+        $rezultat = true;
+     } 
+     else {
+        $rezultat = false;
+     }
 }
+
 
 ?>
 
@@ -50,9 +64,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Instruktori</title>
 
-    <?php include 'assets/css/stiliranjeGlavno.php'; ?>  <!-- Sve poveznice za stil web stranice -->
+    <?php include 'assets/css/stiliranjeGlavno.php'; ?> <!-- Sve poveznice za stil web stranice -->
     <link href="assets/css/instruktori.css" rel="stylesheet">
-    
+
 
 </head>
 
@@ -99,7 +113,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <?php
                                             $rezultatPredmeti = $con->query("SELECT * FROM predmeti");
                                             while ($red = $rezultatPredmeti->fetch_assoc()) {
-                                                echo '<option value="' . $red['predmet_id'] . '">' . $red['naziv_predmeta'] . '</option>';
+                                                $selected = isset($_POST['predmet']) && $_POST['predmet'] == $red['predmet_id'] ? 'selected' : '';
+                                                echo '<option value="' . $red['predmet_id'] . '" ' . $selected . '>' . $red['naziv_predmeta'] . '</option>';
                                             }
                                             ?>
                                         </select>
@@ -113,14 +128,35 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <?php
                                             $rezultatGradovi = $con->query("SELECT * FROM gradovi");
                                             while ($red = $rezultatGradovi->fetch_assoc()) {
-                                                echo '<option value="' . $red['grad_id'] . '">' . $red['naziv_grada'] . '</option>';
+                                                $selected = isset($_POST['grad']) && $_POST['grad'] == $red['grad_id'] ? 'selected' : '';
+                                                echo '<option value="' . $red['grad_id'] . '" ' . $selected . '>' . $red['naziv_grada'] . '</option>';
                                             }
                                             ?>
                                         </select>
                                     </div>
                                 </div>
 
-                                
+                                <div class="row justify-content-md-center mt-2">
+                                    <div class="col-sm">
+                                        <select class="form-control" name="zupanija">
+                                            <option value="">Odaberi zupaniju</option>
+                                            <?php
+                                            $rezultatZupanije = $con->query("SELECT naziv_zupanije,zupanija.zupanija_id FROM zupanija");
+                                            while ($red = $rezultatZupanije->fetch_assoc()) {
+                                                $selected = isset($_POST['zupanija']) && $_POST['zupanija'] == $red['zupanija_id'] ? 'selected' : '';
+                                                echo '<option value="' . $red['zupanija_id'] . '" ' . $selected . '>' . $red['naziv_zupanije'] . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="row justify-content-md-center mt-2">
+                                    <div class="col-sm">
+                                        <a href="instruktori.php" class="btn btn-primary">Izbriši filter</a>
+                                    </div>
+                                </div>
+
 
                             </form>
                         </div>
@@ -128,7 +164,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
 
                 <div class="col">
-                    <div class="row instruktori-container">
+                    <div class="row instruktori-container h-100">
                         <?php if (isset($rezultatSviInstruktori) > 0) : // Ako je rezultatSviInstruktori veći od 0, prikaži sve instruktore
                             while ($red = $rezultatSviInstruktori->fetch_assoc()) : //
 
@@ -179,8 +215,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                     </div>
                                 </div>
 
-                        <?php
-                            endwhile;
+                        <?php endwhile;
+                        else : echo "Nema rezultata za određenu filtraciju"; // ne radi
                         endif; ?>
                     </div>
                 </div>
