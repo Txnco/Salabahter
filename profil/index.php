@@ -56,6 +56,15 @@ if ($korisnikJeInstruktor) { // Ako je korisnik instruktor onda se dohvaćaju pr
   }
 }
 
+$sqlDohvatiRecenzije = "SELECT * FROM recenzije WHERE zaKorisnika = {$korisnikID}"; // Dohvati recenzije korisnika
+$rezultatRecenzije = $con->query($sqlDohvatiRecenzije);
+if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se prikažu predmeti koje predaje i njegove skripte
+  $imaRecenzije = true;
+} else {
+  $imaRecenzije = false;
+}
+
+
 
 ?>
 
@@ -73,7 +82,10 @@ if ($korisnikJeInstruktor) { // Ako je korisnik instruktor onda se dohvaćaju pr
 
   <?php include '../assets/css/stiliranjeSporedno.php'; ?> <!-- Sve poveznice za stil web stranice -->
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- Ikone -->
+
   <link href="../assets/css/dashboard.css" rel="stylesheet">
+  <link href="../assets/css/recenzije.css" rel="stylesheet">
 
 </head>
 
@@ -113,6 +125,84 @@ if ($korisnikJeInstruktor) { // Ako je korisnik instruktor onda se dohvaćaju pr
                   <?php endif; ?>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <?php if ($imaRecenzije) : ?>
+            <div class="card mt-3">
+              <div class="card-body ">
+                <div class="row">
+                  <div class="col-12 ">
+                    <div class="content text-center">
+
+                      <div class="ratings">
+                        <?php
+
+                        $sqlDohvatiOcjene = "SELECT ROUND(AVG(ocjena),1) as prosjek, COUNT(ocjena) as brojOcjena FROM recenzije WHERE zaKorisnika = {$korisnikID}";
+                        $rezultatOcjene = $con->query($sqlDohvatiOcjene);
+                        $ocjene = $rezultatOcjene->fetch_assoc();
+                        $ocjene = floatval($ocjene['prosjek']);
+
+                        $sqlBrojRecenzija = "SELECT COUNT(ocjena) as brojOcjena FROM recenzije WHERE zaKorisnika = {$korisnikID}";
+                        $rezultatBrojRecenzija = $con->query($sqlBrojRecenzija);
+                        $brojRecenzija = $rezultatBrojRecenzija->fetch_assoc();
+                        $brojRecenzija = $brojRecenzija['brojOcjena'];
+
+                        ?>
+
+                        <span style="font-size: 2em;"><?php echo $ocjene; ?></span><span>/5 <br></span>
+
+                        <?php
+                        for ($i = 1; $i <= 5; $i++) {
+                          if ($i <= $ocjene) {
+                            // Full star
+                            echo '<i class="fa fa-star" style="color:gold;"></i>';
+                          } else {
+                            // Empty star
+                            echo '<i class="fa fa-star-o"></i>';
+                          }
+                        }
+                        ?>
+
+                        <div class="rating-text">
+                          <span><?php echo $brojRecenzija ?> recenzija</span>
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <?php endif; ?>
+
+          <div class="card mt-3">
+            <div class="card-body ">
+              <div class="row">
+                <div class="col-17 d-flex justify-content-center align-items-center">
+                  <?php if (isset($_SESSION['user_id'])) : ?>
+                    <a class="mr-auto text-secondary" href="../recenzije/?korisnik=<?php echo $korisnikID ?>">Napiši recenziju za <?php
+                                                                                                                                  if ($korisnik['status_naziv'] == "Instruktor") {
+                                                                                                                                    echo "instruktora";
+                                                                                                                                  } else if ($korisnik['status_naziv'] == "Student") {
+                                                                                                                                    echo "studenta";
+                                                                                                                                  } else if ($korisnik['status_naziv'] == "Profesor") {
+                                                                                                                                    echo "profesora";
+                                                                                                                                  } else {
+                                                                                                                                    echo "korisnika";
+                                                                                                                                  }
+
+
+                                                                                                                                  ?></a>
+                    <svg class="ml-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                      <path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path>
+                    </svg>
+                  <?php endif; ?>
+                </div>
+              </div>
+
+
             </div>
           </div>
         </div>
@@ -232,6 +322,87 @@ if ($korisnikJeInstruktor) { // Ako je korisnik instruktor onda se dohvaćaju pr
           <?php endif; ?>
         </div>
       </div>
+
+      <?php if ($imaRecenzije) : ?>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col d-flex justify-content-center">
+                    <h6 class="mb-0">Recenzije</h6>
+                  </div>
+                </div>
+                <hr>
+
+
+                <div class="row">
+                  <?php
+                  $sqlSveRecnezije = "SELECT * FROM recenzije WHERE zaKorisnika = {$korisnikID}";
+                  $rezultatSveRecenzije = $con->query($sqlSveRecnezije);
+                  if ($rezultatSveRecenzije->num_rows > 0) :
+                    while ($red = $rezultatSveRecenzije->fetch_assoc()) :
+                      $sqlKorisnik = "SELECT korisnik.ime, korisnik.prezime, recenzije.ocjena, recenzije.komentar 
+                        FROM korisnik 
+                        JOIN recenzije ON korisnik.korisnik_id = recenzije.odKorisnika 
+                        WHERE recenzije.recenzija_id = {$red['recenzija_id']}";
+                      $rezultatKorisnik = $con->query($sqlKorisnik);
+                      $korisnik = $rezultatKorisnik->fetch_assoc();
+                  ?>
+                      <div class="col-sm-4">
+                        <div class="card mt-4 ">
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col">
+                                <h5><?php echo $korisnik['ime'] . " " . $korisnik['prezime'] ?></h5>
+
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col">
+                                <?php
+                                for ($i = 1; $i <= 5; $i++) {
+                                  if ($i <= $korisnik['ocjena']) {
+                                    echo '<i class="fa fa-star" style="color:gold;"></i>';
+                                  } else {
+                                    echo '<i class="fa fa-star-o"></i>';
+                                  }
+                                }
+                                ?>
+
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col">
+                                <p><?php echo $korisnik['komentar'] ?></p>
+
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col d-flex justify-content-end">
+                                <a href="#" class="text text-danger" style="font-size: 0.9rem;">Prijavi recenziju!</a>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                  <?php endwhile;
+                  else : echo "Nema recenzija";
+                  endif; ?>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      <?php endif; ?>
+
+    </div>
+  </div>
+
 
 </body>
 

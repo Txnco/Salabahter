@@ -1,0 +1,48 @@
+.rating {
+    float:left;
+}
+
+.rating > input { display: none; } 
+.rating > label:before { 
+    margin: 5px;
+    font-size: 1.25em;
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f005";
+}
+
+.rating > .half:before { 
+    content: "\f089";
+    position: absolute;
+}
+
+.rating > label { 
+    color: #ddd; 
+    float: right; 
+}
+
+/* Hover behavior */
+.rating > label:hover,
+.rating > label:hover ~ label,
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label { 
+    color: #FFD700;  
+} 
+
+/* Selected star behavior */
+.rating > input:checked ~ label { 
+    color: #FFD700;  
+} 
+
+/* Unselected star behavior */
+.rating:not(:checked) > label { 
+    color: #ddd; 
+} 
+
+/* Hover behavior after selection */
+.rating > input:checked ~ label:hover, 
+.rating > input:checked ~ label:hover ~ label, 
+.rating > label:hover ~ input:checked ~ label, 
+.rating > input:checked ~ label:hover ~ label { 
+    color: #FFD700;  
+} 

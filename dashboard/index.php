@@ -79,7 +79,7 @@ if ($korisnikJeInstruktor) { // Ako je korisnik instruktor onda se dohvaćaju pr
   }
 }
 
-$sqlPoslanZahtjev = "SELECT * FROM zahtjevzainstruktora WHERE korisnik_id = " . $user['korisnik_id'];
+$sqlPoslanZahtjev = "SELECT * FROM zahtjevzainstruktora WHERE korisnik_id =  {$korisnik['korisnik_id']}";
 $rezultatPoslanZahtjev = $con->query($sqlPoslanZahtjev);
 if ($rezultatPoslanZahtjev) {
 
@@ -91,6 +91,14 @@ if ($rezultatPoslanZahtjev) {
     // Access the 'status_naziv' value from the associative array
     $zahtjev = 1;
   }
+}
+
+$sqlDohvatiRecenzije = "SELECT * FROM recenzije WHERE zaKorisnika = {$korisnik['korisnik_id']}"; // Dohvati recenzije korisnika
+$rezultatRecenzije = $con->query($sqlDohvatiRecenzije);
+if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se prikažu predmeti koje predaje i njegove skripte
+  $imaRecenzije = true;
+} else {
+  $imaRecenzije = false;
 }
 
 
@@ -109,6 +117,8 @@ if ($rezultatPoslanZahtjev) {
   <meta content="" name="keywords">
 
   <?php include '../assets/css/stiliranjeSporedno.php'; ?> <!-- Sve poveznice za stil web stranice -->
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- Ikone -->
 
   <link href="../assets/css/dashboard.css" rel="stylesheet">
 
@@ -231,57 +241,141 @@ if ($rezultatPoslanZahtjev) {
               </form>
             </div>
           </div>
+        
 
 
 
-          <?php if ($korisnikJeInstruktor) : ?> <!-- Ako je korisnik instruktor onda se prikazuju predmeti koje predaje -->
-            <div class="row gutters-sm">
-              <div class="col-sm-6 mb-3">
-                <div class="card h-100">
-                  <div class="card-body">
-                    <h6 class="d-flex align-items-center mb-3">Predmeti</h6>
-                    <?php while ($row = $rezultatInstruktoroviPredmeti->fetch_assoc()) : ?>
-                      <small><?php echo $row['naziv_predmeta']; ?></small>
-                      <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                      </div>
-                    <?php endwhile; ?>
+        <?php if ($korisnikJeInstruktor) : ?> <!-- Ako je korisnik instruktor onda se prikazuju predmeti koje predaje -->
+          <div class="row gutters-sm">
+            <div class="col-sm-6 mb-3">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h6 class="d-flex align-items-center mb-3">Predmeti</h6>
+                  <?php while ($row = $rezultatInstruktoroviPredmeti->fetch_assoc()) : ?>
+                    <small><?php echo $row['naziv_predmeta']; ?></small>
+                    <div class="progress mb-3" style="height: 5px">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  <?php endwhile; ?>
 
-                  </div>
                 </div>
               </div>
+            </div>
 
-              
-              <div class="col-sm-6 mb-3">
-                <div class="card h-100">
-                  <div class="card-body">
-                    <h6 class="d-flex align-items-center mb-3">Skripte</h6> <!-- Ispis skripti koje je instruktor dodao -->
-                    <div class="row overflow-auto" style="max-height: 300px;">
-                      <div class="col-sm mb-3">
-                        <?php
-                        if ($korisnikImaSkripte) :
-                          while ($row = $resultSkripteKorisnika->fetch_assoc()) : ?>
 
-                            <div class="card-body">
-                              <small><?php echo $row['naziv_skripte']; ?></small>
-                              <div class="progress mb-3" style="height: 5px">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                              <a href="<?php echo $row['skripta_putanja']; ?>" class="btn btn-primary" download>Preuzmi</a>
+            <div class="col-sm-6 mb-3">
+              <div class="card h-100">
+                <div class="card-body">
+                  <h6 class="d-flex align-items-center mb-3">Skripte</h6> <!-- Ispis skripti koje je instruktor dodao -->
+                  <div class="row overflow-auto" style="max-height: 300px;">
+                    <div class="col-sm mb-3">
+                      <?php
+                      if ($korisnikImaSkripte) :
+                        while ($row = $resultSkripteKorisnika->fetch_assoc()) : ?>
+
+                          <div class="card-body">
+                            <small><?php echo $row['naziv_skripte']; ?></small>
+                            <div class="progress mb-3" style="height: 5px">
+                              <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>
+                            <a href="<?php echo $row['skripta_putanja']; ?>" class="btn btn-primary" download>Preuzmi</a>
+                          </div>
 
-                        <?php endwhile;
-                        else : echo "Instruktor još nije dodao skripte";
-                        endif; ?>
-                      </div>
+                      <?php endwhile;
+                      else : echo "Instruktor još nije dodao skripte";
+                      endif; ?>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          <?php endif; ?>
+          </div>
+        <?php endif; ?>
         </div>
-      </div>
+        </div>
+
+
+      <?php if ($imaRecenzije) : ?>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card mb-3">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col d-flex justify-content-center">
+                    <h6 class="mb-0">Recenzije</h6>
+                  </div>
+                </div>
+                <hr>
+
+
+                <div class="row">
+                  <?php
+                  $sqlSveRecnezije = "SELECT * FROM recenzije WHERE zaKorisnika = {$korisnik['korisnik_id']}";
+                  $rezultatSveRecenzije = $con->query($sqlSveRecnezije);
+                  if ($rezultatSveRecenzije->num_rows > 0) :
+                    while ($red = $rezultatSveRecenzije->fetch_assoc()) :
+                      $sqlKorisnik = "SELECT korisnik.ime, korisnik.prezime, recenzije.ocjena, recenzije.komentar 
+                        FROM korisnik 
+                        JOIN recenzije ON korisnik.korisnik_id = recenzije.odKorisnika 
+                        WHERE recenzije.recenzija_id = {$red['recenzija_id']}";
+                      $rezultatKorisnik = $con->query($sqlKorisnik);
+                      $korisnik = $rezultatKorisnik->fetch_assoc();
+                  ?>
+                      <div class="col-sm-4">
+                        <div class="card mt-4 ">
+                          <div class="card-body">
+                            <div class="row">
+                              <div class="col">
+                                <h5><?php echo $korisnik['ime'] . " " . $korisnik['prezime'] ?></h5>
+
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col">
+                                <?php
+                                for ($i = 1; $i <= 5; $i++) {
+                                  if ($i <= $korisnik['ocjena']) {
+                                    echo '<i class="fa fa-star" style="color:gold;"></i>';
+                                  } else {
+                                    echo '<i class="fa fa-star-o"></i>';
+                                  }
+                                }
+                                ?>
+
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col">
+                                <p><?php echo $korisnik['komentar'] ?></p>
+
+                              </div>
+                            </div>
+
+                            <div class="row">
+                              <div class="col d-flex justify-content-end">
+                                <a href="#" class="text text-danger" style="font-size: 0.9rem;">Prijavi recenziju!</a>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                  <?php endwhile;
+                  else : echo "Nema recenzija";
+                  endif; ?>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      <?php endif; ?>
+
+     
+    </div>
+  </div>
+
 
 </body>
 
