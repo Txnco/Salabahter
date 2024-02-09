@@ -111,7 +111,7 @@ $pathToLogout="account/logout.php";
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
           <li><a class="nav-link scrollto" href="instruktori.php">Instruktori</a></li>
-          <li><a class="nav-link scrollto" href="skripta.php">Skirpte</a></li>
+          <li><a class="nav-link scrollto" href="skripte/index.php">Skirpte</a></li>
           <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
           <li><a class="nav-link scrollto" href="#team">Team</a></li>
           <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
