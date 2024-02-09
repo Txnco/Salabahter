@@ -26,7 +26,7 @@ $pathToLogout="account/logout.php";
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <?php include 'assets/css/stiliranje.php'; ?>  <!-- Sve poveznice za stil web stranice -->
+  <?php include 'assets/css/stiliranjeGlavno.php'; ?>   <!-- Sve poveznice za stil web stranice -->
 
 </head>
 
