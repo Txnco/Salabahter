@@ -82,15 +82,28 @@ $resultPredmeti = $con->query($sqlPredmeti);
                     // Prikaz skripte (npr. koristeći kartice)
                     echo '
                     <div class="col-md-4">
-                        <div class="card mb-2">
-                            <div class="card-body ">
-                            <h5 class="card-title">' . $row["naziv_skripte"] . '</h5>
-                            <p class="card-text">' . $row["opis_skripte"] . '</p>
-                            <a href="skripta.php?skripta_id=' . $row["skripta_id"] . '" class="btn btn-primary" >Pregledaj</a>
+                    <div class="card mb-2">
+                        <div class="card-body" style="height: 230px;">
+                        <h5 class="card-title">' . ((strlen($row["naziv_skripte"]) > 40) ? substr($row["naziv_skripte"], 0, 40) . '...' : $row["naziv_skripte"]) . '</h5>
+                        ';
+                        $predmet_id = $row['predmet_id'];
+                        $predmetSkripte= "SELECT  naziv_predmeta, predmet_boja FROM  predmeti WHERE predmet_id = $predmet_id";
+                        $rezultatPredmeta = $con->query($predmetSkripte);
+                                                
+                        if ($rezultatPredmeta->num_rows > 0) {
+                            while ($predmetRed = $rezultatPredmeta->fetch_assoc()) {
+                                $naziv_predmeta = $predmetRed['naziv_predmeta'];
+                                $predmetBoja = $predmetRed['predmet_boja'];
+                                echo '<p class="badge " style="background-color: ' . $predmetBoja . ';">' . $naziv_predmeta . '</p> ';
+                            }
+                        }
+                        echo'    
+                            <p class="card-text">' . ((strlen($row["opis_skripte"]) > 120) ? substr($row["opis_skripte"], 0, 120) . '...' : $row["opis_skripte"]) . '</p>
+                            <a href="skripta.php?skripta_id=' . $row["skripta_id"] . '" class="btn btn-primary">Pregledaj</a>
                             <a href="' . $row["skripta_putanja"] . '" class="btn btn-primary" download>Preuzmi PDF</a>
-                            </div>
                         </div>
-                    </div>';
+                    </div>
+                </div>';             
                 }
             } else {
                 echo "<p class='col'>Nema rezultata.</p>";
@@ -105,14 +118,29 @@ $resultPredmeti = $con->query($sqlPredmeti);
                     echo '
                     <div class="col-md-4">
                         <div class="card mb-2">
-                            <div class="card-body ">
-                                <h5 class="card-title">' . $row["naziv_skripte"] . '</h5>
-                                <p class="card-text">' . $row["opis_skripte"] . '</p>
-                                <a href="skripta.php?skripta_id=' . $row["skripta_id"] . '" class="btn btn-primary" >Pregledaj</a>
+                            <div class="card-body" style="height: 230px;">
+                            <h5 class="card-title">' . ((strlen($row["naziv_skripte"]) > 40) ? substr($row["naziv_skripte"], 0, 40) . '...' : $row["naziv_skripte"]) . '</h5>
+                            ';
+                            $predmet_id = $row['predmet_id'];
+                            $predmetSkripte= "SELECT  naziv_predmeta, predmet_boja FROM  predmeti WHERE predmet_id = $predmet_id";
+                            $rezultatPredmeta = $con->query($predmetSkripte);
+                                                    
+                            if ($rezultatPredmeta->num_rows > 0) {
+                                while ($predmetRed = $rezultatPredmeta->fetch_assoc()) {
+                                    $naziv_predmeta = $predmetRed['naziv_predmeta'];
+                                    $predmetBoja = $predmetRed['predmet_boja'];
+                                    echo '<p class="badge " style="background-color: ' . $predmetBoja . ';">' . $naziv_predmeta . '</p> ';
+                                }
+                            }
+                            echo'    
+                                <p class="card-text">' . ((strlen($row["opis_skripte"]) > 120) ? substr($row["opis_skripte"], 0, 120) . '...' : $row["opis_skripte"]) . '</p>
+                                <a href="skripta.php?skripta_id=' . $row["skripta_id"] . '" class="btn btn-primary">Pregledaj</a>
                                 <a href="' . $row["skripta_putanja"] . '" class="btn btn-primary" download>Preuzmi PDF</a>
                             </div>
                         </div>
                     </div>';
+
+                  
                 }
             } else {
                 echo "<p class='col'>Nema dostupnih skripti.</p>";

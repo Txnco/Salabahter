@@ -98,8 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <form method="post" enctype="multipart/form-data">
                             <div class="form-group">
                                 <label for="naziv_skripte">Naziv Skripte</label>
-                                <input type="text" class="form-control" id="naziv_skripte" name="naziv_skripte"
-                                    required>
+                                <input type="text" class="form-control" id="naziv_skripte" name="naziv_skripte" maxlength="254" required>
                             </div>
                             <div class="form-group">
                                 <label for="opis_skripte">Opis Skripte</label>

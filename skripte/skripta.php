@@ -101,7 +101,8 @@ function dohvatipodatkekreatora($kreator_id)
                         </div>
                         <div class="col text-right">
                             <a href="../dashboard/report.php?skripta_id=<?php echo $skripta_id; ?>"
-                                style="color: red;">Prijavi</a>
+                            class="text text-danger" style="font-size: 0.9rem;">Prijavi skriptu!</a>
+                                
                         </div>
                     </div>
                 </div>
@@ -139,7 +140,7 @@ function dohvatipodatkekreatora($kreator_id)
         </div>
     </div>
 
-<div class="container mt-5s">
+<div class="container mt-5s mb-2">
 <div class="card mx-auto mt-3" style="width: 85%;">
 <div class="card-header"></div>
 <div class="card-body">
@@ -153,23 +154,38 @@ function dohvatipodatkekreatora($kreator_id)
             $nazivSlicneSkripte = $rowSlicneSkripte['naziv_skripte'];
             $skripta_putanja = $rowSlicneSkripte['skripta_putanja'];
             $opisSlicneSkripte = $rowSlicneSkripte['opis_skripte'];
-            $skripta_id = $rowSlicneSkripte['skripta_id'];
+            $slicna_skripta_id = $rowSlicneSkripte['skripta_id'];
             $kreator_id = $rowSlicneSkripte['korisnik_id'];
             $imePrezimeKorisnika = dohvatipodatkekreatora($kreator_id);
             $datum = date('d.m.Y', strtotime($rowSlicneSkripte['datum_kreiranja']));
+            echo '
+                <div class="col-md-4">
+                    <div class="card mb-2">
+                        <div class="card-body" style="height: 250px;">
+                        <h5 class="card-title">' . ((strlen($nazivSlicneSkripte) > 40) ? substr($nazivSlicneSkripte, 0, 40) . '...' : $nazivSlicneSkripte) . '</h5>
+                        ';
+                        $predmet_id = $rowSlicneSkripte['predmet_id'];
+                        $predmetSkripte= "SELECT  naziv_predmeta, predmet_boja FROM  predmeti WHERE predmet_id = $predmet_id";
+                        $rezultatPredmeta = $con->query($predmetSkripte);
+                                                                
+                        if ($rezultatPredmeta->num_rows > 0) {
+                            while ($predmetRed = $rezultatPredmeta->fetch_assoc()) {
+                                $naziv_predmeta = $predmetRed['naziv_predmeta'];
+                                $predmetBoja = $predmetRed['predmet_boja'];
+                                echo '<p class="badge " style="background-color: ' . $predmetBoja . ';">' . $naziv_predmeta . '</p> ';
+                            }
+                        }
+                        echo'    
+                            <p class="card-text">' . ((strlen($opisSlicneSkripte) > 80) ? substr($opisSlicneSkripte, 0, 80) . '...' : $opisSlicneSkripte) . '</p>
+                            <a href="skripta.php?skripta_id=' . $slicna_skripta_id . '" class="btn btn-primary">Pregledaj</a>
+                            <a href="' . $skripta_putanja . '" class="btn btn-primary" download>Preuzmi PDF</a>
+                        </div>
+                    </div>
+                </div>';
+        }
         ?>
-        <div class="col-md-4 ">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title"><?php echo $nazivSlicneSkripte; ?></h5>  
-                    <p class="card-text "><?php echo $opisSlicneSkripte; ?></p>
-                    <a href="skripta.php?skripta_id=<?php echo $skripta_id; ?>" class="btn btn-primary">Pregledaj</a>
-                </div>
-            </div>
-        </div>
-        <?php
-        }?>
     </div>
+    
 </div>
  
  
