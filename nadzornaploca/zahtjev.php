@@ -1,8 +1,8 @@
 <?php
 
 session_start();
-$con = require "../includes/connection/spajanje.php";
-include("../includes/functions/funkcije.php");
+$con = require "../ukljucivanje/connection/spajanje.php";
+include("../ukljucivanje/functions/funkcije.php");
 
 $user = provjeri_prijavu($con);
 if (!$user) {
@@ -267,7 +267,7 @@ if ($rezultatPoslanZahtjev) {
                         var selectedValue = select.val();
                         select.empty();
                         options.forEach(function(option) {
-                            if (!selectedOptions.includes(option.predmet_id) || option.predmet_id == selectedValue) {
+                            if (!selectedOptions.ukljucivanje(option.predmet_id) || option.predmet_id == selectedValue) {
                                 var optionElement = $('<option>');
                                 optionElement.attr('value', option.predmet_id);
                                 optionElement.text(option.naziv_predmeta);

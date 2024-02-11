@@ -31,115 +31,11 @@ if ($user['status_korisnika'] == 5) {
     die;
 }
 
-// Dohvaćanje zahtjeva za instruktora
-$zahtjevZaInstruktora = "SELECT zahtjevzainstruktora.zahtjev_id,korisnik.korisnik_id,statuskorisnika.status_id,motivacija,opisInstruktora,autentikacija, ime, prezime, email, status_naziv  FROM zahtjevzainstruktora,korisnik,statuskorisnika WHERE zahtjevzainstruktora.korisnik_id = korisnik.korisnik_id AND zahtjevzainstruktora.status_id = statuskorisnika.status_id ";
-$rezultatZahtjeva = $con->query($zahtjevZaInstruktora);
+$sqlPrijavljeneRecenzije = "SELECT * FROM prijavarecenzije"; // Dohvaćanje svih prijavljenih recenzija
+$rezultatPrijava = $con->query($sqlPrijavljeneRecenzije);  // Izvršavanje upita
 
-
-if ($_SERVER['REQUEST_METHOD'] === "POST") {
-
-    if (isset($_POST['prihvatiZahtjev'])) { // Prihvaćanje zahtjeva za instruktora
-
-        $zahtjevID = $_POST['zahtjev_id'];
-        $korisnikID = $_POST['korisnik_id'];
-
-        // Dohvaćanje podataka iz zahtjeva
-        $dohvatiOdobreniZahtjev = "SELECT korisnik_id,motivacija,opisInstruktora,autentikacija  FROM zahtjevzainstruktora WHERE zahtjevzainstruktora.zahtjev_id = {$zahtjevID} AND zahtjevzainstruktora.korisnik_id = {$korisnikID} ";
-        $rezultatZahtjeva = $con->query($dohvatiOdobreniZahtjev);
-        $test = $rezultatZahtjeva->fetch_assoc();
-
-        echo $test['korisnik_id'] . " " . $test['motivacija'] . " " . $test['opisInstruktora'] . " " . $test['autentikacija'] . " <br><br> ";
-
-        $opisInstruktora = $test['opisInstruktora'];
-        $autentikacija = $test['autentikacija'];
-
-        // Dohvaćanje predmeta iz zahtjeva
-        $zahtjevZaPredmete = "SELECT predmetizahtjeva.predmet_id FROM predmetizahtjeva,zahtjevzainstruktora,korisnik WHERE  predmetizahtjeva.zahtjev_id = {$zahtjevID} AND zahtjevzainstruktora.korisnik_id = korisnik.korisnik_id AND korisnik.korisnik_id = {$korisnikID}";
-        $rezultatPredmeta = $con->query($zahtjevZaPredmete);
-
-        // Spremanje predmeta u polje jer instruktor može predavati više predmeta
-        $predmeti = array();
-        if ($rezultatPredmeta !== false) {
-            if ($rezultatPredmeta->num_rows > 0) {
-                while ($predmetRow = $rezultatPredmeta->fetch_assoc()) {
-                    $predmeti[] = $predmetRow['predmet_id'];
-                }
-            }
-        } else {
-            echo "Error: " . $con->error;
-        }
-
-        // Upis instruktora u bazu u tablicu instruktori
-        $upisInstruktora = "INSERT INTO instruktori (korisnik_id, opisInstruktora, autentikacija) VALUES ('$korisnikID', '$opisInstruktora','$autentikacija')"; // Upis instruktora u bazu
-        $con->query($upisInstruktora);
-
-        // Dohvaćanje ID-a instruktora
-        $dohvatiInstruktorovId = "SELECT instruktor_id FROM instruktori WHERE korisnik_id = $korisnikID"; // Dohvaćanje ID-a instruktora
-        $rezultat2 = $con->query($dohvatiInstruktorovId);
-        $instuktorovID = $rezultat2->fetch_assoc();
-
-        // Upis predmeta koje instruktor predaje u tablicu instruktorovipredmeti
-        foreach ($predmeti as $predmet) {
-            echo $predmet . " ";
-            $upisPredmeta = "INSERT INTO instruktorovipredmeti (instruktor_id, predmet_id) VALUES ('{$instuktorovID['instruktor_id']}','$predmet')"; // Upis predmeta koje instruktor predaje
-            $con->query($upisPredmeta);
-        }
-
-        echo $korisnikID . " "  . $opisInstruktora . "  " . $instuktorovID['instruktor_id'];
-
-        // Brisanje zahtjeva iz baze iz tablice predmetizahtjeva
-        $izbrisiPredmeteZahtjeva = "DELETE FROM predmetizahtjeva WHERE zahtjev_id = {$zahtjevID}"; // Brisanje predmeta iz zahtjeva
-        $con->query($izbrisiPredmeteZahtjeva);
-
-        // Brisanje zahtjeva iz baze iz tablice zahtjevzainstruktora
-        $izbriziZahtjev = "DELETE FROM zahtjevzainstruktora WHERE zahtjevzainstruktora.zahtjev_id = {$zahtjevID}"; // Brisanje zahtjeva iz baze
-        $con->query($izbriziZahtjev);
-        if ($con->error) {
-            echo "Error: " . $con->error;
-        }
-
-        if (isset($rezultatZahtjeva) && $rezultatZahtjeva->num_rows > 0) {
-            header("Location: ../admin");
-            die;
-        }
-        header("Location: ../admin/zahtjevi.php");
-        die;
-    } else if (isset($_POST['odbijZahtjev'])) { // Odbijanje zahtjeva za instruktora
-
-        $zahtjevID = $_POST['zahtjev_id'];
-        $korisnikID = $_POST['korisnik_id'];
-
-        // Dohvaćanje autentikacije za brisanje
-        $sql = "SELECT autentikacija FROM zahtjevzainstruktora WHERE zahtjev_id = $zahtjevID"; // Dohvaćanje autentikacije za brisanje
-        $result = $con->query($sql);
-        $row = $result->fetch_assoc();
-        $putanja = "../" . $row['autentikacija']; // Spremanje autentikacije u varijablu
-
-        if (file_exists($putanja)) {
-            unlink($putanja); // Brisanje autentikacije iz direktorija
-        }
-
-        // Brisanje zahtjeva iz baze iz tablice predmetizahtjeva
-        $izbrisiPredmeteZahtjeva = "DELETE FROM predmetizahtjeva WHERE zahtjev_id = {$zahtjevID}"; // Brisanje predmeta iz zahtjeva
-        $con->query($izbrisiPredmeteZahtjeva);
-
-        // Brisanje zahtjeva iz baze iz tablice zahtjevzainstruktora
-        $izbriziZahtjev = "DELETE FROM zahtjevzainstruktora WHERE zahtjevzainstruktora.zahtjev_id = {$zahtjevID}"; // Brisanje zahtjeva iz baze
-        $con->query($izbriziZahtjev);
-        if ($con->error) {
-            echo "Error: " . $con->error;
-        }
-
-        if (isset($rezultatZahtjeva) && $rezultatZahtjeva->num_rows > 0) {
-            header("Location: ../admin");
-            die;
-        }
-        header("Location: ../admin/zahtjevi.php");
-        die;
-    }
-}
-
-
+$sqlSveRecenzije = "SELECT * FROM recenzije WHERE $rezultatPrijava"; // Dohvaćanje svih recenzija
+$rezultatRecenzija = $con->query($sqlSveRecenzije);  // Izvršavanje upita
 
 ?>
 
@@ -151,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Shuffle Bootstrap Template - Index</title>
+    <title>Prijave recenzija</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -190,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="../../">Početna</a></li>
                     <li class="breadcrumb-item active"><a href="../admin/" aria-current="page">Račun</a></li>
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)" aria-current="page">Zahtjevi</a></li>
+                    <li class="breadcrumb-item active"><a href="javascript:void(0)" aria-current="page">Prijave recenzija</a></li>
                 </ol>
             </nav>
             <!-- /Breadcrumb -->
@@ -199,23 +95,22 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
             <div class="card mt-3">
                 <div class="card-body">
-                    <h4 class="text-center display-4">Zahtjevi za instruktora</h4>
+                    <h4 class="text-center display-4">Prijave recenzija</h4>
                     <br>
                     <div class="row">
                         <div class="col-sm-2">
-                            <span style="font-size: 1.3em;">Profilna slika</span>
+                            <span style="font-size: 1.3em;">Autor</span>
+                        </div>
+                        <div class="col-sm-2">
+                            <span style="font-size: 1.3em;">Komentar</span>
                         </div>
 
                         <div class="col-sm-2">
-                            <span style="font-size: 1.3em;">Ime i prezime</span>
+                            <span style="font-size: 1.3em;">Ocjena</span>
                         </div>
 
                         <div class="col-sm-2">
-                            <span style="font-size: 1.3em;">Status</span>
-                        </div>
-
-                        <div class="col-sm-2">
-                            <span style="font-size: 1.3em;">Predmeti</span>
+                            <span style="font-size: 1.3em;">Prijavio korisnik</span>
                         </div>
 
                         <div class="col-sm-2">
@@ -266,22 +161,22 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
                                         <div class="col-sm-2 text-center my-auto">
                                             <a class="btn btn-primary" href="../<?php echo $row["autentikacija"] ?>" download>Preuzmi autentikaciju</a>
-                                            
+
                                         </div>
                                         <div class="col-sm-2 text-center my-auto">
                                             <input type="hidden" name="korisnik_id" value="<?php echo $row['korisnik_id']; ?>">
                                             <input type="hidden" name="zahtjev_id" value="<?php echo $row['zahtjev_id']; ?>">
                                             <div class="col-sm-2 text-center p-1 my-auto">
-                                            <button class="btn btn-success" name="prihvatiZahtjev" type="submit">Prihvati</button>
+                                                <button class="btn btn-success" name="prihvatiZahtjev" type="submit">Prihvati</button>
                                             </div> <!-- Svaki zahtjev ima svoj ID, treba za svaki ID zahtjeva sloziti LOOP da se prihvati/odbaci samo onaj koji je stisnuti a ne svi koji su u formu -->
                                             <div class="col-sm-2 text-center p-1 my-auto">
-                                            <button class="btn btn-danger" name="odbijZahtjev" type="submit">Odbij</button>
+                                                <button class="btn btn-danger" name="odbijZahtjev" type="submit">Odbij</button>
                                             </div>
                                         </div>
 
                                     </div>
 
-                                    
+
                                     <hr>
                                 </form>
                             </div>

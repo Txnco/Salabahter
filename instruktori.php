@@ -1,7 +1,7 @@
 <?php
 
-$con = require "includes/connection/spajanje.php";
-include("includes/functions/funkcije.php");
+$con = require "ukljucivanje/connection/spajanje.php";
+include("ukljucivanje/functions/funkcije.php");
 session_start();
 $trenutnaStranica = "instruktori";
 
@@ -11,8 +11,8 @@ $putanjaDoSkripta = "skripte/";
 $putanjaDoKartica = "kartice.php";
 $putanjaDoOnama = "onama.php";
 
-$putanjaDoPrijave = "racun/login.php";
-$putanjaDoRegistracije = "racun/register.php";
+$putanjaDoPrijave = "racun/prijava.php";
+$putanjaDoRegistracije = "racun/registracija.php";
 
 $putanjaDoRacuna = "nadzornaploca";
 $putanjaDoOdjave = "racun/odjava.php";
@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <body>
 
-    <?php include 'includes/header.php'; ?>
+    <?php include 'ukljucivanje/header.php'; ?>
 
     <div class="justify-content-md-center mb-4 mt-5">
         <div class="hero-section text-center">
@@ -225,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 
-    <?php include 'includes/footer.php'; ?>
+    <?php include 'ukljucivanje/footer.php'; ?>
 
     <!-- Vendor JS datoteke -->
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>

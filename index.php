@@ -1,7 +1,7 @@
 <?php
 session_start();
-$con = require "includes/connection/spajanje.php";
-include("includes/functions/funkcije.php");
+$con = require "ukljucivanje/connection/spajanje.php";
+include("ukljucivanje/functions/funkcije.php");
 
 $user = provjeri_prijavu($con);
 
@@ -28,9 +28,22 @@ $pathToLogout="account/logout.php";
 
   <?php include 'assets/css/stiliranjeGlavno.php'; ?>   <!-- Sve poveznice za stil web stranice -->
 
+  <link href="assets/css/izbornik.css" rel="stylesheet">
+  <script src="ukljucivanje/javascript/izbornik.js"></script>
+
 </head>
 
 <body>
+
+<?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true && isset($user)): $_SESSION["loggedin"]=false ; ?>
+          <div id="loginSuccessAlert" class="alert alert-success alert-dismissible fade show login-success-message" role="alert">
+              User logged in successfully!
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+    <?php endif; ?>
+
 
   <!-- ======= Hero Section ======= -->
   <section id="hero">
@@ -151,15 +164,7 @@ $pathToLogout="account/logout.php";
       
     </header>
 
-    <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true && isset($user)): $_SESSION["loggedin"]=false ; ?>
-          <div id="loginSuccessAlert" class="alert alert-success alert-dismissible fade show login-success-message" role="alert">
-              User logged in successfully!
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-    <?php endif; ?>
-
+  
   <main id="main">
 
     <!-- ======= About Us Section ======= -->
@@ -745,7 +750,7 @@ $pathToLogout="account/logout.php";
 
   </main><!-- End #main -->
 
-  <?php include './includes/footer.php'; ?>
+  <?php include './ukljucivanje/footer.php'; ?>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

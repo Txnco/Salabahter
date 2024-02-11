@@ -10,15 +10,15 @@ $putanjaDoSkripta = "../skripte/";
 $putanjaDoKartica = "../kartice.php";
 $putanjaDoOnama = "../onama.php";
 
-$putanjaDoPrijave = "../racun/login.php";
-$putanjaDoRegistracije = "../racun/register.php";
+$putanjaDoPrijave = "../racun/prijava.php";
+$putanjaDoRegistracije = "../racun/registracija.php";
 
 $putanjaDoRacuna = "../nadzornaploca";
 $putanjaDoOdjave = "../racun/odjava.php";
 
 // Uključivanje datoteke za spajanje na bazu podataka i funkcija
-$con = require "../includes/connection/spajanje.php";
-include("../includes/functions/funkcije.php");
+$con = require "../ukljucivanje/connection/spajanje.php";
+include("../ukljucivanje/functions/funkcije.php");
 
 // Provjera prijave korisnika
 $user = provjeri_prijavu($con);
@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <?php include '../includes/header.php'; ?>
+    <?php include '../ukljucivanje/header.php'; ?>
 
     <div class="container mt-5">
         <div class="row justify-content-center">

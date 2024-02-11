@@ -2,8 +2,8 @@
     session_start();
     $is_invalid = false;
 
-    $con = require_once "../includes/connection/spajanje.php";
-    include_once("../includes/functions/funkcije.php");
+    $con = require_once "../ukljucivanje/connection/spajanje.php";
+    include_once("../ukljucivanje/functions/funkcije.php");
     
     if($_SERVER['REQUEST_METHOD'] === "POST"){  // === provjerava tip i podatke varijable
 

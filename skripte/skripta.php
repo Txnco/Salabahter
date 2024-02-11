@@ -1,7 +1,7 @@
 <?php
 session_start();
-$con = require "../includes/connection/spajanje.php";
-include("../includes/functions/funkcije.php");
+$con = require "../ukljucivanje/connection/spajanje.php";
+include("../ukljucivanje/functions/funkcije.php");
 
 $trenutnaStranica = "skripte";
 
@@ -11,8 +11,8 @@ $putanjaDoSkripta = "../skripte/";
 $putanjaDoKartica = "../kartice.php";
 $putanjaDoOnama = "../onama.php";
 
-$putanjaDoPrijave = "../racun/login.php";
-$putanjaDoRegistracije = "../racun/register.php";
+$putanjaDoPrijave = "../racun/prijava.php";
+$putanjaDoRegistracije = "../racun/registracija.php";
 
 $putanjaDoRacuna = "../nadzornaploca";
 $putanjaDoOdjave = "../racun/odjava.php";
@@ -52,7 +52,7 @@ if($rowSkripta = $resultSkripta->fetch_assoc()){
     $brojpregleda = $rowBrojPregleda['broj_pregleda'];
     
     function dohvatiinstruktore($predmet_id){
-        $con = require "../includes/connection/spajanje.php";
+        $con = require "../ukljucivanje/connection/spajanje.php";
         $sqlInstruktori = "SELECT instruktor_id  FROM instruktorovipredmeti WHERE predmet_id = " . $predmet_id ;
         $resultInstruktori = $con->query($sqlInstruktori);
         return $resultInstruktori; 
@@ -67,7 +67,7 @@ if($rowSkripta = $resultSkripta->fetch_assoc()){
 function dohvatipodatkekreatora($kreator_id)
 {
 
-    $con = require "../includes/connection/spajanje.php";
+    $con = require "../ukljucivanje/connection/spajanje.php";
     $sqlKorisnik = "SELECT ime, prezime FROM korisnik WHERE korisnik_id = $kreator_id";
     $resultKorisnik = $con->query($sqlKorisnik);
     $rowKorisnik = $resultKorisnik->fetch_assoc();
@@ -92,7 +92,7 @@ function dohvatipodatkekreatora($kreator_id)
 
 <body>
 
-    <?php include '../includes/header.php'; ?>
+    <?php include '../ukljucivanje/header.php'; ?>
     <div class="container mt-3">
         <div class="container">
             <div class="card mx-auto mt-3" style="width: 85%;">

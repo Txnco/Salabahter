@@ -1,7 +1,7 @@
 <?php
 session_start();
-$con = require "../includes/connection/spajanje.php";
-include("../includes/functions/funkcije.php");
+$con = require "../ukljucivanje/connection/spajanje.php";
+include("../ukljucivanje/functions/funkcije.php");
 
 $trenutnaStranica = "skripte";
 
@@ -11,8 +11,8 @@ $putanjaDoSkripta = "../skripte/";
 $putanjaDoKartica = "../kartice.php";
 $putanjaDoOnama = "../onama.php";
 
-$putanjaDoPrijave = "../racun/login.php";
-$putanjaDoRegistracije = "../racun/register.php";
+$putanjaDoPrijave = "../racun/prijava.php";
+$putanjaDoRegistracije = "../racun/registracija.php";
 
 $putanjaDoRacuna = "../nadzornaploca";
 $putanjaDoOdjave = "../racun/odjava.php";
@@ -34,7 +34,7 @@ $resultPredmeti = $con->query($sqlPredmeti);
 </head>
 <body>
 
-<?php include '../includes/header.php'; ?>
+<?php include '../ukljucivanje/header.php'; ?>
 
 <div class="container mt-5 mb-4">
     <h1 class="text-center mb-4">Pretraži Skripte</h1>
@@ -154,7 +154,7 @@ $resultPredmeti = $con->query($sqlPredmeti);
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-<?php include '../includes/footer.php'; ?>
+<?php include '../ukljucivanje/footer.php'; ?>
 
 </body>
 </html>

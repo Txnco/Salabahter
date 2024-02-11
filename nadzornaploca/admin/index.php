@@ -8,15 +8,15 @@ $putanjaDoSkripta = "../../skripte/";
 $putanjaDoKartica = "../../kartice.php";
 $putanjaDoOnama = "../../onama.php";
 
-$putanjaDoPrijave = "../../racun/login.php";
-$putanjaDoRegistracije = "../../racun/register.php";
+$putanjaDoPrijave = "../../racun/prijava.php";
+$putanjaDoRegistracije = "../../racun/registracija.php";
 
 $putanjaDoRacuna = "../../nadzornaploca";
 $putanjaDoOdjave = "../../racun/odjava.php";
 
 session_start();
-$con = require "../../includes/connection/spajanje.php";
-include("../../includes/functions/funkcije.php");
+$con = require "../../ukljucivanje/connection/spajanje.php";
+include("../../ukljucivanje/functions/funkcije.php");
 
 $user = provjeri_prijavu($con);
 if (!$user) {
@@ -129,6 +129,13 @@ if ($rezultatPoslanZahtjev) {
   }
 }
 
+$sqlPrijaveRecenzija = "SELECT * FROM prijavarecenzije";
+$rezultatPrijaveRecenzija = $con->query($sqlPrijaveRecenzija);
+while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
+  $brojPrijavaRecenzija = $rezultatPrijaveRecenzija->num_rows;
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -168,7 +175,7 @@ if ($rezultatPoslanZahtjev) {
 
 <body>
 
-  <?php include '../../includes/header.php'; ?>
+  <?php include '../../ukljucivanje/header.php'; ?>
 
   <div class="container">
     <div class="main-body">
@@ -217,6 +224,18 @@ if ($rezultatPoslanZahtjev) {
               <a class="mr-auto text-secondary " href="zahtjevi.php">Zahtjevi za instruktora</a>
               <span class="ml-auto text-danger align-middle"> <?php if (isset($brojZahtjeva) > 0) {
                                                                 echo $brojZahtjeva;
+                                                              } else echo '0'; ?> </span>
+              <svg class="ml-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                <path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path>
+              </svg>
+            </div>
+          </div>
+
+          <div class="card mt-3">
+            <div class="card-body d-flex justify-content-center align-items-center">
+              <a class="mr-auto text-secondary " href="prijaverecenzija.php">Prijave recenzija</a>
+              <span class="ml-auto text-danger align-middle"> <?php if (isset($brojPrijavaRecenzija) > 0) {
+                                                                echo $brojPrijavaRecenzija;
                                                               } else echo '0'; ?> </span>
               <svg class="ml-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                 <path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path>

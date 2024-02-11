@@ -1,4 +1,5 @@
  
+
  <!-- ======= Header ======= -->
  <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
@@ -52,6 +53,9 @@
    
       
     </header>
+
+
+
 
     <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true && isset($user)): $_SESSION["loggedin"]=false ; ?>
           <div id="loginSuccessAlert" class="alert alert-success alert-dismissible fade show login-success-message" role="alert">

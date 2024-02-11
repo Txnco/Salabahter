@@ -7,15 +7,15 @@ $putanjaDoSkripta = "../skripte/";
 $putanjaDoKartica = "../kartice.php";
 $putanjaDoOnama = "../onama.php";
 
-$putanjaDoPrijave = "../racun/login.php";
-$putanjaDoRegistracije = "../racun/register.php";
+$putanjaDoPrijave = "../racun/prijava.php";
+$putanjaDoRegistracije = "../racun/registracija.php";
 
 $putanjaDoRacuna = "../nadzornaploca";
 $putanjaDoOdjave = "../racun/odjava.php";
 
 session_start();
-$con = require "../includes/connection/spajanje.php";
-include("../includes/functions/funkcije.php");
+$con = require "../ukljucivanje/connection/spajanje.php";
+include("../ukljucivanje/functions/funkcije.php");
 
 $user = provjeri_prijavu($con); // Provjeri da li je korisnik prijavljen
 if (!$user) {
@@ -129,7 +129,7 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
 
 <body>
 
-  <?php include '../includes/header.php'; ?>
+  <?php include '../ukljucivanje/header.php'; ?>
 
   <div class="container">
     <div class="main-body">
@@ -317,7 +317,7 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                   $rezultatSveRecenzije = $con->query($sqlSveRecnezije);
                   if ($rezultatSveRecenzije->num_rows > 0) :
                     while ($red = $rezultatSveRecenzije->fetch_assoc()) :
-                      $sqlKorisnik = "SELECT korisnik.ime, korisnik.prezime, recenzije.ocjena, recenzije.komentar 
+                      $sqlKorisnik = "SELECT korisnik_id, korisnik.ime, korisnik.prezime, recenzije.ocjena, recenzije.komentar 
                         FROM korisnik 
                         JOIN recenzije ON korisnik.korisnik_id = recenzije.odKorisnika 
                         WHERE recenzije.recenzija_id = {$red['recenzija_id']}";
@@ -329,7 +329,7 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                           <div class="card-body">
                             <div class="row">
                               <div class="col">
-                                <h5><?php echo $korisnik['ime'] . " " . $korisnik['prezime'] ?></h5>
+                                <h5><a class="link" href="../profil?korisnik=<?php echo $korisnik['korisnik_id'] ?>"><?php echo $korisnik['ime'] . " " . $korisnik['prezime'] ?></a></h5>
 
                               </div>
                             </div>

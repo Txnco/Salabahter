@@ -1,8 +1,8 @@
 <?php
 
 session_start();
-$con = require "../includes/connection/spajanje.php";
-include("../includes/functions/funkcije.php");
+$con = require "../ukljucivanje/connection/spajanje.php";
+include("../ukljucivanje/functions/funkcije.php");
 
 $user = provjeri_prijavu($con);
 if (!$user) {

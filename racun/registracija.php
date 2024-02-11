@@ -1,6 +1,6 @@
 <?php
-$con = require_once "../includes/connection/spajanje.php";
-include_once("../includes/functions/funkcije.php");
+$con = require_once "../ukljucivanje/connection/spajanje.php";
+include_once("../ukljucivanje/functions/funkcije.php");
 
 $sql = "SELECT * FROM statusKorisnika";
 
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <!-- <link rel="stylesheet" type="text/css" href="../style/prijava.css">  Stil za prijavu -->
-    <script src="../includes/javascript/register.js"></script>
+    <script src="../ukljucivanje/javascript/register.js"></script>
 
     <style>
         .hideme {

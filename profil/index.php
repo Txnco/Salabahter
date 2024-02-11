@@ -8,14 +8,14 @@ $putanjaDoSkripta = "../skripte/";
 $putanjaDoKartica = "../kartice.php";
 $putanjaDoOnama = "../onama.php";
 
-$putanjaDoPrijave = "../racun/login.php";
-$putanjaDoRegistracije = "../racun/register.php";
+$putanjaDoPrijave = "../racun/prijava.php";
+$putanjaDoRegistracije = "../racun/registracija.php";
 
 $putanjaDoRacuna = "../nadzornaploca";
 $putanjaDoOdjave = "../racun/odjava.php";
 
-$con = require "../includes/connection/spajanje.php";
-include("../includes/functions/funkcije.php");
+$con = require "../ukljucivanje/connection/spajanje.php";
+include("../ukljucivanje/functions/funkcije.php");
 
 
 $korisnikID = $_GET['korisnik']; // ID korisnika kojeg gledamo
@@ -25,7 +25,7 @@ $user = provjeri_prijavu($con); // Provjeri da li je korisnik prijavljen
 if ($user) { // Ako je korisnik prijavljen provjeri da li gleda svoj profil, ako gleda svoj profil preusmjeri ga na dashboard
   $profileViewId = $korisnikID;
   if ($user['korisnik_id'] == $profileViewId) {
-    header("Location: ../dashboard");
+    header("Location: ../nadzornaploca");
     die;
   }
 }
@@ -71,6 +71,29 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
 
 
 
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+  if (isset($_POST['prijavaRecenzije'])) {
+
+    $prijavioKorisnik = $_SESSION['user_id'];
+    $prijavljenaRecenzija = $_POST['prijavljenaRecenzija'];
+    $razlogPrijave = $_POST['razlogPrijave'];
+
+    $stmt = $con->prepare("INSERT INTO prijavarecenzije (prijavljenaRecenzija, prijavioKorisnik, opisPrijave) VALUES (?, ?, ?)");
+    $stmt->bind_param("iis", $prijavljenaRecenzija, $prijavioKorisnik, $razlogPrijave);
+
+    $stmt->execute();
+    if ($stmt->num_rows > 0) {
+      $_SESSION['poruka'] = 'Recenzija je već prijavljena!';
+      $_SESSION['tipPoruke'] = false;
+    } else {
+      $_SESSION['poruka'] = 'Recenzija je uspešno prijavljena!';
+      $_SESSION['tipPoruke'] = true;
+    }
+    $stmt->close();
+  }
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -91,12 +114,17 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
 
   <link href="../assets/css/dashboard.css" rel="stylesheet">
   <link href="../assets/css/recenzije.css" rel="stylesheet">
+  <script src="../ukljucivanje/javascript/profil.js"></script>
+
+
 
 </head>
 
 <body>
 
-  <?php include '../includes/header.php'; ?>
+  <?php include '../ukljucivanje/header.php'; ?>
+
+
 
   <div class="container">
     <div class="main-body">
@@ -182,11 +210,11 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
             </div>
           <?php endif; ?>
 
-          <div class="card mt-3">
-            <div class="card-body ">
-              <div class="row">
-                <div class="col-17 d-flex justify-content-center align-items-center">
-                  <?php if (isset($_SESSION['user_id'])) : ?>
+          <?php if (isset($_SESSION['user_id'])) : ?>
+            <div class="card mt-3">
+              <div class="card-body ">
+                <div class="row">
+                  <div class="col-17 d-flex justify-content-center align-items-center">
                     <a class="mr-auto text-secondary" href="../recenzije/?korisnik=<?php echo $korisnikID ?>">Napiši recenziju za <?php
                                                                                                                                   if ($korisnik['status_naziv'] == "Instruktor") {
                                                                                                                                     echo "instruktora";
@@ -203,13 +231,13 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                     <svg class="ml-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                       <path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path>
                     </svg>
-                  <?php endif; ?>
+                  </div>
                 </div>
+
+
               </div>
-
-
             </div>
-          </div>
+          <?php endif; ?>
         </div>
 
         <div class="col-md-8">
@@ -306,13 +334,13 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                         <?php
                         if ($korisnikImaSkripte) :
                           while ($row = $resultSkripteKorisnika->fetch_assoc()) : ?>
-                            
+
                             <div class="card-body">
                               <small><?php echo $row['naziv_skripte']; ?></small>
                               <div class="progress mb-3" style="height: 5px">
                                 <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
-                              <a href="<?php echo "../skripte/".$row['skripta_putanja']; ?>" class="btn btn-primary" download>Preuzmi</a>
+                              <a href="<?php echo "../skripte/" . $row['skripta_putanja']; ?>" class="btn btn-primary" download>Preuzmi</a>
                             </div>
 
                         <?php endwhile;
@@ -340,14 +368,23 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                 </div>
                 <hr>
 
-
                 <div class="row">
                   <?php
+                 
+
                   $sqlSveRecnezije = "SELECT * FROM recenzije WHERE zaKorisnika = {$korisnikID}";
                   $rezultatSveRecenzije = $con->query($sqlSveRecnezije);
                   if ($rezultatSveRecenzije->num_rows > 0) :
                     while ($red = $rezultatSveRecenzije->fetch_assoc()) :
-                      $sqlKorisnik = "SELECT korisnik.ime, korisnik.prezime, recenzije.ocjena, recenzije.komentar 
+                      $sqlPrijavljenaRecenzija = "SELECT * FROM prijavarecenzije WHERE prijavljenaRecenzija = {$red['recenzija_id']}";
+                      $rezultatPrijavljenaRecenzija = $con->query($sqlPrijavljenaRecenzija);
+                      if ($rezultatPrijavljenaRecenzija->num_rows > 0) {
+                        $prijavljenaRecenzija = false;
+                      } else {
+                        $prijavljenaRecenzija = true;
+                      }
+
+                      $sqlKorisnik = "SELECT korisnik_id, korisnik.ime, korisnik.prezime, recenzije.ocjena, recenzije.komentar 
                         FROM korisnik 
                         JOIN recenzije ON korisnik.korisnik_id = recenzije.odKorisnika 
                         WHERE recenzije.recenzija_id = {$red['recenzija_id']}";
@@ -359,7 +396,7 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                           <div class="card-body">
                             <div class="row">
                               <div class="col">
-                                <h5><?php echo $korisnik['ime'] . " " . $korisnik['prezime'] ?></h5>
+                                <h5><a class="link" href="?korisnik=<?php echo $korisnik['korisnik_id'] ?>"><?php echo $korisnik['ime'] . " " . $korisnik['prezime'] ?></a></h5>
 
                               </div>
                             </div>
@@ -384,11 +421,67 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                               </div>
                             </div>
 
-                            <div class="row">
-                              <div class="col d-flex justify-content-end">
-                                <a href="#" class="text text-danger" style="font-size: 0.9rem;">Prijavi recenziju!</a>
+                            <?php if (isset($_SESSION['user_id']) && $prijavljenaRecenzija) : ?>
+                              <div class="row">
+                                <div class="col d-flex justify-content-end">
+                                  <a type="button" id="otvoriPrijavu" class="text text-danger" style="font-size: 0.9rem;" data-toggle="modal" data-target="#prijavaRecenzije<?php echo $red['recenzija_id']; ?>">Prijavi recenziju!</a>
+                                </div>
                               </div>
-                            </div>
+                              <?php elseif (isset($_SESSION['user_id']) && !$prijavljenaRecenzija):?>
+                                <div class="row">
+                                <div class="col d-flex justify-content-end">
+                                  <a  class="text text-success" style="font-size: 0.9rem;" >Recenzija prijavljena!</a>
+                                </div>
+                              </div>
+                              <?php endif; ?>
+
+                              <!-- Modal -->
+                              <div class="modal fade" id="prijavaRecenzije<?php echo $red['recenzija_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="prijavaRecenzijeTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h5 class="modal-title" id="exampleModalLongTitle">Prijava recenzije</h5>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <form method="POST">
+
+                                        <h5><?php echo $korisnik['ime'] . " " . $korisnik['prezime'] ?></h5>
+                                        <div class="row">
+                                          <div class="col">
+                                            <?php
+                                            for ($i = 1; $i <= 5; $i++) {
+                                              if ($i <= $korisnik['ocjena']) {
+                                                echo '<i class="fa fa-star" style="color:gold;"></i>';
+                                              } else {
+                                                echo '<i class="fa fa-star-o"></i>';
+                                              }
+                                            }
+                                            ?>
+
+                                          </div>
+                                        </div>
+                                        <p><?php echo $korisnik['komentar'] ?></p>
+
+                                        <div class="form-group">
+                                          <label for="razlogPrijave" class="col-form-label">Razlog prijave:</label>
+                                          <textarea class="form-control" id="razlogPrijave" name="razlogPrijave"></textarea>
+                                          <input name="prijavljenaRecenzija" value="<?php echo $red['recenzija_id'] ?>" hidden>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+                                      <button type="submit" class="btn btn-danger" name="prijavaRecenzije">Prijavi</button>
+                                    </div>
+
+
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            
 
                           </div>
                         </div>
@@ -396,6 +489,8 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                   <?php endwhile;
                   else : echo "Nema recenzija";
                   endif; ?>
+
+
 
                 </div>
               </div>
@@ -407,6 +502,12 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
 
     </div>
   </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
 
 
 </body>
