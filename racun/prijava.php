@@ -112,7 +112,7 @@
             </div>
             <!-- end card -->
 
-            <p class="text-muted text-center mt-3 mb-0">Nemate račun? <a href="register.php" class="text-primary ml-1">Registrirajte se!</a></p>
+            <p class="text-muted text-center mt-3 mb-0">Nemate račun? <a href="registracija.php" class="text-primary ml-1">Registrirajte se!</a></p>
 
             <!-- end row -->
 

@@ -1,13 +1,18 @@
 <?php
 
-$pathToPocetna = '../';
-$putanjaDoInstruktora = '../../instruktori.php';
-$putanjaDoSkripta = "../../skripta.php";
+$trenutnaStranica = "račun";
 
-$pathToLogin = "account/login.php";
-$pathToRegister = "account/register.php";
-$pathToRacun = "../../dashboard";
-$pathToLogout = "../../account/logout.php";
+$putanjaDoPocetne = "../../";
+$putanjaDoInstruktora = "../../instruktori.php";
+$putanjaDoSkripta = "../../skripte/";
+$putanjaDoKartica = "../../kartice.php";
+$putanjaDoOnama = "../../onama.php";
+
+$putanjaDoPrijave = "../../racun/login.php";
+$putanjaDoRegistracije = "../../racun/register.php";
+
+$putanjaDoRacuna = "../../nadzornaploca";
+$putanjaDoOdjave = "../../racun/odjava.php";
 
 session_start();
 $con = require "../../includes/connection/spajanje.php";
@@ -15,7 +20,7 @@ include("../../includes/functions/funkcije.php");
 
 $user = provjeri_prijavu($con); // Provjera prijave
 if (!$user) {
-    header("Location: ../account/login.php");
+    header("Location: ../../racun/prijava.php");
     die;
 }
 $user = check_privilegeUser($con); // Provjera privilegija

@@ -5,14 +5,17 @@ include("includes/functions/funkcije.php");
 session_start();
 $trenutnaStranica = "instruktori";
 
-$putanjaDoPocetna = 'index.php';
-$putanjaDoSkripta = 'skripte/';
-$putanjaDoInstruktora = 'instruktori.php';
+$putanjaDoPocetne = "index.php";
+$putanjaDoInstruktora = "instruktori.php";
+$putanjaDoSkripta = "skripte/";
+$putanjaDoKartica = "kartice.php";
+$putanjaDoOnama = "onama.php";
 
-$pathToLogin = "account/login.php";
-$pathToRegister = "account/register.php";
-$pathToRacun = "dashboard/";
-$pathToLogout = "account/logout.php";
+$putanjaDoPrijave = "racun/login.php";
+$putanjaDoRegistracije = "racun/register.php";
+
+$putanjaDoRacuna = "nadzornaploca";
+$putanjaDoOdjave = "racun/odjava.php";
 
 
 $sqlSviInstruktori = "SELECT instruktori.instruktor_id, korisnik.korisnik_id, ime, prezime, email, adresa, naziv_grada, status_naziv FROM instruktori, korisnik, statuskorisnika, gradovi WHERE instruktori.korisnik_id=korisnik.korisnik_id AND korisnik.status_korisnika=statuskorisnika.status_id AND korisnik.mjesto=gradovi.grad_id";

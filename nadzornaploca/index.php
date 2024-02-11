@@ -1,14 +1,17 @@
 <?php
 $trenutnaStranica = "račun";
 
-$putanjaDoPocetna = '../';
+$putanjaDoPocetne = "../";
+$putanjaDoInstruktora = "../instruktori.php";
 $putanjaDoSkripta = "../skripte/";
-$putanjaDoInstruktora = '../instruktori.php';
+$putanjaDoKartica = "../kartice.php";
+$putanjaDoOnama = "../onama.php";
 
+$putanjaDoPrijave = "../racun/login.php";
+$putanjaDoRegistracije = "../racun/register.php";
 
-
-$pathToRacun = "../dashboard";
-$pathToLogout = "../account/logout.php";
+$putanjaDoRacuna = "../nadzornaploca";
+$putanjaDoOdjave = "../racun/odjava.php";
 
 session_start();
 $con = require "../includes/connection/spajanje.php";
@@ -16,7 +19,7 @@ include("../includes/functions/funkcije.php");
 
 $user = provjeri_prijavu($con); // Provjeri da li je korisnik prijavljen
 if (!$user) {
-  header("Location: ../account/login.php");
+  header("Location: ../racun/prijava.php");
   die;
 }
 
@@ -24,7 +27,7 @@ $userPrava = check_privilegeUser($con); // Provjeri da li je korisnik admin
 if (isset($userPrava)) { // Ako je korisnik admin onda se preusmjeri na admin dashboard
   if ($userPrava['status_korisnika'] == 5) {
     $isAdmin = $_SESSION['isAdmin'];
-    header("Location: ../dashboard/admin.php");
+    header("Location: admin/");
     die;
   }
 }
@@ -42,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") { // Provjeri da li je korisnik posla
 
     $result = $con->query($sql);
 
-    header("Location: ../dashboard");
+    header("Location: ../racun");
     die;
   }
 }

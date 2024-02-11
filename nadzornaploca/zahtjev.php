@@ -6,7 +6,7 @@ include("../includes/functions/funkcije.php");
 
 $user = provjeri_prijavu($con);
 if (!$user) {
-    header("Location: ../account/login.php");
+    header("Location: ../racun/prijava.php");
     die;
 }
 
@@ -67,7 +67,7 @@ if ($rezultatPoslanZahtjev) {
 
         // Access the 'status_naziv' value from the associative array
         $zahtjev = 1;
-        if ($zahtjev == 1) header("Location: ../dashboard/admin");
+        if ($zahtjev == 1) header("Location: ../nadzornaploca");
     }
 }
 

@@ -109,11 +109,10 @@ $pathToLogout="account/logout.php";
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="instruktori.php">Instruktori</a></li>
-          <li><a class="nav-link scrollto" href="skripte/index.php">Skirpte</a></li>
-          <li><a class="nav-link scrollto" href="#portfolio">Portfolio</a></li>
-          <li><a class="nav-link scrollto" href="#team">Team</a></li>
+          <li><a class="nav-link scrollto active" href="index.php">Home</a></li>
+          <li><a class="nav-link scrollto " href="instruktori.php">Instruktori</a></li>
+          <li><a class="nav-link scrollto " href="skripte/">Skripte</a></li>
+          <li><a class="nav-link scrollto " href="kartice/">Kartice za ponavljanje</a></li>
           <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="#">Drop Down 1</a></li>
@@ -131,14 +130,14 @@ $pathToLogout="account/logout.php";
               <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li>
-          <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+          <li><a class="nav-link scrollto " href="onama.php" >O nama</a></li>
 
           <?php if(!isset($_SESSION["user_id"])): ?>
-              <a href="<?php echo $pathToLogin ?>" class="nav-link scrollto ml-3" role="button">Prijava</a>
-              <a href="<?php echo $pathToRegister ?>" class="nav-link scrollto" role="button">Registracija</a>
+              <a href="racun/prijava.php" class="nav-link scrollto ml-3" role="button">Prijava</a>
+              <a href="racun/registracija.php" class="nav-link scrollto" role="button">Registracija</a>
       <?php else: ?>
-              <a href="<?php echo $pathToRacun ?>" class="nav-link scrollto mr-2" role="button">Račun</a>
-              <a href="<?php echo $pathToLogout ?>" id="logout" class="nav-link scrollto" role="button">Odjava</a>
+              <a href="nadzornaploca/index.php" class="nav-link scrollto mr-2" role="button">Račun</a>
+              <a href="racun/odjava.php" id="logout" class="nav-link scrollto " role="button">Odjava</a>
       <?php endif; ?>
 
       </div>

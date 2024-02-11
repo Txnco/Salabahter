@@ -5,13 +5,17 @@ include("../includes/functions/funkcije.php");
 
 $trenutnaStranica = "skripte";
 
-$putanjaDoPocetna ='../index.php';
-$putanjaDoInstruktora ='../instruktori.php';
+$putanjaDoPocetne = "../";
+$putanjaDoInstruktora = "../instruktori.php";
+$putanjaDoSkripta = "../skripte/";
+$putanjaDoKartica = "../kartice.php";
+$putanjaDoOnama = "../onama.php";
 
-$pathToLogin="../account/login.php";
-$pathToRegister="../account/register.php";
-$pathToRacun="../dashboard/";
-$pathToLogout="../account/logout.php";
+$putanjaDoPrijave = "../racun/login.php";
+$putanjaDoRegistracije = "../racun/register.php";
+
+$putanjaDoRacuna = "../nadzornaploca";
+$putanjaDoOdjave = "../racun/odjava.php";
 
 // Dohvaćanje svih predmeta iz baze podataka
 $sqlPredmeti = "SELECT * FROM predmeti";

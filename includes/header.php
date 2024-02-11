@@ -11,10 +11,10 @@
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "index" ? 'active' : '' ?>" href="<?php echo $putanjaDoPocetna?>">Home</a></li>
+          <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "index" ? 'active' : '' ?>" href="<?php echo $putanjaDoPocetne?>">Home</a></li>
           <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "instruktori" ? 'active' : '' ?>" href="<?php echo $putanjaDoInstruktora?>">Instruktori</a></li>
           <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "skripte" ? 'active' : '' ?>" href="<?php echo $putanjaDoSkripta?>">Skripte</a></li>
-          <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "kartice" ? 'active' : '' ?>" href="<?php echo $pathToPocetna?>#portfolio">Kartice za ponavljanje</a></li>
+          <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "kartice" ? 'active' : '' ?>" href="<?php echo $putanjaDoKartica?>">Kartice za ponavljanje</a></li>
           <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="#">Drop Down 1</a></li>
@@ -32,14 +32,14 @@
               <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li>
-          <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "onama" ? 'active' : '' ?>" href="#contact">O nama</a></li>
+          <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "onama" ? 'active' : '' ?>" href="<?php echo $putanjaDoOnama?>" >O nama</a></li>
 
           <?php if(!isset($_SESSION["user_id"])): ?>
-              <a href="<?php echo $pathToLogin ?>" class="nav-link scrollto ml-3" role="button">Prijava</a>
-              <a href="<?php echo $pathToRegister ?>" class="nav-link scrollto" role="button">Registracija</a>
+              <a href="<?php echo $putanjaDoPrijave ?>" class="nav-link scrollto ml-3" role="button">Prijava</a>
+              <a href="<?php echo $putanjaDoRegistracije ?>" class="nav-link scrollto" role="button">Registracija</a>
       <?php else: ?>
-              <a href="<?php echo $pathToRacun ?>" class="nav-link scrollto mr-2 <?php echo $trenutnaStranica == "račun" ? 'active' : '' ?>" role="button">Račun</a>
-              <a href="<?php echo $pathToLogout ?>" id="logout" class="nav-link scrollto " role="button">Odjava</a>
+              <a href="<?php echo $putanjaDoRacuna ?>" class="nav-link scrollto mr-2 <?php echo $trenutnaStranica == "račun" ? 'active' : '' ?>" role="button">Račun</a>
+              <a href="<?php echo $putanjaDoOdjave ?>" id="logout" class="nav-link scrollto " role="button">Odjava</a>
       <?php endif; ?>
 
       </div>

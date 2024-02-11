@@ -2,13 +2,17 @@
 
 $trenutnaStranica = "račun";
 
-$putanjaDoPocetna = '../../';
-$putanjaDoInstruktora = '../../instruktori.php';
+$putanjaDoPocetne = "../../";
+$putanjaDoInstruktora = "../../instruktori.php";
 $putanjaDoSkripta = "../../skripte/";
+$putanjaDoKartica = "../../kartice.php";
+$putanjaDoOnama = "../../onama.php";
 
+$putanjaDoPrijave = "../../racun/login.php";
+$putanjaDoRegistracije = "../../racun/register.php";
 
-$pathToRacun = "../../dashboard";
-$pathToLogout = "../../account/logout.php";
+$putanjaDoRacuna = "../../nadzornaploca";
+$putanjaDoOdjave = "../../racun/odjava.php";
 
 session_start();
 $con = require "../../includes/connection/spajanje.php";
@@ -16,7 +20,7 @@ include("../../includes/functions/funkcije.php");
 
 $user = provjeri_prijavu($con);
 if (!$user) {
-  header("Location: ../../account/login.php");
+  header("Location: ../../racun/prijava.php");
   die;
 }
 $user = check_privilegeUser($con);
@@ -124,11 +128,6 @@ if ($rezultatPoslanZahtjev) {
     $zahtjev = 1;
   }
 }
-
-
-
-
-
 
 ?>
 

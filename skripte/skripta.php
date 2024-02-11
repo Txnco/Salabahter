@@ -4,14 +4,18 @@ $con = require "../includes/connection/spajanje.php";
 include("../includes/functions/funkcije.php");
 
 $trenutnaStranica = "skripte";
-$putanjaDoSkripta = "index.php";
-$putanjaDoPocetna = '../index.php';
-$putanjaDoInstruktora = '../instruktori.php';
 
-$pathToLogin = "../account/login.php";
-$pathToRegister = "../account/register.php";
-$pathToRacun = "../dashboard/";
-$pathToLogout = "../account/logout.php";
+$putanjaDoPocetne = "../";
+$putanjaDoInstruktora = "../instruktori.php";
+$putanjaDoSkripta = "../skripte/";
+$putanjaDoKartica = "../kartice.php";
+$putanjaDoOnama = "../onama.php";
+
+$putanjaDoPrijave = "../racun/login.php";
+$putanjaDoRegistracije = "../racun/register.php";
+
+$putanjaDoRacuna = "../nadzornaploca";
+$putanjaDoOdjave = "../racun/odjava.php";
 
 
 $skripta_id = $_GET['skripta_id'];

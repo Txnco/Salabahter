@@ -2,6 +2,20 @@
 // Početak sesije
 session_start();
 
+$trenutnaStranica = "skripte";
+
+$putanjaDoPocetne = "../";
+$putanjaDoInstruktora = "../instruktori.php";
+$putanjaDoSkripta = "../skripte/";
+$putanjaDoKartica = "../kartice.php";
+$putanjaDoOnama = "../onama.php";
+
+$putanjaDoPrijave = "../racun/login.php";
+$putanjaDoRegistracije = "../racun/register.php";
+
+$putanjaDoRacuna = "../nadzornaploca";
+$putanjaDoOdjave = "../racun/odjava.php";
+
 // Uključivanje datoteke za spajanje na bazu podataka i funkcija
 $con = require "../includes/connection/spajanje.php";
 include("../includes/functions/funkcije.php");

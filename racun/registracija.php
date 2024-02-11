@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             $stmt->execute();
             session_start();
             $_SESSION["registered"] = true;
-            header("Location: login.php");
+            header("Location: prijava.php");
             die;
         }
     } else echo "Krivi unos!";
@@ -202,7 +202,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 </div>
                 <!-- end card -->
 
-                <p class="text-muted text-center mt-3 mb-0">Imate korisnički račun? <a href="login.php" class="text-primary ml-1">Prijavite se!</a></p>
+                <p class="text-muted text-center mt-3 mb-0">Imate korisnički račun? <a href="prijava.php" class="text-primary ml-1">Prijavite se!</a></p>
 
                 <!-- end row -->
 
