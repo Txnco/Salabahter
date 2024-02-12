@@ -34,8 +34,36 @@ if ($user['status_korisnika'] == 5) {
 $sqlPrijavljeneRecenzije = "SELECT * FROM prijavarecenzije"; // Dohvaćanje svih prijavljenih recenzija
 $rezultatPrijava = $con->query($sqlPrijavljeneRecenzije);  // Izvršavanje upita
 
-$sqlSveRecenzije = "SELECT * FROM recenzije WHERE $rezultatPrijava"; // Dohvaćanje svih recenzija
-$rezultatRecenzija = $con->query($sqlSveRecenzije);  // Izvršavanje upita
+if($_SERVER['REQUEST_METHOD']=="POST"){
+
+    if(isset($_POST['izbrisiZahtjev'])){
+
+        $prijaveljnaRecenzija = $_POST['prijavljenaRecenzija'];
+
+        $sqlIzbrisiZahtjev = "DELETE FROM prijavarecenzije WHERE prijavljenaRecenzija = {$prijaveljnaRecenzija}"; 
+        $con->query($sqlIzbrisiZahtjev);  // Izvršavanje upita
+        if($con->affected_rows > 0){
+            header("Location: prijaverecenzija.php");
+        }
+
+    }
+    elseif (isset($_POST['izbrisiRecenziju'])) {
+
+        $prijaveljnaRecenzija = $_POST['prijavljenaRecenzija'];
+
+        $sqlIzbrisiZahtjev = "DELETE FROM prijavarecenzije WHERE prijavljenaRecenzija = {$prijaveljnaRecenzija}"; 
+        $con->query($sqlIzbrisiZahtjev);  // Izvršavanje upita
+        
+
+        $sqlIzbrisiRecenziju = "DELETE FROM recenzije WHERE recenzija_id = {$prijaveljnaRecenzija}"; 
+        $con->query($sqlIzbrisiRecenziju);  // Izvršavanje upita
+        if($con->affected_rows > 0){
+            header("Location: prijaverecenzija.php");
+        }
+    }
+
+}
+
 
 ?>
 
@@ -54,6 +82,8 @@ $rezultatRecenzija = $con->query($sqlSveRecenzije);  // Izvršavanje upita
     <!-- Favicons -->
     <link href="../../assets/img/writing.png" rel="icon">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- Ikone -->
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
@@ -71,6 +101,8 @@ $rezultatRecenzija = $con->query($sqlSveRecenzije);  // Izvršavanje upita
     <link href="../../assets/css/style.css" rel="stylesheet">
 
     <link href="../../assets/css/dashboard.css" rel="stylesheet">
+
+    <link href="../../assets/css/recenzije.css" rel="stylesheet">
 
 </head>
 
@@ -97,112 +129,142 @@ $rezultatRecenzija = $con->query($sqlSveRecenzije);  // Izvršavanje upita
                 <div class="card-body">
                     <h4 class="text-center display-4">Prijave recenzija</h4>
                     <br>
-                    <div class="row">
-                        <div class="col-sm-2">
+                    <div class="row d-none d-md-flex">
+                        <div class="col-sm-2 text-center my-auto">
                             <span style="font-size: 1.3em;">Autor</span>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 text-center my-auto">
                             <span style="font-size: 1.3em;">Komentar</span>
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 text-center my-auto">
                             <span style="font-size: 1.3em;">Ocjena</span>
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 text-center my-auto">
                             <span style="font-size: 1.3em;">Prijavio korisnik</span>
                         </div>
 
-                        <div class="col-sm-2">
-                            <span style="font-size: 1.3em;">Autentikacija</span>
+                        <div class="col-sm-2 text-center my-auto">
+                            <span style="font-size: 1.3em;">Razlog prijave</span>
                         </div>
+
                     </div>
                     <hr>
                 </div>
 
-                <?php if (isset($rezultatZahtjeva) && $rezultatZahtjeva->num_rows > 0) :
-                    while ($row = $rezultatZahtjeva->fetch_assoc()) : // Prikaz svih zahtjeva za instruktora
 
-                        // Dohvaćanje predmeta za pojedini zahtjev za instruktora
-                        $zahtjevZaPredmete = "SELECT naziv_predmeta FROM predmetizahtjeva,predmeti,zahtjevzainstruktora,korisnik WHERE predmetizahtjeva.predmet_id = predmeti.predmet_id AND  predmetizahtjeva.zahtjev_id = {$row['zahtjev_id']} AND zahtjevzainstruktora.korisnik_id = korisnik.korisnik_id AND korisnik.korisnik_id = {$row['korisnik_id']}   ";
-                        $rezultatPredmeta = $con->query($zahtjevZaPredmete);
+                <?php if (isset($rezultatPrijava) && $rezultatPrijava->num_rows > 0) :
+                    while ($red = $rezultatPrijava->fetch_assoc()) : // Prikaz svih prijava recenzija
 
-                        // Spremanje predmeta u polje jer instruktor može predavati više predmeta
-                        $predmeti = array();
-                        if ($rezultatPredmeta->num_rows > 0) {
-                            while ($predmetRow = $rezultatPredmeta->fetch_assoc()) {
-                                $predmeti[] = $predmetRow['naziv_predmeta'];
-                            }
-                        }
+                        $sqlSveRecenzije = "SELECT * FROM recenzije WHERE recenzija_id = {$red['prijavljenaRecenzija']}"; // Dohvaćanje svih recenzija
+                        $rezultatRecenzija = $con->query($sqlSveRecenzije);  // Izvršavanje upita
 
+                        $recenzija = $rezultatRecenzija->fetch_assoc();
+
+                        $sqlKorisnik = "SELECT korisnik_id, korisnik.ime, korisnik.prezime, recenzije.ocjena, recenzije.komentar 
+                        FROM korisnik 
+                        JOIN recenzije ON korisnik.korisnik_id = recenzije.odKorisnika 
+                        WHERE recenzije.recenzija_id = {$red['prijavljenaRecenzija']}";
+                        $rezultatKorisnik = $con->query($sqlKorisnik);
+                        $korisnik = $rezultatKorisnik->fetch_assoc();
+
+                        $sqlKorisnikPrijavio = "SELECT korisnik_id, korisnik.ime, korisnik.prezime FROM korisnik WHERE korisnik_id = {$red['prijavioKorisnik']}";
+                        $rezultatKorisnikPrijavio = $con->query($sqlKorisnikPrijavio);
+                        $korisnikPrijavio = $rezultatKorisnikPrijavio->fetch_assoc();
                 ?>
-                        <div class="card mt-3">
-                            <div class="card-body">
-                                <form method="POST">
-                                    <div class="row m-2 mx-auto">
-
-                                        <div class="col-sm-2 text-center">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100">
-                                        </div>
-
-                                        <div class="col-sm-2 text-center my-auto">
-                                            <h6 class="card-text"><a class="link" href="../../profil?korisnik=<?php echo $row['korisnik_id'] ?>"><?php echo $row["ime"] . " " . $row["prezime"] ?></a></h6>
-                                        </div>
-
-                                        <div class="col-sm-2 text-center my-auto">
-                                            <h6 class="card-text"><?php echo $row["status_naziv"] ?></h6>
-                                        </div>
-
-                                        <div class="col-sm-2 text-center my-auto">
-                                            <h6 class="card-text"><?php foreach ($predmeti as $predmet) {
-                                                                        echo $predmet . " ";
-                                                                    } ?></h6>
-                                        </div>
-
-                                        <div class="col-sm-2 text-center my-auto">
-                                            <a class="btn btn-primary" href="../<?php echo $row["autentikacija"] ?>" download>Preuzmi autentikaciju</a>
-
-                                        </div>
-                                        <div class="col-sm-2 text-center my-auto">
-                                            <input type="hidden" name="korisnik_id" value="<?php echo $row['korisnik_id']; ?>">
-                                            <input type="hidden" name="zahtjev_id" value="<?php echo $row['zahtjev_id']; ?>">
-                                            <div class="col-sm-2 text-center p-1 my-auto">
-                                                <button class="btn btn-success" name="prihvatiZahtjev" type="submit">Prihvati</button>
-                                            </div> <!-- Svaki zahtjev ima svoj ID, treba za svaki ID zahtjeva sloziti LOOP da se prihvati/odbaci samo onaj koji je stisnuti a ne svi koji su u formu -->
-                                            <div class="col-sm-2 text-center p-1 my-auto">
-                                                <button class="btn btn-danger" name="odbijZahtjev" type="submit">Odbij</button>
-                                            </div>
-                                        </div>
-
-                                    </div>
+                        <form method="POST">
+                            <div class="row m-2 mx-auto">
 
 
-                                    <hr>
-                                </form>
+
+                                <div class="col-sm-2 text-center my-auto">
+                                    <h6><a class="link" href="../../profil/?korisnik=<?php echo $korisnik['korisnik_id'] ?>"><?php echo $korisnik['ime'] . " " . $korisnik['prezime'] ?></a></h6>
+
+                                </div>
+
+                                <div class="col-sm-2 text-center my-auto">
+                                    <p><?php echo $korisnik['komentar'] ?></p>
+
+                                </div>
+
+                                <div class="col-sm-2 text-center my-auto">
+                                    <?php
+                                    for ($i = 1; $i <= 5; $i++) {
+                                        if ($i <= $korisnik['ocjena']) {
+                                            echo '<i class="fa fa-star" style="color:gold;"></i>';
+                                        } else {
+                                            echo '<i class="fa fa-star-o"></i>';
+                                        }
+                                    }
+                                    ?>
+
+                                </div>
+
+                                <div class="col-sm-2 text-center my-auto">
+                                    <h6>
+                                        <a class="link" href="../../profil/?korisnik=<?php echo $korisnikPrijavio['korisnik_id'] ?>"><?php echo $korisnikPrijavio['ime'] . " " . $korisnikPrijavio['prezime']; ?></a>
+                                    </h6>
+
+                                </div>
+
+
+
+                                <div class="col-sm-2 text-center my-auto">
+                                    <p>
+                                        <?php echo $red['opisPrijave']; ?>
+                                    </p>
+
+                                </div>
+
+                                <!-- Svaki zahtjev ima svoj ID,  svaki ID prijave mora imati petlju da se prihvati/odbaci samo onaj koji je pritisnut, a ne svi koji su u formu -->
+
+                                <div class="col-sm-2 text-center my-auto">
+                                    <button class="btn btn-secondary m-2" name="izbrisiZahtjev" type="submit">Izbriši zahtjev</button>
+                                    
+                                    <button class="btn btn-danger m-2" name="izbrisiRecenziju" type="submit">Izbriši recenziju</button>
+
+                                    <input type="hidden" name="prijavljenaRecenzija" value="<?php echo $red['prijavljenaRecenzija']; ?>">
+
+
+                                </div>
+
+
+
+
                             </div>
-                        </div>
+
+
+                        </form>
+                        <hr>
+
                 <?php
                     endwhile;
                 else :
                     echo "Nema rezultata za zahtjev";
                 endif; ?>
             </div>
-        </div>
-    </div>
 
 
-    <script>
-        window.onload = function() {
-            var forms = document.getElementsByTagName('form');
-            for (var i = 0; i < forms.length; i++) {
-                forms[i].id = 'form' + (i + 1); // Assign a unique id to each form
-                var buttons = forms[i].getElementsByTagName('button');
-                for (var j = 0; j < buttons.length; j++) {
-                    buttons[j].value = i + 1; // Assign the form index to each button
+
+            <script>
+                window.onload = function() {
+                    var forms = document.getElementsByTagName('form');
+                    for (var i = 0; i < forms.length; i++) {
+                        forms[i].id = 'form' + (i + 1); // Assign a unique id to each form
+                        var buttons = forms[i].getElementsByTagName('button');
+                        for (var j = 0; j < buttons.length; j++) {
+                            buttons[j].value = i + 1; // Assign the form index to each button
+                        }
+                    }
                 }
-            }
-        }
-    </script>
+            </script>
+
+            <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
 
 </body>
 

@@ -12,31 +12,37 @@
 
         $encrypt_password = password_hash($password, PASSWORD_DEFAULT);
 
-        $sql = sprintf("SELECT * FROM korisnik WHERE email = '%s'",
-                        $con->real_escape_string($email)); // real_escape_string osigurava da korisnik ne može izvršiti SQL napad
+        $provjeraEmail = provjera_email($email,$con);
 
-        $result = $con->query($sql);
-        $user = $result->fetch_assoc();
-
-        $sqlProvjeraInstruktora = "SELECT instruktor_id FROM instruktori WHERE korisnik_id = " . $user['korisnik_id'];
-        $rezultatInstruktor = $con->query($sqlProvjeraInstruktora);
-        if(!$instruktor = $rezultatInstruktor->fetch_assoc()){
-            $instruktor = null;
-        }
-
-        if($user){
-            if(password_verify($password, $user['lozinka'])){
-                
-                session_regenerate_id();
-                $_SESSION["user_id"] = $user["korisnik_id"]; // Postavlja se SESSION
-                $_SESSION["loggedin"] = true;                // Stavlja true da je uspjela prijava za poruku
-                if(isset($instruktor)){
-                    $_SESSION["instruktor"] = $instruktor['instruktor_id'];
+        if($provjeraEmail==1){
+            
+            $sql = sprintf("SELECT * FROM korisnik WHERE email = '%s'",
+            $con->real_escape_string($email)); // real_escape_string osigurava da korisnik ne može izvršiti SQL napad
+            $result = $con->query($sql);
+            $user = $result->fetch_assoc();
+            
+            $sqlProvjeraInstruktora = "SELECT instruktor_id FROM instruktori WHERE korisnik_id = " . $user['korisnik_id'];
+            $rezultatInstruktor = $con->query($sqlProvjeraInstruktora);
+            if(!$instruktor = $rezultatInstruktor->fetch_assoc()){
+                $instruktor = null;
+            }
+            
+            
+            if(isset($user)){
+                if(password_verify($password, $user['lozinka'])){
+                    
+                    session_regenerate_id();
+                    $_SESSION["user_id"] = $user["korisnik_id"]; // Postavlja se SESSION
+                    $_SESSION["loggedin"] = true;                // Stavlja true da je uspjela prijava za poruku
+                    if(isset($instruktor)){
+                        $_SESSION["instruktor"] = $instruktor['instruktor_id'];
+                    }
+                    header("Location: ../index.php");
+                    exit;
                 }
-                header("Location: ../index.php");
-                exit;
             }
         }
+        
 
         $is_invalid = true; // Ako prijava nije uspjesna, ispisat ce se poruka korisniku
 
@@ -69,7 +75,7 @@
                                  <?php if (isset($_SESSION["registered"]) && @$_SESSION["registered"] == 'true'): @$_SESSION["registered"]=false; ?>
                                     <div class="alert alert-success">Uspješna registriracija! </div>
                                  <?php  elseif ($is_invalid): ?>
-                                    <div class="alert alert-danger">Prijava nije uspijela! </div>
+                                    <div id="alert" class="alert alert-danger">Prijava nije uspijela! </div>
                                  <?php  endif; ?>
                     <div class="row no-gutters">
                         <div class="col-lg-6">
@@ -121,6 +127,14 @@
     </div>
     <!-- Row -->
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+   $(document).ready(function() {
+  $('#alert').hide().fadeIn(1000).delay(5000).fadeOut(1000);
+});
+</script>
 
 </body>
 </html>
