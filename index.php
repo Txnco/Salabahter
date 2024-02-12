@@ -122,7 +122,7 @@ $pathToLogout="account/logout.php";
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto active" href="index.php">Home</a></li>
+          <li><a class="nav-link scrollto active" href="">Home</a></li>
           <li><a class="nav-link scrollto " href="instruktori.php">Instruktori</a></li>
           <li><a class="nav-link scrollto " href="skripte/">Skripte</a></li>
           <li><a class="nav-link scrollto " href="kartice/">Kartice za ponavljanje</a></li>

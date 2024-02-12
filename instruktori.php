@@ -5,7 +5,7 @@ include("ukljucivanje/functions/funkcije.php");
 session_start();
 $trenutnaStranica = "instruktori";
 
-$putanjaDoPocetne = "index.php";
+$putanjaDoPocetne = "/";
 $putanjaDoInstruktora = "instruktori.php";
 $putanjaDoSkripta = "skripte/";
 $putanjaDoKartica = "kartice.php";
