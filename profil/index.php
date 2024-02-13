@@ -31,7 +31,7 @@ if ($user) { // Ako je korisnik prijavljen provjeri da li gleda svoj profil, ako
 }
 
 // Dohvati korisnika po ID-u 
-$sqlOdabraniKorisnik = "SELECT korisnik.korisnik_id,  ime,prezime,email,adresa,naziv_grada, status_naziv FROM korisnik, statuskorisnika, gradovi WHERE korisnik.korisnik_id={$korisnikID} AND  korisnik.status_korisnika=statuskorisnika.status_id AND korisnik.mjesto=gradovi.grad_id";
+$sqlOdabraniKorisnik = "SELECT korisnik.korisnik_id,  ime,prezime,email,adresa,prebivaliste,naziv_grada, grad_id, status_naziv FROM korisnik, statuskorisnika, gradovi WHERE korisnik.korisnik_id={$korisnikID} AND  korisnik.status_korisnika=statuskorisnika.status_id AND korisnik.mjesto=gradovi.grad_id";
 $rezultatOdabraniKorisnik = $con->query($sqlOdabraniKorisnik);
 
 $korisnik = $rezultatOdabraniKorisnik->fetch_assoc(); // Dohvati korisnika iz baze 
@@ -150,7 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                   <p class="text-secondary mb-1">
                     <?php echo $korisnik['status_naziv']; ?></p>
                   <p class="text-muted font-size-sm"><?php echo $korisnik["adresa"] . ",  ";
-                                                      echo $korisnik['naziv_grada']; ?></p>
+                                                      echo $korisnik['prebivaliste']; ?></p>
 
                   <?php if ($korisnikJeInstruktor) : // Ako je korisnik instruktor, ispiše se natpis Instruktor 
                   ?>
@@ -287,15 +287,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <div class="col-sm-3">
                   <h6 class="mb-0">Adresa</h6>
                 </div>
-                <div class="col-sm-9 text-secondary">
-                  <label type="text"><?php echo $korisnik["adresa"] // Ispis koriskinove adrese stanovanja
-                                      ?></label>
+                <div class="col-sm-7 text-secondary">
+                  <label type="text"><?php echo $korisnik["adresa"] . ", " .  $korisnik["prebivaliste"] // Ispis koriskinove adrese stanovanja ?></label>
                 </div>
               </div>
               <hr>
               <div class="row">
                 <div class="col-sm-3">
-                  <h6 class="mb-0">Grad</h6>
+                  <h6 class="mb-0">Obližnji grad</h6>
                 </div>
                 <div class="col-sm-9 text-secondary">
                   <label type="text"><?php echo $korisnik["naziv_grada"]; // Ispis grada iz kojeg je korisnik

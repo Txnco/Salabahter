@@ -64,27 +64,27 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     header("Location: ../admin");
     die;
-  } else if (isset($_POST['upisPromjena'])) { // Upisivanje promjena korisničkih podataka u bazu
-
+  }  if (isset($_POST['upisPromjena'])) { // Upisivanje promjena korisničkih podataka u bazu
 
     $promjenaImena = $_POST['imePromjena'];
     $promjenaPrezimena = $_POST['prezimePromjena'];
     $promjenaEmaila = $_POST['emailPromjena'];
     $promjenaAdrese = $_POST['adresaPromjena'];
+    $promjenaPrebivalista = $_POST['prebivalistePromjena'];
     $promjenaMjesta = $_POST['mjestoPromjena'];
 
-    $sql = sprintf("UPDATE korisnik SET ime='$promjenaImena', prezime='$promjenaPrezimena', email='$promjenaEmaila', adresa='$promjenaAdrese', mjesto='$promjenaMjesta' WHERE korisnik_id = {$_SESSION['user_id']}");
+    $sql = sprintf("UPDATE korisnik SET ime='$promjenaImena', prezime='$promjenaPrezimena', email='$promjenaEmaila', adresa='$promjenaAdrese', prebivaliste ='$promjenaPrebivalista', mjesto='$promjenaMjesta' WHERE korisnik_id = {$_SESSION['user_id']}");
 
     $result = $con->query($sql);
 
-    header("Location: ../admin");
+    header("Location: /nadzornaploca");
     die;
   }
 }
 
 
 // Dohvati prijavljenog korisnika iz baze
-$sqlOdabraniKorisnik = "SELECT korisnik.korisnik_id,  ime,prezime,email,adresa,naziv_grada, status_naziv FROM korisnik, statuskorisnika, gradovi WHERE korisnik.korisnik_id={$_SESSION['user_id']} AND  korisnik.status_korisnika=statuskorisnika.status_id AND korisnik.mjesto=gradovi.grad_id";
+$sqlOdabraniKorisnik = "SELECT korisnik.korisnik_id,  ime,prezime,email,adresa, prebivaliste,naziv_grada ,grad_id, status_naziv FROM korisnik, statuskorisnika, gradovi WHERE korisnik.korisnik_id={$_SESSION['user_id']} AND  korisnik.status_korisnika=statuskorisnika.status_id AND korisnik.mjesto=gradovi.grad_id";
 $rezultatOdabraniKorisnik = $con->query($sqlOdabraniKorisnik);
 
 $korisnik = $rezultatOdabraniKorisnik->fetch_assoc(); // Dohvati korisnika iz baze 
@@ -205,7 +205,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                   <p class="text-secondary mb-1">
                     <?php echo $korisnik['status_naziv']; ?></p>
                   <p class="text-muted font-size-sm"><?php echo $korisnik["adresa"] . ",  ";
-                                                      echo $korisnik['naziv_grada']; ?></p>
+                                                      echo $korisnik['prebivaliste']; ?></p>
                   <?php if ($korisnikJeInstruktor) : ?> <!-- Ako je korisnik instruktor makne se tipka postani instruktor -->
                     <label class="btn btn-outline-primary">Instruktor</label>
                   <?php elseif (!isset($zahtjev)) : ?>
@@ -262,7 +262,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
 
         </div>
         <div class="col-md-8">
-          <div class="card mb-3">
+        <div class="card mb-3">
             <div class="card-body">
               <form method="post">
                 <div class="row">
@@ -270,7 +270,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                     <h6 class="mb-0">Ime</h6>
                   </div>
                   <div class="col-sm-5 text-secondary">
-                    <input type="text" class="form-control" name="imePromjena" id="imePromjena" value="<?php echo $user["ime"] ?>" required>
+                    <input type="text" class="form-control" name="imePromjena" id="imePromjena" value="<?php echo $korisnik["ime"] ?>" required>
                   </div>
                 </div>
                 <hr>
@@ -279,7 +279,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                     <h6 class="mb-0">Prezime</h6>
                   </div>
                   <div class="col-sm-5 text-secondary">
-                    <input type="text" class="form-control" name="prezimePromjena" id="prezimePromjena" value="<?php echo $user["prezime"] ?>" required>
+                    <input type="text" class="form-control" name="prezimePromjena" id="prezimePromjena" value="<?php echo $korisnik["prezime"] ?>" required>
                   </div>
                 </div>
                 <hr>
@@ -288,7 +288,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                     <h6 class="mb-0">Email</h6>
                   </div>
                   <div class="col-sm-9 text-secondary">
-                    <input type="text" class="form-control" name="emailPromjena" id="emailPromjena" value="<?php echo $user["email"] ?>" required>
+                    <input type="text" class="form-control" name="emailPromjena" id="emailPromjena" value="<?php echo $korisnik["email"] ?>" required>
                   </div>
                 </div>
                 <hr>
@@ -305,14 +305,17 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                   <div class="col-sm-3">
                     <h6 class="mb-0">Adresa</h6>
                   </div>
-                  <div class="col-sm-9 text-secondary">
-                    <input type="text" class="form-control" name="adresaPromjena" id="adresaPromjena" value="<?php echo $user["adresa"] ?>" required>
+                  <div class="col-sm-4 text-secondary">
+                    <input type="text" class="form-control" name="adresaPromjena" id="adresaPromjena" value="<?php echo $korisnik["adresa"] ?>" required>
+                  </div>
+                  <div class="col-sm-4 text-secondary">
+                    <input type="text" class="form-control" name="prebivalistePromjena" id="prebivalistePromjena" value="<?php echo $korisnik["prebivaliste"] ?>" required>
                   </div>
                 </div>
                 <hr>
                 <div class="row">
                   <div class="col-sm-3">
-                    <h6 class="mb-0">Grad</h6>
+                    <h6 class="mb-0">Obližnji grad</h6>
                   </div>
                   <div class="col-sm-9 text-secondary">
                     <select type="text" class="form-control" name="mjestoPromjena" id="mjestoPromjena" required>
@@ -320,7 +323,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                       $sql = "SELECT * FROM gradovi";
                       $result = $con->query($sql);
                       while ($row = $result->fetch_assoc()) {
-                        $selected = ($user['mjesto'] == $row['grad_id']) ? 'selected' : ''; ?>
+                        $selected = ($korisnik['grad_id'] == $row['grad_id']) ? 'selected' : ''; ?>
                         <option value="<?php echo $row["grad_id"]; ?>" <?php echo $selected; ?>> <!-- Za promijenu grada korisnika -->
                           <?php echo $row["naziv_grada"]; ?>
                         </option>
