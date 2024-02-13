@@ -143,8 +143,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                 <div class="form-group">
                                                     <label for="unosObliznjegGrada">Odaberite obližnji grad</label>
                                                     <select type="text" class="form-control" name="unosObliznjegGrada" id="unosObliznjegGrada" required>
+                                                        <option value="" disabled selected>Odaberite grad</option>
                                                         <?php
-                                                        $sql = "SELECT * FROM gradovi";
+                                                        $sql = "SELECT * FROM gradovi ORDER BY naziv_grada ASC";
                                                         $result = $con->query($sql);
                                                         while ($row = $result->fetch_assoc()) : ?>
                                                             <option value="<?php echo $row["grad_id"]; ?>"><?php echo $row["naziv_grada"]; ?></option>
@@ -219,10 +220,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                             if ($row["status_id"] == 5) continue; // Skip the iteration if status_id is 5
                                                     ?>
 
-                                                    <label class="btn btn-secondary mb-2 animate__animated animate__fadeIn" style="width: 100%; padding: 10px 0; border-radius: 8px;">
-                                                        <input type="radio" id="customRadio<?php echo $row["status_id"]; ?>" name="unosStatusa" value="<?php echo $row["status_id"]; ?>" required hidden>
-                                                        <?php echo $row["status_naziv"]; ?>
-                                                    </label>
+                                                            <label class="btn btn-secondary mb-2 animate__animated animate__fadeIn" style="width: 100%; padding: 10px 0; border-radius: 8px;">
+                                                                <input type="radio" id="customRadio<?php echo $row["status_id"]; ?>" name="unosStatusa" value="<?php echo $row["status_id"]; ?>" required hidden>
+                                                                <?php echo $row["status_naziv"]; ?>
+                                                            </label>
 
                                                     <?php
                                                         endwhile;

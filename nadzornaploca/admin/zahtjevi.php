@@ -198,31 +198,31 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 
             <div class="card mt-3">
-                <div class="card-body">
+                <div class="card-body p-0">
                     <h4 class="text-center display-4">Zahtjevi za instruktora</h4>
                     <br>
-                    <div class="row">
-                        <div class="col-sm-2">
+                    <div class="row m-2 mx-auto">
+                        <div class="col-sm-2 text-center my-auto">
                             <span style="font-size: 1.3em;">Profilna slika</span>
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 text-center my-auto">
                             <span style="font-size: 1.3em;">Ime i prezime</span>
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 text-center my-auto">
                             <span style="font-size: 1.3em;">Status</span>
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 text-center my-auto">
                             <span style="font-size: 1.3em;">Predmeti</span>
                         </div>
 
-                        <div class="col-sm-2">
+                        <div class="col-sm-2 text-center my-auto">
                             <span style="font-size: 1.3em;">Autentikacija</span>
                         </div>
                     </div>
-                    <hr>
+                    <hr class="m-2">
                 </div>
 
                 <?php if (isset($rezultatZahtjeva) && $rezultatZahtjeva->num_rows > 0) :
@@ -241,51 +241,49 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                         }
 
                 ?>
-                        <div class="card mt-3">
-                            <div class="card-body">
-                                <form method="POST">
-                                    <div class="row m-2 mx-auto">
 
-                                        <div class="col-sm-2 text-center">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100">
-                                        </div>
+                        <form method="POST">
+                            <div class="row m-2 mx-auto">
 
-                                        <div class="col-sm-2 text-center my-auto">
-                                            <h6 class="card-text"><a class="link" href="../../profil?korisnik=<?php echo $row['korisnik_id'] ?>"><?php echo $row["ime"] . " " . $row["prezime"] ?></a></h6>
-                                        </div>
+                                <div class="col-sm-2 text-center my-auto">
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100rem">
+                                </div>
 
-                                        <div class="col-sm-2 text-center my-auto">
-                                            <h6 class="card-text"><?php echo $row["status_naziv"] ?></h6>
-                                        </div>
+                                <div class="col-sm-2 text-center my-auto">
+                                    <h6 class="card-text"><a class="link" href="../../profil?korisnik=<?php echo $row['korisnik_id'] ?>"><?php echo $row["ime"] . " " . $row["prezime"] . "<br>" ?></a><?php echo $row["status_naziv"] ?></h6>
+                                </div>
 
-                                        <div class="col-sm-2 text-center my-auto">
-                                            <h6 class="card-text"><?php foreach ($predmeti as $predmet) {
-                                                                        echo $predmet . " ";
-                                                                    } ?></h6>
-                                        </div>
+                                <div class="col-sm-2 text-center my-auto">
+                                    <h6 class="card-text"><?php echo $row['motivacija']?></h6>
+                                </div>
 
-                                        <div class="col-sm-2 text-center my-auto">
-                                            <a class="btn btn-primary" href="../<?php echo $row["autentikacija"] ?>" download>Preuzmi autentikaciju</a>
-                                            
-                                        </div>
-                                        <div class="col-sm-2 text-center my-auto">
-                                            <input type="hidden" name="korisnik_id" value="<?php echo $row['korisnik_id']; ?>">
-                                            <input type="hidden" name="zahtjev_id" value="<?php echo $row['zahtjev_id']; ?>">
-                                            <div class="col-sm-2 text-center p-1 my-auto">
-                                            <button class="btn btn-success" name="prihvatiZahtjev" type="submit">Prihvati</button>
-                                            </div> <!-- Svaki zahtjev ima svoj ID, treba za svaki ID zahtjeva sloziti LOOP da se prihvati/odbaci samo onaj koji je stisnuti a ne svi koji su u formu -->
-                                            <div class="col-sm-2 text-center p-1 my-auto">
-                                            <button class="btn btn-danger" name="odbijZahtjev" type="submit">Odbij</button>
-                                            </div>
-                                        </div>
+                                <div class="col-sm-2 text-center my-auto">
+                                    <h6 class="card-text"><?php foreach ($predmeti as $predmet) {
+                                                                echo $predmet . ", ";
+                                                            } ?></h6>
+                                </div>
 
+                                <div class="col-sm-2 text-center my-auto">
+                                    <a class="btn btn-primary" href="../<?php echo $row["autentikacija"] ?>" download>Preuzmi</a>
+
+                                </div>
+                                <div class="col-sm-2 text-center my-auto">
+                                    <input type="hidden" name="korisnik_id" value="<?php echo $row['korisnik_id']; ?>">
+                                    <input type="hidden" name="zahtjev_id" value="<?php echo $row['zahtjev_id']; ?>">
+                                    <div class="col-sm-2 text-center p-1 my-auto">
+                                        <button class="btn btn-success" name="prihvatiZahtjev" type="submit">Prihvati</button>
+                                    </div> <!-- Svaki zahtjev ima svoj ID, treba za svaki ID zahtjeva sloziti LOOP da se prihvati/odbaci samo onaj koji je stisnuti a ne svi koji su u formu -->
+                                    <div class="col-sm-2 text-center p-1 my-auto">
+                                        <button class="btn btn-danger" name="odbijZahtjev" type="submit">Odbij</button>
                                     </div>
+                                </div>
 
-                                    
-                                    <hr>
-                                </form>
                             </div>
-                        </div>
+                        </form>
+
+
+                        <hr>
+
                 <?php
                     endwhile;
                 else :
@@ -309,8 +307,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         }
     </script>
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-<script src="../../assets/js/main.js"></script>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <script src="../../assets/js/main.js"></script>
 </body>
 
 </html>

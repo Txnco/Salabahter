@@ -3,6 +3,7 @@ session_start();
 $con = require "../ukljucivanje/connection/spajanje.php";
 include("../ukljucivanje/functions/funkcije.php");
 
+
 $trenutnaStranica = "skripte";
 
 $putanjaDoPocetne = "../";
@@ -77,17 +78,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="row d-flex justify-content-center align-items-center m-2">
-                    <div class="col-sm-8 ">
+                    <div class="col-sm-6 ">
                         <div class="card mb-3">
                             <div class="card-body m-2">
                                 <form method="POST">
 
                                     <div class="row d-flex justify-content-center align-items-center mb-2">
-                                        <div class="col-sm-8">
+                                        <div class="col-sm-5">
                                             <input class="form-control mt-2 mb-2" type="search" placeholder="Pretraži skripte" name="searchTerm">
                                         </div>
-                                        <div class="col-sm">
-                                            <button class="btn btn-success mr-4" type="submit">Pretraži</button>
+                                        <div class="col-sm-5 p-1">
+                                            <button class="btn btn-success" type="submit">Pretraži</button>
                                             <a href="#postavkeTrazilice" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="postavkeTrazilice" id="filtrirajTipka">Filtriraj
                                                 <svg class="arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="display: none;">
                                                     <path d="M3.22 10.53a.749.749 0 0 1 0-1.06l4.25-4.25a.749.749 0 0 1 1.06 0l4.25 4.25a.749.749 0 1 1-1.06 1.06L8 6.811 4.28 10.53a.749.749 0 0 1-1.06 0Z"></path>
@@ -97,6 +98,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 </svg>
                                             </a>
                                         </div>
+
+                                        <?php if(isset($_SESSION['user_id'])):?>
+                                        <div class="col-sm p-1">
+                                            <a class="btn btn-success" href="nova_skripta.php" type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="white">
+                                                    <path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path>
+                                                </svg></a>
+
+                                        </div>
+                                        <?php endif; ?>
+
+
                                     </div>
 
 
@@ -221,8 +233,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         });
     </script>
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-<script src="../assets/js/main.js"></script>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <script src="../assets/js/main.js"></script>
 
 </body>
 
