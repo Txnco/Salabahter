@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 13, 2024 at 02:21 PM
+-- Generation Time: Feb 13, 2024 at 10:22 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -170,6 +170,20 @@ INSERT INTO `gradovi` (`grad_id`, `naziv_grada`, `zupanija_id`, `postanski_broj`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `grupekartica`
+--
+
+CREATE TABLE `grupekartica` (
+  `grupa_id` int(11) NOT NULL,
+  `grupa_naziv` varchar(255) DEFAULT NULL,
+  `grupa_opis` text DEFAULT NULL,
+  `datum_kreiranja` timestamp NOT NULL DEFAULT current_timestamp(),
+  `vlasnik_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `instruktori`
 --
 
@@ -230,6 +244,20 @@ INSERT INTO `instruktorovipredmeti` (`id`, `instruktor_id`, `predmet_id`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `kartice`
+--
+
+CREATE TABLE `kartice` (
+  `kartica_id` int(11) NOT NULL,
+  `pitanje` text DEFAULT NULL,
+  `odgovor` text DEFAULT NULL,
+  `datum_kreiranja` timestamp NOT NULL DEFAULT current_timestamp(),
+  `grupa_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `korisnik`
 --
 
@@ -264,7 +292,8 @@ INSERT INTO `korisnik` (`korisnik_id`, `ime`, `prezime`, `email`, `lozinka`, `ad
 (27, 'Mico', 'Miceal', 'mico@mico', '$2y$10$9E5cC/wAIl7C1XVV3HTlQunCdZfDhBRO5Ies4bp6BJxFaKQhG9GzG', 'Strukovec', 'Dunjkovec', 270, NULL, 2, 0),
 (28, 'Florijan', 'Gotal', 'sunindark00@gmail.com', '$2y$10$STQBu1Cikfkd.q7EpybUeeljBnvZxnTZlMTyu0YFD2UKxiUisA/xG', 'Špičkovina', 'Bezobraznik', 300, NULL, 2, 0),
 (29, 'Toncek', 'Ivanović', 'ton@ton', '$2y$10$p6G1.xLaWurg5FmswZia3eaXql4RKTbQaE1/yaFc6W80qNFBIEF3K', 'Srijemska ulica', 'Stefanec', 258, NULL, 2, 0),
-(33, 'Mobi', 'Mobi', 'mobi@mobi', '$2y$10$OUM.7ZzAIS3hbokj9rsevu/j.hkhXNOJTJ/Myj.mjO9daHb7lTFhu', 'Mobi', 'Mobi', 278, NULL, 2, 0);
+(33, 'Mobi', 'Mobi', 'mobi@mobi', '$2y$10$OUM.7ZzAIS3hbokj9rsevu/j.hkhXNOJTJ/Myj.mjO9daHb7lTFhu', 'Mobi', 'Mobi', 278, NULL, 2, 0),
+(35, 'Ivan', 'Mikec', 'ivan@ivan', '$2y$10$1ZcseMym4pcZGTXeqJd.fOE/d0XIeau1ha38.MwwclfFextB5i0Qi', 'Dravska 23', 'Oporovec', 302, NULL, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -324,14 +353,6 @@ CREATE TABLE `prijavarecenzije` (
   `opisPrijave` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `prijavarecenzije`
---
-
-INSERT INTO `prijavarecenzije` (`prijava_id`, `prijavljenaRecenzija`, `prijavioKorisnik`, `opisPrijave`) VALUES
-(18, 11, 13, 'Losa ocjena 1'),
-(19, 12, 13, 'Losa ocjena 2');
-
 -- --------------------------------------------------------
 
 --
@@ -351,17 +372,11 @@ CREATE TABLE `recenzije` (
 --
 
 INSERT INTO `recenzije` (`recenzija_id`, `ocjena`, `komentar`, `odKorisnika`, `zaKorisnika`) VALUES
-(1, 5, 'adsad', 13, 26),
-(2, 3, 'sdgsdg', 13, 26),
-(3, 4, 'sdgsgsg', 13, 26),
-(4, 4, 'sdgsgsg', 13, 26),
-(5, 3, 'sdgsgsdg', 13, 26),
 (7, 4, 'Mah', 13, 25),
 (8, 5, 'Bazu updejtaj! 😉', 13, 22),
 (9, 4, 'Updejtam bazu!', 22, 25),
 (10, 4, 'Dobar student i ucenik al nece da uci nista', 22, 20),
-(11, 1, 'drsd', 13, 22),
-(12, 2, 'drhdhdhdh', 13, 22);
+(14, 5, 'Odlican, sve najbolje zna matematiku', 13, 26);
 
 -- --------------------------------------------------------
 
@@ -385,9 +400,11 @@ CREATE TABLE `skripte` (
 --
 
 INSERT INTO `skripte` (`skripta_id`, `predmet_id`, `naziv_skripte`, `opis_skripte`, `broj_pregleda`, `datum_kreiranja`, `skripta_putanja`, `korisnik_id`) VALUES
-(26, 8, ' ZBIRKA ZADATAKA IZ MATEMATIKE', 'Neki opis skripe', 15, '2024-02-09', 'skripte/65c694c526225_Matematika B.pdf', 22),
-(27, 10, 'Nesto novo', 'Opet neka skripcia', 12, '2024-02-09', 'skripte/65c694ead94c7_Sigurnost Crypto Walleta.pdf', 22),
-(28, 12, 'Opet neka skripta tako to znas bratko', 'Evo napokon se dela nadajmo se da bude', 4, '2024-02-09', 'skripte/65c69542e7fa3_savjeti_prezentacije_n3.pdf', 22);
+(26, 8, ' ZBIRKA ZADATAKA IZ MATEMATIKE', 'Neki opis skripe', 19, '2024-02-09', 'skripte/65c694c526225_Matematika B.pdf', 22),
+(27, 10, 'Nesto novo', 'Opet neka skripcia', 13, '2024-02-09', 'skripte/65c694ead94c7_Sigurnost Crypto Walleta.pdf', 22),
+(28, 12, 'Opet neka skripta tako to znas bratko', 'Evo napokon se dela nadajmo se da bude', 6, '2024-02-09', 'skripte/65c69542e7fa3_savjeti_prezentacije_n3.pdf', 22),
+(29, 9, ' ZBIRKA ZADATAKA IZ MATEMATIKE', 'aasd', 2, '2024-02-13', 'skripte/65cbd15f51776_progit.pdf', 13),
+(30, 10, 'asd', 'asdasda', 2, '2024-02-13', 'skripte/65cbd16d953f7_Uspjesna_prezentacija_izlaganje.pdf', 13);
 
 -- --------------------------------------------------------
 
@@ -482,6 +499,13 @@ ALTER TABLE `gradovi`
   ADD KEY `zupanija_id` (`zupanija_id`);
 
 --
+-- Indexes for table `grupekartica`
+--
+ALTER TABLE `grupekartica`
+  ADD PRIMARY KEY (`grupa_id`),
+  ADD KEY `vlasnik_id` (`vlasnik_id`);
+
+--
 -- Indexes for table `instruktori`
 --
 ALTER TABLE `instruktori`
@@ -496,6 +520,13 @@ ALTER TABLE `instruktorovipredmeti`
   ADD PRIMARY KEY (`id`),
   ADD KEY `instruktor_id` (`instruktor_id`),
   ADD KEY `predmet_id` (`predmet_id`);
+
+--
+-- Indexes for table `kartice`
+--
+ALTER TABLE `kartice`
+  ADD PRIMARY KEY (`kartica_id`),
+  ADD KEY `grupa_id` (`grupa_id`);
 
 --
 -- Indexes for table `korisnik`
@@ -583,6 +614,12 @@ ALTER TABLE `gradovi`
   MODIFY `grad_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=385;
 
 --
+-- AUTO_INCREMENT for table `grupekartica`
+--
+ALTER TABLE `grupekartica`
+  MODIFY `grupa_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `instruktori`
 --
 ALTER TABLE `instruktori`
@@ -595,10 +632,16 @@ ALTER TABLE `instruktorovipredmeti`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
+-- AUTO_INCREMENT for table `kartice`
+--
+ALTER TABLE `kartice`
+  MODIFY `kartica_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `korisnik`
 --
 ALTER TABLE `korisnik`
-  MODIFY `korisnik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `korisnik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `predmeti`
@@ -616,19 +659,19 @@ ALTER TABLE `predmetizahtjeva`
 -- AUTO_INCREMENT for table `prijavarecenzije`
 --
 ALTER TABLE `prijavarecenzije`
-  MODIFY `prijava_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `prijava_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `recenzije`
 --
 ALTER TABLE `recenzije`
-  MODIFY `recenzija_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `recenzija_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `skripte`
 --
 ALTER TABLE `skripte`
-  MODIFY `skripta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `skripta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `zahtjevzainstruktora`
@@ -653,6 +696,12 @@ ALTER TABLE `gradovi`
   ADD CONSTRAINT `gradovi_ibfk_1` FOREIGN KEY (`zupanija_id`) REFERENCES `zupanija` (`zupanija_id`);
 
 --
+-- Constraints for table `grupekartica`
+--
+ALTER TABLE `grupekartica`
+  ADD CONSTRAINT `grupekartica_ibfk_1` FOREIGN KEY (`vlasnik_id`) REFERENCES `korisnik` (`korisnik_id`);
+
+--
 -- Constraints for table `instruktori`
 --
 ALTER TABLE `instruktori`
@@ -664,6 +713,12 @@ ALTER TABLE `instruktori`
 ALTER TABLE `instruktorovipredmeti`
   ADD CONSTRAINT `instruktorovipredmeti_ibfk_1` FOREIGN KEY (`instruktor_id`) REFERENCES `instruktori` (`instruktor_id`),
   ADD CONSTRAINT `instruktorovipredmeti_ibfk_2` FOREIGN KEY (`predmet_id`) REFERENCES `predmeti` (`predmet_id`);
+
+--
+-- Constraints for table `kartice`
+--
+ALTER TABLE `kartice`
+  ADD CONSTRAINT `kartice_ibfk_1` FOREIGN KEY (`grupa_id`) REFERENCES `grupekartica` (`grupa_id`);
 
 --
 -- Constraints for table `korisnik`
