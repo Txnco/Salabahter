@@ -382,7 +382,7 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
      
     </div>
   </div>
-
+  <script src="../assets/js/main.js"></script>
 
 </body>
 

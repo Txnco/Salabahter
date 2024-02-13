@@ -23,7 +23,7 @@ include("../ukljucivanje/functions/funkcije.php");
 // Provjera prijave korisnika
 $user = provjeri_prijavu($con);
 if (!isset($_SESSION["user_id"])) {
-    header("Location: ../account/login.php");
+    header("Location: ../racun/prijava.php");
     exit;
 }
 
@@ -167,6 +167,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </div>
+
+    <script src="../assets/js/main.js"></script>
+
 </body>
 
 </html>
