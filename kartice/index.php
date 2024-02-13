@@ -3,12 +3,12 @@ session_start();
 $con = require "../ukljucivanje/connection/spajanje.php";
 include("../ukljucivanje/functions/funkcije.php");
 
-$trenutnaStranica = "skripte";
+$trenutnaStranica = "kartice";
 
 $putanjaDoPocetne = "../";
 $putanjaDoInstruktora = "../instruktori.php";
 $putanjaDoSkripta = "../skripte/";
-$putanjaDoKartica = "../kartice/";
+$putanjaDoKartica = "../kartice.php";
 $putanjaDoOnama = "../onama.php";
 
 $putanjaDoPrijave = "../racun/prijava.php";
@@ -28,21 +28,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $selectedSubject = $_POST["selectedSubject"];
 
     // SQL query to search scripts
-    $sql = "SELECT skripte.*, predmeti.naziv_predmeta, predmeti.predmet_boja FROM skripte INNER JOIN predmeti ON skripte.predmet_id = predmeti.predmet_id WHERE 1=1";
+    $sql = "SELECT * FROM grupekartica";
 
     if (!empty($searchTerm)) {
-        $sql .= " AND (skripte.naziv_skripte LIKE '%$searchTerm%' OR skripte.opis_skripte LIKE '%$searchTerm%' OR predmeti.naziv_predmeta LIKE '%$searchTerm%')";
+        $sql .= " WHERE (grupa_naziv LIKE '%$searchTerm%' OR grupa_opis LIKE '%$searchTerm%')";
     }
 
     if (!empty($selectedSubject)) {
-        $sql .= " AND skripte.predmet_id = $selectedSubject";
+        if (strpos($sql, 'WHERE') !== false) {
+            
+            $sql .= " AND predmet_id = '$selectedSubject'";
+        } else {
+            
+            $sql .= " WHERE predmet_id = '$selectedSubject'";
+        }
     }
+
 
     // Execute the SQL query to search scripts
     $result = $con->query($sql);
 } else {
     // SQL upit za dohvaćanje svih skripti
-    $sql = "SELECT * FROM skripte";
+    $sql = "SELECT * FROM grupekartica";
     $result = $con->query($sql);
 }
 
@@ -55,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pretraži Skripte</title>
+    <title>Pretraži grupe kartica za ponavljanje</title>
 
     <?php include '../assets/css/stiliranjeSporedno.php'; ?> <!-- Sve poveznice za stil web stranice -->
 
@@ -63,7 +70,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
 
-    <?php include '../ukljucivanje/header.php'; ?>
+    <?php include '../ukljucivanje/header.php'; 
+    ?>
 
     <div class="justify-content-md-center mb-4">
 
@@ -71,8 +79,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="container ">
                 <div class="row">
                     <div class="col-lg-6 mx-auto mt-5">
-                        <h1 class="display-4 " style="color: #FFFFFF;">Pretraži Skripte</h1>
-                        <p class="lead" style="color: #FFFFFF;">Pretražite skripte koje su objavili naši korisnici i uživajte u besplatnim </br> pogodnostima platforme Šalabahter, ili <a href="nova_skripta.phps">objavite skriptu samostalno</a> i pomognite ostalima.</p>
+                        <h1 class="display-4 " style="color: #FFFFFF;">Pretraži kartice za ponavljanje</h1>
+                        <p class="lead" style="color: #FFFFFF;">Pretražite grupe kartica za ponavljanje iz nekog područja</br>  koje su objavili naši korisnici, ili učite i <a href="nova_grupa.php">izradite kartice </a> samostalno.</p>
                     </div>
                 </div>
 
@@ -84,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                     <div class="row d-flex justify-content-center align-items-center mb-2">
                                         <div class="col-sm-8">
-                                            <input class="form-control mt-2 mb-2" type="search" placeholder="Pretraži skripte" name="searchTerm">
+                                            <input class="form-control mt-2 mb-2" type="search" placeholder="Pretraži kartice" name="searchTerm">
                                         </div>
                                         <div class="col-sm">
                                             <button class="btn btn-success mr-4" type="submit">Pretraži</button>
@@ -116,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             </div>
 
                                             <div class="col-sm d-flex justify-content-center align-self-end">
-                                                <a href="../skripte/" class="btn btn-outline-danger">Izbriši filter</a>
+                                                <a href="../kartice/" class="btn btn-outline-danger">Izbriši filter</a>
                                             </div>
                                         </div>
                                     </div>
@@ -136,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="col">
                         <div class="row">
                             <?php
-                            // Prikaz rezultata
+                            
                             if (isset($result) > 0) :
                                 while ($row = $result->fetch_assoc()) :
                                     $predmet_id = $row['predmet_id'];
@@ -150,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                     <div class="mt-3">
 
                                                         <h5 class="card-title">
-                                                            <?php echo (strlen($row["naziv_skripte"]) > 40) ? substr($row["naziv_skripte"], 0, 40) . '...' : $row["naziv_skripte"]; ?>
+                                                            <?php echo (strlen($row["grupa_naziv"]) > 40) ? substr($row["grupa_naziv"], 0, 40) . '...' : $row["grupa_naziv"]; ?>
                                                         </h5>
 
                                                         <?php
@@ -165,14 +173,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                         endif;
                                                         ?>
                                                         <p class="card-text">
-                                                            <?php echo (strlen($row["opis_skripte"]) > 120) ? substr($row["opis_skripte"], 0, 120) . '...' : $row["opis_skripte"]; ?>
+                                                            <?php echo (strlen($row["grupa_opis"]) > 120) ? substr($row["grupa_opis"], 0, 120) . '...' : $row["grupa_opis"]; ?>
                                                         </p>
                                                     </div>
 
                                                     <div class="row mt-auto">
                                                         <div class="col">
-                                                            <a href="skripta.php?skripta_id=<?php echo $row["skripta_id"]; ?>" class="btn btn-primary">Pregledaj</a>
-                                                            <a href="<?php echo $row["skripta_putanja"]; ?>" class="btn btn-primary" download>Preuzmi PDF</a>
+                                                            <a href="grupakartica.php?grupa_id=<?php echo $row["grupa_id"]; ?>" class="btn btn-primary">Pregledaj</a>
                                                         </div>
                                                     </div>
 

@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS grupekartica (
+    grupa_id INT AUTO_INCREMENT PRIMARY KEY,
+    grupa_naziv VARCHAR(255),
+    grupa_opis TEXT,
+    datum_kreiranja TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    vlasnik_id INT,
+    FOREIGN KEY (vlasnik_id) REFERENCES korisnik(korisnik_id)
+);
+
+CREATE TABLE IF NOT EXISTS kartice (
+    kartica_id INT AUTO_INCREMENT PRIMARY KEY,
+    k_prednja_strana TEXT,
+    k_zadnja_strana TEXT,
+    datum_kreiranja TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    grupa_id INT,
+    FOREIGN KEY (grupa_id) REFERENCES grupekartica(grupa_id)
+);
+ALTER TABLE grupekartica
+ADD COLUMN javno BOOL NOT NULL DEFAULT 0;
+
+ALTER TABLE grupekartica
+ADD COLUMN predmet_id INT,
+ADD CONSTRAINT fk_predmet_id
+FOREIGN KEY (predmet_id) REFERENCES predmeti(predmet_id);

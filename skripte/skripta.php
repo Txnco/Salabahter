@@ -8,7 +8,7 @@ $trenutnaStranica = "skripte";
 $putanjaDoPocetne = "../";
 $putanjaDoInstruktora = "../instruktori.php";
 $putanjaDoSkripta = "../skripte/";
-$putanjaDoKartica = "../kartice.php";
+$putanjaDoKartica = "../kartice/";
 $putanjaDoOnama = "../onama.php";
 
 $putanjaDoPrijave = "../racun/prijava.php";
@@ -19,25 +19,25 @@ $putanjaDoOdjave = "../racun/odjava.php";
 
 
 $skripta_id = $_GET['skripta_id'];
-$sqlSkripta = "SELECT * FROM skripte WHERE skripta_id = $skripta_id";
-$resultSkripta = $con->query($sqlSkripta);
+$sqlGrupa = "SELECT * FROM skripte WHERE skripta_id = $skripta_id";
+$rezultatSkripta = $con->query($sqlGrupa);
 
-if($rowSkripta = $resultSkripta->fetch_assoc()){
+if($redSkripta = $rezultatSkripta->fetch_assoc()){
 
-    $nazivSkripte = $rowSkripta['naziv_skripte'];
-    $skripta_putanja = $rowSkripta['skripta_putanja'];
-    $opisSkripte = $rowSkripta['opis_skripte'];
-    $predmet_id = $rowSkripta['predmet_id'];
-    $brojpregleda= $rowSkripta['broj_pregleda'];
-    $datum = date('d.m.Y', strtotime($rowSkripta['datum_kreiranja']));
+    $nazivSkripte = $redSkripta['naziv_skripte'];
+    $skripta_putanja = $redSkripta['skripta_putanja'];
+    $opisSkripte = $redSkripta['opis_skripte'];
+    $predmet_id = $redSkripta['predmet_id'];
+    $brojpregleda= $redSkripta['broj_pregleda'];
+    $datum = date('d.m.Y', strtotime($redSkripta['datum_kreiranja']));
     
-    $putanjaDoOdabraneSkripte = $rowSkripta['skripta_putanja'];
-    $kreator_id = $rowSkripta['korisnik_id'];
-    $imePrezimeKorisnika = dohvatipodatkekreatora($kreator_id);
+    $putanjaDoOdabraneSkripte = $redSkripta['skripta_putanja'];
+    $kreator_id = $redSkripta['korisnik_id'];
+    $imePrezimeKorisnika = dohvatipodatkevlasnika($kreator_id);
     
     $sqlPredmet = "SELECT naziv_predmeta, predmet_boja FROM predmeti WHERE predmet_id = $predmet_id";
-    $resultPredmet = $con->query($sqlPredmet);
-    $redPredmet = $resultPredmet->fetch_assoc();
+    $rezultatPredmet = $con->query($sqlPredmet);
+    $redPredmet = $rezultatPredmet->fetch_assoc();
     $predmetNaziv = $redPredmet['naziv_predmeta'];
     $predmetBoja = $redPredmet['predmet_boja'];
     
@@ -64,7 +64,7 @@ if($rowSkripta = $resultSkripta->fetch_assoc()){
 
 
 
-function dohvatipodatkekreatora($kreator_id)
+function dohvatipodatkevlasnika($kreator_id)
 {
 
     $con = require "../ukljucivanje/connection/spajanje.php";
@@ -160,7 +160,7 @@ function dohvatipodatkekreatora($kreator_id)
             $opisSlicneSkripte = $rowSlicneSkripte['opis_skripte'];
             $slicna_skripta_id = $rowSlicneSkripte['skripta_id'];
             $kreator_id = $rowSlicneSkripte['korisnik_id'];
-            $imePrezimeKorisnika = dohvatipodatkekreatora($kreator_id);
+            $imePrezimeKorisnika = dohvatipodatkevlasnika($kreator_id);
             $datum = date('d.m.Y', strtotime($rowSlicneSkripte['datum_kreiranja']));
             echo '
                 <div class="col-md-4">
@@ -169,8 +169,8 @@ function dohvatipodatkekreatora($kreator_id)
                         <h5 class="card-title">' . ((strlen($nazivSlicneSkripte) > 40) ? substr($nazivSlicneSkripte, 0, 40) . '...' : $nazivSlicneSkripte) . '</h5>
                         ';
                         $predmet_id = $rowSlicneSkripte['predmet_id'];
-                        $predmetSkripte= "SELECT  naziv_predmeta, predmet_boja FROM  predmeti WHERE predmet_id = $predmet_id";
-                        $rezultatPredmeta = $con->query($predmetSkripte);
+                        $predmetGrupe= "SELECT  naziv_predmeta, predmet_boja FROM  predmeti WHERE predmet_id = $predmet_id";
+                        $rezultatPredmeta = $con->query($predmetGrupe);
                                                                 
                         if ($rezultatPredmeta->num_rows > 0) {
                             while ($predmetRed = $rezultatPredmeta->fetch_assoc()) {
