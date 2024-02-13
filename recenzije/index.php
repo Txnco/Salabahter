@@ -175,6 +175,7 @@ echo $korisnik['korisnik_id'] . " " . $korisnik['status_naziv'] . " " . $korisni
     <script src="https://code.jquery.com/jquery-3.7.1.js"> </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
     <script src="../assets/js/main.js"></script>
 
 </body>
