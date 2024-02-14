@@ -25,7 +25,7 @@ if (!$user) {
 
 $userPrava = check_privilegeUser($con); // Provjeri da li je korisnik admin
 if (isset($userPrava)) { // Ako je korisnik admin onda se preusmjeri na admin dashboard
-  if ($userPrava['status_korisnika'] == 5) {
+  if ($userPrava['status_korisnika'] == 3678) {
     $isAdmin = $_SESSION['isAdmin'];
     header("Location: admin/");
     die;

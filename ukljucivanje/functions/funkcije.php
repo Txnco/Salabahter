@@ -19,13 +19,13 @@ function check_privilegeUser($con){ //Funkcija za provjeru je li korisnik prijav
     if(isset($_SESSION["user_id"])){
     
         $sql = "SELECT * FROM korisnik
-                WHERE status_korisnika = 5 AND korisnik_id = {$_SESSION['user_id']}";
+                WHERE status_korisnika = 3678 AND korisnik_id = {$_SESSION['user_id']}";
     
         $result = $con->query($sql);
     
         $user = $result->fetch_assoc(); //Posprema sve korisnikove podatke u $user varijablu
         if(isset($user)){ // Ako korisnik ima prava administratora postavi mu session varijablu isAdmin na true
-            if($user['status_korisnika']==5){
+            if($user['status_korisnika']==3678){
                 $_SESSION["isAdmin"] = true;
             }
             

@@ -1,6 +1,7 @@
 <?php
 
 $trenutnaStranica = "račun";
+$trenutnaStranica2 = "zahtjevi";
 
 $putanjaDoPocetne = "../../";
 $putanjaDoInstruktora = "../../instruktori.php";
@@ -24,9 +25,9 @@ if (!$user) {
     die;
 }
 $user = check_privilegeUser($con); // Provjera privilegija
-if ($user['status_korisnika'] == 5) {
+if ($user['status_korisnika'] == 3678) {
     $isAdmin = $_SESSION['isAdmin'];
-} else if ($user['status_korisnika'] != 5) {
+} else if ($user['status_korisnika'] != 3678) {
     header("Location: ../");
     die;
 }
@@ -158,8 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     <!-- Favicons -->
     <link href="../../assets/img/writing.png" rel="icon">
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
 
@@ -174,7 +174,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     <!-- Glavni prefložak za CSS  -->
     <link href="../../assets/css/style.css" rel="stylesheet">
 
-    <link href="../../assets/css/dashboard.css" rel="stylesheet">
+    <link href="../../assets/css/nadzornaploca.css" rel="stylesheet">
 
 </head>
 
@@ -195,100 +195,105 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             </nav>
             <!-- /Breadcrumb -->
 
+            <div class="row gutters-sm">
+                <?php include 'izbornik.php'; ?>
 
 
-            <div class="card mt-3">
-                <div class="card-body p-0">
-                    <h4 class="text-center display-4">Zahtjevi za instruktora</h4>
-                    <br>
-                    <div class="row m-2 mx-auto">
-                        <div class="col-sm-2 text-center my-auto">
-                            <span style="font-size: 1.3em;">Profilna slika</span>
-                        </div>
-
-                        <div class="col-sm-2 text-center my-auto">
-                            <span style="font-size: 1.3em;">Ime i prezime</span>
-                        </div>
-
-                        <div class="col-sm-2 text-center my-auto">
-                            <span style="font-size: 1.3em;">Status</span>
-                        </div>
-
-                        <div class="col-sm-2 text-center my-auto">
-                            <span style="font-size: 1.3em;">Predmeti</span>
-                        </div>
-
-                        <div class="col-sm-2 text-center my-auto">
-                            <span style="font-size: 1.3em;">Autentikacija</span>
-                        </div>
-                    </div>
-                    <hr class="m-2">
-                </div>
-
-                <?php if (isset($rezultatZahtjeva) && $rezultatZahtjeva->num_rows > 0) :
-                    while ($row = $rezultatZahtjeva->fetch_assoc()) : // Prikaz svih zahtjeva za instruktora
-
-                        // Dohvaćanje predmeta za pojedini zahtjev za instruktora
-                        $zahtjevZaPredmete = "SELECT naziv_predmeta FROM predmetizahtjeva,predmeti,zahtjevzainstruktora,korisnik WHERE predmetizahtjeva.predmet_id = predmeti.predmet_id AND  predmetizahtjeva.zahtjev_id = {$row['zahtjev_id']} AND zahtjevzainstruktora.korisnik_id = korisnik.korisnik_id AND korisnik.korisnik_id = {$row['korisnik_id']}   ";
-                        $rezultatPredmeta = $con->query($zahtjevZaPredmete);
-
-                        // Spremanje predmeta u polje jer instruktor može predavati više predmeta
-                        $predmeti = array();
-                        if ($rezultatPredmeta->num_rows > 0) {
-                            while ($predmetRow = $rezultatPredmeta->fetch_assoc()) {
-                                $predmeti[] = $predmetRow['naziv_predmeta'];
-                            }
-                        }
-
-                ?>
-
-                        <form method="POST">
+                <div class="col-sm-9">
+                    <div class="card">
+                        <div class="card-body p-0">
+                            <h2 class="text-center mt-3">Zahtjevi za instruktora</h2>
+                            <br>
                             <div class="row m-2 mx-auto">
-
                                 <div class="col-sm-2 text-center my-auto">
-                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100rem">
+                                    <span style="font-size: 1em;">Profilna slika</span>
                                 </div>
 
                                 <div class="col-sm-2 text-center my-auto">
-                                    <h6 class="card-text"><a class="link" href="../../profil?korisnik=<?php echo $row['korisnik_id'] ?>"><?php echo $row["ime"] . " " . $row["prezime"] . "<br>" ?></a><?php echo $row["status_naziv"] ?></h6>
+                                    <span style="font-size: 1em;">Ime i prezime</span>
                                 </div>
 
                                 <div class="col-sm-2 text-center my-auto">
-                                    <h6 class="card-text"><?php echo $row['motivacija']?></h6>
+                                    <span style="font-size: 1em;">Status</span>
                                 </div>
 
                                 <div class="col-sm-2 text-center my-auto">
-                                    <h6 class="card-text"><?php foreach ($predmeti as $predmet) {
-                                                                echo $predmet . ", ";
-                                                            } ?></h6>
+                                    <span style="font-size: 1em;">Predmeti</span>
                                 </div>
 
                                 <div class="col-sm-2 text-center my-auto">
-                                    <a class="btn btn-primary" href="../<?php echo $row["autentikacija"] ?>" download>Preuzmi</a>
-
+                                    <span style="font-size: 1em;">Autentikacija</span>
                                 </div>
-                                <div class="col-sm-2 text-center my-auto">
-                                    <input type="hidden" name="korisnik_id" value="<?php echo $row['korisnik_id']; ?>">
-                                    <input type="hidden" name="zahtjev_id" value="<?php echo $row['zahtjev_id']; ?>">
-                                    <div class="col-sm-2 text-center p-1 my-auto">
-                                        <button class="btn btn-success" name="prihvatiZahtjev" type="submit">Prihvati</button>
-                                    </div> <!-- Svaki zahtjev ima svoj ID, treba za svaki ID zahtjeva sloziti LOOP da se prihvati/odbaci samo onaj koji je stisnuti a ne svi koji su u formu -->
-                                    <div class="col-sm-2 text-center p-1 my-auto">
-                                        <button class="btn btn-danger" name="odbijZahtjev" type="submit">Odbij</button>
-                                    </div>
-                                </div>
-
                             </div>
-                        </form>
+                            <hr class="m-2">
+                        </div>
+
+                        <?php if (isset($rezultatZahtjeva) && $rezultatZahtjeva->num_rows > 0) :
+                            while ($row = $rezultatZahtjeva->fetch_assoc()) : // Prikaz svih zahtjeva za instruktora
+
+                                // Dohvaćanje predmeta za pojedini zahtjev za instruktora
+                                $zahtjevZaPredmete = "SELECT naziv_predmeta FROM predmetizahtjeva,predmeti,zahtjevzainstruktora,korisnik WHERE predmetizahtjeva.predmet_id = predmeti.predmet_id AND  predmetizahtjeva.zahtjev_id = {$row['zahtjev_id']} AND zahtjevzainstruktora.korisnik_id = korisnik.korisnik_id AND korisnik.korisnik_id = {$row['korisnik_id']}   ";
+                                $rezultatPredmeta = $con->query($zahtjevZaPredmete);
+
+                                // Spremanje predmeta u polje jer instruktor može predavati više predmeta
+                                $predmeti = array();
+                                if ($rezultatPredmeta->num_rows > 0) {
+                                    while ($predmetRow = $rezultatPredmeta->fetch_assoc()) {
+                                        $predmeti[] = $predmetRow['naziv_predmeta'];
+                                    }
+                                }
+
+                        ?>
+
+                                <form method="POST">
+                                    <div class="row m-2 mx-auto">
+
+                                        <div class="col-sm-2 text-center my-auto">
+                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100rem">
+                                        </div>
+
+                                        <div class="col-sm-2 text-center my-auto">
+                                            <h6 class="card-text"><a class="link" href="../../profil?korisnik=<?php echo $row['korisnik_id'] ?>"><?php echo $row["ime"] . " " . $row["prezime"] . "<br>" ?></a><?php echo $row["status_naziv"] ?></h6>
+                                        </div>
+
+                                        <div class="col-sm-2 text-center my-auto">
+                                            <h6 class="card-text"><?php echo $row['motivacija'] ?></h6>
+                                        </div>
+
+                                        <div class="col-sm-2 text-center my-auto">
+                                            <h6 class="card-text"><?php foreach ($predmeti as $predmet) {
+                                                                        echo $predmet . ", ";
+                                                                    } ?></h6>
+                                        </div>
+
+                                        <div class="col-sm-2 text-center my-auto">
+                                            <a class="btn btn-primary" href="../<?php echo $row["autentikacija"] ?>" download>Preuzmi</a>
+
+                                        </div>
+                                        <div class="col-sm-2 text-center my-auto">
+                                            <input type="hidden" name="korisnik_id" value="<?php echo $row['korisnik_id']; ?>">
+                                            <input type="hidden" name="zahtjev_id" value="<?php echo $row['zahtjev_id']; ?>">
+                                            <div class="col-sm-2 text-center p-1 my-auto">
+                                                <button class="btn btn-success" name="prihvatiZahtjev" type="submit">Prihvati</button>
+                                            </div> <!-- Svaki zahtjev ima svoj ID, treba za svaki ID zahtjeva sloziti LOOP da se prihvati/odbaci samo onaj koji je stisnuti a ne svi koji su u formu -->
+                                            <div class="col-sm-2 text-center p-1 my-auto">
+                                                <button class="btn btn-danger" name="odbijZahtjev" type="submit">Odbij</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
 
 
-                        <hr>
+                                <hr>
 
-                <?php
-                    endwhile;
-                else :
-                    echo "Nema rezultata za zahtjev";
-                endif; ?>
+                        <?php
+                            endwhile;
+                        else :
+                            echo "<span class='text m-4'>Trenutno nema zahtjeva</span>";
+                        endif; ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

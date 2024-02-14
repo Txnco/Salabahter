@@ -1,6 +1,7 @@
 <?php
 
 $trenutnaStranica = "račun";
+$trenutnaStranica2 = "račun";
 
 $putanjaDoPocetne = "../../";
 $putanjaDoInstruktora = "../../instruktori.php";
@@ -24,9 +25,9 @@ if (!$user) {
   die;
 }
 $user = check_privilegeUser($con);
-if ($user['status_korisnika'] == 5) {
+if ($user['status_korisnika'] == 3678) {
   $isAdmin = $_SESSION['isAdmin'];
-} else if ($user['status_korisnika'] != 5) {
+} else if ($user['status_korisnika'] != 3678) {
   header("Location: ../");
   die;
 }
@@ -64,7 +65,8 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     header("Location: ../admin");
     die;
-  }  if (isset($_POST['upisPromjena'])) { // Upisivanje promjena korisničkih podataka u bazu
+  }
+  if (isset($_POST['upisPromjena'])) { // Upisivanje promjena korisničkih podataka u bazu
 
     $promjenaImena = $_POST['imePromjena'];
     $promjenaPrezimena = $_POST['prezimePromjena'];
@@ -153,8 +155,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
   <!-- Ikone -->
   <link href="../../assets/img/writing.png" rel="icon">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
 
@@ -169,7 +170,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
   <!-- Glavni prefložak za CSS  -->
   <link href="../../assets/css/style.css" rel="stylesheet">
 
-  <link href="../../assets/css/dashboard.css" rel="stylesheet">
+  <link href="../../assets/css/nadzornaploca.css" rel="stylesheet">
 
 </head>
 
@@ -191,7 +192,10 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
 
 
       <div class="row gutters-sm">
-        <div class="col-md-4 mb-3">
+        
+      <?php include 'izbornik.php'; ?>
+
+        <div class="col-md-3 mb-3">
           <div class="card">
             <div class="card-body">
               <div class="d-flex flex-column align-items-center text-center">
@@ -200,48 +204,22 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                   <h4> <?php echo $korisnik["ime"] . " " . $korisnik["prezime"] ?></h4>
                   <?php if ($isAdmin == 1) : //provjerava se ako je korisnik admin 
                   ?>
-                    <p class="text-muted font-size-sm"><i>Admin</i></p>
+                    <p class="text-muted font-size-sm"><i>Administrator</i></p>
                   <?php endif; ?>
-                  <p class="text-secondary mb-1">
-                    <?php echo $korisnik['status_naziv']; ?></p>
                   <p class="text-muted font-size-sm"><?php echo $korisnik["adresa"] . ",  ";
                                                       echo $korisnik['prebivaliste']; ?></p>
                   <?php if ($korisnikJeInstruktor) : ?> <!-- Ako je korisnik instruktor makne se tipka postani instruktor -->
-                    <label class="btn btn-outline-primary">Instruktor</label>
+                    <label class="btn btn-administrator">Instruktor</label>
                   <?php elseif (!isset($zahtjev)) : ?>
-                    <a class="btn btn-outline-primary" name="postaniInstruktor" href="../zahtjev.php">Postani instruktor</a>
+                    <a class="btn btn-administrator" name="postaniInstruktor" href="../zahtjev.php">Postani instruktor</a>
                   <?php else : ?>
-                    <label class="btn btn-outline-primary">Zahtjev poslan</label>
+                    <label class="btn btn-administrator">Zahtjev poslan</label>
                   <?php endif; ?>
                 </div>
               </div>
             </div>
           </div>
 
-
-          <div class="card mt-3">
-            <div class="card-body d-flex justify-content-center align-items-center">
-              <a class="mr-auto text-secondary " href="zahtjevi.php">Zahtjevi za instruktora</a>
-              <span class="ml-auto text-danger align-middle"> <?php if (isset($brojZahtjeva) > 0) {
-                                                                echo $brojZahtjeva;
-                                                              } else echo '0'; ?> </span>
-              <svg class="ml-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                <path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path>
-              </svg>
-            </div>
-          </div>
-
-          <div class="card mt-3">
-            <div class="card-body d-flex justify-content-center align-items-center">
-              <a class="mr-auto text-secondary " href="prijaverecenzija.php">Prijave recenzija</a>
-              <span class="ml-auto text-danger align-middle"> <?php if (isset($brojPrijavaRecenzija) > 0) {
-                                                                echo $brojPrijavaRecenzija;
-                                                              } else echo '0'; ?> </span>
-              <svg class="ml-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                <path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path>
-              </svg>
-            </div>
-          </div>
 
 
           <?php if ($isAdmin == 1) : ?> <!-- Ako je korisnik Admin onda može dodati predmet -->
@@ -254,55 +232,43 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                   <input type="text" class="form-control" name="upisPredmeta" id="upisPredmeta">
                 </div>
                 <div class="col-sm-12 mb-4">
-                  <button class="btn btn-info" name="upisPredmet" type="submit">Upisi predmet</button>
+                  <button class="btn btn-administrator" name="upisPredmet" type="submit">Upisi predmet</button>
                 </div>
                 <form>
             </div>
           <?php endif; ?>
 
         </div>
-        <div class="col-md-8">
-        <div class="card mb-3">
+        <div class="col-sm-6">
+          <div class="card mb-3">
             <div class="card-body">
               <form method="post">
                 <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-3 align-self-center">
                     <h6 class="mb-0">Ime</h6>
                   </div>
-                  <div class="col-sm-5 text-secondary">
+                  <div class="col-sm-3 text-secondary">
                     <input type="text" class="form-control" name="imePromjena" id="imePromjena" value="<?php echo $korisnik["ime"] ?>" required>
                   </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-2 align-self-center">
                     <h6 class="mb-0">Prezime</h6>
                   </div>
-                  <div class="col-sm-5 text-secondary">
+                  <div class="col-sm-3 text-secondary">
                     <input type="text" class="form-control" name="prezimePromjena" id="prezimePromjena" value="<?php echo $korisnik["prezime"] ?>" required>
                   </div>
                 </div>
                 <hr>
                 <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-3 align-self-center">
                     <h6 class="mb-0">Email</h6>
                   </div>
-                  <div class="col-sm-9 text-secondary">
+                  <div class="col-sm-5 text-secondary">
                     <input type="text" class="form-control" name="emailPromjena" id="emailPromjena" value="<?php echo $korisnik["email"] ?>" required>
                   </div>
                 </div>
                 <hr>
                 <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">Phone</h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    Ako ocemo dodamo
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-3 align-self-center">
                     <h6 class="mb-0">Adresa</h6>
                   </div>
                   <div class="col-sm-4 text-secondary">
@@ -314,10 +280,10 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                 </div>
                 <hr>
                 <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-3 align-self-center">
                     <h6 class="mb-0">Obližnji grad</h6>
                   </div>
-                  <div class="col-sm-9 text-secondary">
+                  <div class="col-sm-5 text-secondary">
                     <select type="text" class="form-control" name="mjestoPromjena" id="mjestoPromjena" required>
                       <?php
                       $sql = "SELECT * FROM gradovi";
@@ -334,7 +300,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                 <hr>
                 <div class="row">
                   <div class="col-sm-12">
-                    <button class="btn btn-info" name="upisPromjena" type="submit">Spremi promjene</button>
+                    <button class="btn btn-administrator" name="upisPromjena" type="submit">Spremi promjene</button>
                   </div>
                 </div>
               </form>
@@ -394,6 +360,12 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
       </div>
 
     </div>
+
+  </div>
+
+
+  <div class="row gutters-sm">
+
   </div>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 

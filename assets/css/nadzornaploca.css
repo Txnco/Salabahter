@@ -1,7 +1,8 @@
 body{
     color: #1a202c;
     text-align: left;
-    background-color: #e7e7e7;    
+    background-color: #e7e7e7;  
+    font-family: 'Poppins', sans-serif;  
 }
 .main-body {
     padding: 15px;
@@ -49,4 +50,43 @@ body{
 }
 .shadow-none {
     box-shadow: none!important;
+}
+
+.form-control{
+    background-color: #ffffff;
+}
+
+.nav-item{
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+}
+
+.nav-link{
+    color: #653fc6;
+    border-radius: 0.4rem;
+}
+
+.nav-link:hover{
+    background-color: #8e70da;
+    color: #FFFFFF;
+    border-radius: 0.4rem;
+}
+
+
+.aktivno{
+    background-color: #6746b9;
+    color: #FFFFFF;
+    border-radius: 0.4rem;
+}
+
+.btn-administrator{
+    background-color: #956bff;
+    color: #FFFFFF;
+    border-radius: 0.4rem;
+}
+
+.btn-administrator:hover{
+    background-color: #8e70da;
+    color: #FFFFFF;
+    border-radius: 0.4rem;
 }

@@ -8,54 +8,59 @@ $status1 = $con->query($sql);
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    $ime = $_POST['unosIme'];
-    $prezime = $_POST['unosPrezime'];
-    $adresa = $_POST['unosAdrese'];
-    $prebivaliste = $_POST['unosMjesta'];
-    $grad = $_POST['unosObliznjegGrada'];
-    $email = $_POST['unosEposte'];
-    $password = $_POST['unosLozinke'];
+
     $status = $_POST['unosStatusa'];
+    if (0 < $status && $status < 4) {
 
-    if (isset($_POST['prijava'])) {
+        $ime = $_POST['unosIme'];
+        $prezime = $_POST['unosPrezime'];
+        $adresa = $_POST['unosAdrese'];
+        $prebivaliste = $_POST['unosMjesta'];
+        $grad = $_POST['unosObliznjegGrada'];
+        $email = $_POST['unosEposte'];
+        $password = $_POST['unosLozinke'];
 
-        $encrypt_password = password_hash($password, PASSWORD_DEFAULT);
 
-        if (!empty($email) && !empty($password)) {
+        if (isset($_POST['prijava'])) {
 
-            $provjeraEmail = provjera_email($email, $con);
+            $encrypt_password = password_hash($password, PASSWORD_DEFAULT);
+
+            if (!empty($email) && !empty($password)) {
+
+                $provjeraEmail = provjera_email($email, $con);
 
 
-            if ($provjeraEmail == 0) {
-                $upis = "INSERT INTO korisnik (ime,prezime,email,lozinka,adresa,prebivaliste,mjesto,status_korisnika) VALUES (?,?,?,?,?,?,?,?)";
+                if ($provjeraEmail == 0) {
+                    $upis = "INSERT INTO korisnik (ime,prezime,email,lozinka,adresa,prebivaliste,mjesto,status_korisnika) VALUES (?,?,?,?,?,?,?,?)";
 
-                $stmt = $con->stmt_init();
+                    $stmt = $con->stmt_init();
 
-                if (!$stmt->prepare($upis)) {
-                    die("SQL error:" . $con->error);
+                    if (!$stmt->prepare($upis)) {
+                        die("SQL error:" . $con->error);
+                    }
+
+                    $stmt->bind_param(
+                        "ssssssss",
+                        $ime,
+                        $prezime,
+                        $email,
+                        $encrypt_password,
+                        $adresa,
+                        $prebivaliste,
+                        $grad,
+                        $status
+                    );
+
+                    $stmt->execute();
+                    session_start();
+                    $_SESSION["registered"] = true;
+
+                    echo $status;
+                    // header("Location: prijava.php");
+                    // die;
                 }
-
-                $stmt->bind_param(
-                    "ssssssss",
-                    $ime,
-                    $prezime,
-                    $email,
-                    $encrypt_password,
-                    $adresa,
-                    $prebivaliste,
-                    $grad,
-                    $status
-                );
-
-                $stmt->execute();
-                session_start();
-                $_SESSION["registered"] = true;
-
-                echo $status;
-                // header("Location: prijava.php");
-                // die;
-            }
-        } else echo "Krivi unos!";
+            } else echo "Krivi unos!";
+        }
     }
 }
 
