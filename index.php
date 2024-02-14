@@ -125,22 +125,11 @@ $pathToLogout="account/logout.php";
           <li><a class="nav-link scrollto active" href="">Home</a></li>
           <li><a class="nav-link scrollto " href="instruktori.php">Instruktori</a></li>
           <li><a class="nav-link scrollto " href="skripte/">Skripte</a></li>
-          <li><a class="nav-link scrollto " href="kartice/">Kartice za ponavljanje</a></li>
-          <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
+          <li class="dropdown"><a class="nav-link scrollto" href="kartice/"><span>Kartice</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
-              <li><a href="#">Drop Down 1</a></li>
-              <li class="dropdown"><a href="#"><span>Deep Drop Down</span> <i class="bi bi-chevron-right"></i></a>
-                <ul>
-                  <li><a href="#">Deep Drop Down 1</a></li>
-                  <li><a href="#">Deep Drop Down 2</a></li>
-                  <li><a href="#">Deep Drop Down 3</a></li>
-                  <li><a href="#">Deep Drop Down 4</a></li>
-                  <li><a href="#">Deep Drop Down 5</a></li>
-                </ul>
-              </li>
-              <li><a href="#">Drop Down 2</a></li>
-              <li><a href="#">Drop Down 3</a></li>
-              <li><a href="#">Drop Down 4</a></li>
+              <li><a class="nav-link scrollto " href="kartice/">Pretraži kartice</a></li>
+              <li><a class="nav-link scrollto " href="kartice/mojekartice.php">Moje kartice</a></li>
+              <li><a class="nav-link scrollto " href="kartice/nova_grupa.php">Napravi kartice</a></li>
             </ul>
           </li>
           <li><a class="nav-link scrollto " href="onama.php" >O nama</a></li>

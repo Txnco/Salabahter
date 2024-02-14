@@ -127,29 +127,27 @@ if ($rezultatPoslanZahtjev) {
                                                 </div>
                                             </div>
 
-                                            <?php
-                                            $predmeti = array();
-                                            $sql = "SELECT * FROM predmeti";
-                                            $result = $con->query($sql);
-                                            while ($row = $result->fetch_array()) {
-                                                $predmeti[] = $row;
-                                            }
-                                            ?>
+                                            
 
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-md-7 mb-2">
                                                         <select type="text" class="form-control predmeti-upis" name="predmetiUpis[]" required>
                                                             <?php
-                                                            foreach ($predmeti as $predmet => $row) {
+                                                            $predmeti = array();
+                                                            $sql = "SELECT * FROM predmeti";
+                                                            $result = $con->query($sql);
+                                                            while ($row = $result->fetch_array()) {
+                                                                $predmeti[] = $row;
+                                                            }
+
+                                                            foreach ($predmeti as $row) {
                                                                 echo "<option value='" . $row['predmet_id'] . "'>" . $row['naziv_predmeta'] . "</option>";
                                                             }
                                                             ?>
                                                         </select>
                                                     </div>
                                                 </div>
-
-
 
                                                 <div class="zaljepi-nove-upise-predmeta">
                                                 </div>
@@ -158,7 +156,7 @@ if ($rezultatPoslanZahtjev) {
 
                                             <div class="form-group">
                                                 <div class="row">
-                                                <a href="javascript:void(0)" class="dodaj-novi-upis float-start">+ Dodaj predmet</a>
+                                                    <a href="javascript:void(0)" class="dodaj-novi-upis float-start">+ Dodaj predmet</a>
                                                 </div>
                                             </div>
 
@@ -267,7 +265,7 @@ if ($rezultatPoslanZahtjev) {
                         var selectedValue = select.val();
                         select.empty();
                         options.forEach(function(option) {
-                            if (!selectedOptions.ukljucivanje(option.predmet_id) || option.predmet_id == selectedValue) {
+                            if (!selectedOptions.includes(option.predmet_id) || option.predmet_id == selectedValue) {
                                 var optionElement = $('<option>');
                                 optionElement.attr('value', option.predmet_id);
                                 optionElement.text(option.naziv_predmeta);
@@ -294,8 +292,8 @@ if ($rezultatPoslanZahtjev) {
             });
         </script>
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-<script src="../assets/js/main.js"></script>
+        <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+        <script src="../assets/js/main.js"></script>
 
 </body>
 
