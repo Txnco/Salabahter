@@ -36,6 +36,15 @@ if ($user['status_korisnika'] == 3678) {
 $zahtjevZaInstruktora = "SELECT zahtjevzainstruktora.zahtjev_id,korisnik.korisnik_id,statuskorisnika.status_id,motivacija,opisInstruktora,autentikacija, ime, prezime, email, status_naziv  FROM zahtjevzainstruktora,korisnik,statuskorisnika WHERE zahtjevzainstruktora.korisnik_id = korisnik.korisnik_id AND zahtjevzainstruktora.status_id = statuskorisnika.status_id ";
 $rezultatZahtjeva = $con->query($zahtjevZaInstruktora);
 
+$brojZahtjeva = $rezultatZahtjeva->num_rows;
+
+$sqlPrijaveRecenzija = "SELECT * FROM prijavarecenzije";
+$rezultatPrijaveRecenzija = $con->query($sqlPrijaveRecenzija);
+while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
+  $brojPrijavaRecenzija = $rezultatPrijaveRecenzija->num_rows;
+}
+
+
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
@@ -214,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                                 </div>
 
                                 <div class="col-sm-2 text-center my-auto">
-                                    <span style="font-size: 1em;">Status</span>
+                                    <span style="font-size: 1em;">Motivacija</span>
                                 </div>
 
                                 <div class="col-sm-2 text-center my-auto">

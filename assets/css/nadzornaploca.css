@@ -61,12 +61,12 @@ body{
     margin-bottom: 0.3rem;
 }
 
-.nav-link{
+.nadlink{
     color: #653fc6;
     border-radius: 0.4rem;
 }
 
-.nav-link:hover{
+.nadlink:hover{
     background-color: #8e70da;
     color: #FFFFFF;
     border-radius: 0.4rem;
@@ -89,4 +89,8 @@ body{
     background-color: #8e70da;
     color: #FFFFFF;
     border-radius: 0.4rem;
+}
+
+.btn-close-white::before, .btn-close-white::after {
+    background-color: red;
 }

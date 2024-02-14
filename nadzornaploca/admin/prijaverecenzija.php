@@ -32,8 +32,18 @@ if ($user['status_korisnika'] == 3678) {
     die;
 }
 
+// Dohvaćanje zahtjeva za instruktora
+$zahtjevZaInstruktora = "SELECT zahtjevzainstruktora.zahtjev_id,korisnik.korisnik_id,statuskorisnika.status_id,motivacija,opisInstruktora,autentikacija, ime, prezime, email, status_naziv  FROM zahtjevzainstruktora,korisnik,statuskorisnika WHERE zahtjevzainstruktora.korisnik_id = korisnik.korisnik_id AND zahtjevzainstruktora.status_id = statuskorisnika.status_id ";
+$rezultatZahtjeva = $con->query($zahtjevZaInstruktora);
+
+$brojZahtjeva = $rezultatZahtjeva->num_rows;
+
 $sqlPrijavljeneRecenzije = "SELECT * FROM prijavarecenzije"; // Dohvaćanje svih prijavljenih recenzija
 $rezultatPrijava = $con->query($sqlPrijavljeneRecenzije);  // Izvršavanje upita
+
+$brojPrijavaRecenzija = $rezultatPrijava->num_rows;
+
+
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 

@@ -35,6 +35,18 @@ if ($user['status_korisnika'] == 3678) {
 $sqlSviKorisnici = "SELECT * FROM korisnik, statuskorisnika, gradovi WHERE korisnik.status_korisnika = statuskorisnika.status_id AND korisnik.mjesto = gradovi.grad_id"; // Dohvaćanje svih prijavljenih recenzija
 $rezultatKorisnika = $con->query($sqlSviKorisnici);  // Izvršavanje upita
 
+// Dohvaćanje zahtjeva za instruktora
+$zahtjevZaInstruktora = "SELECT zahtjevzainstruktora.zahtjev_id,korisnik.korisnik_id,statuskorisnika.status_id,motivacija,opisInstruktora,autentikacija, ime, prezime, email, status_naziv  FROM zahtjevzainstruktora,korisnik,statuskorisnika WHERE zahtjevzainstruktora.korisnik_id = korisnik.korisnik_id AND zahtjevzainstruktora.status_id = statuskorisnika.status_id ";
+$rezultatZahtjeva = $con->query($zahtjevZaInstruktora);
+
+$brojZahtjeva = $rezultatZahtjeva->num_rows;
+
+$sqlPrijavljeneRecenzije = "SELECT * FROM prijavarecenzije"; // Dohvaćanje svih prijavljenih recenzija
+$rezultatPrijava = $con->query($sqlPrijavljeneRecenzije);  // Izvršavanje upita
+
+$brojPrijavaRecenzija = $rezultatPrijava->num_rows;
+
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (isset($_POST['izbrisiZahtjev'])) {
@@ -86,6 +98,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 
     <!-- Vendor CSS datoteke -->
     <link href="../../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
@@ -100,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     <link href="../../assets/css/nadzornaploca.css" rel="stylesheet">
 
-    <link href="../../assets/css/recenzije.css" rel="stylesheet">
+
 
 </head>
 
@@ -129,7 +143,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <div class="card-body p-0">
                             <h2 class="text-center mt-3">Svi korisnici</h2>
                             <br>
-                            
+
                             <hr class="m-2">
                         </div>
 
@@ -145,6 +159,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                     <div class="col-sm-3 mb-3 ">
                                                         <div class="card" style="height: 390px;">
                                                             <div class="card-body">
+
                                                                 <div class="d-flex flex-column align-items-center text-center">
                                                                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100">
                                                                     <div class="mt-3">
@@ -153,27 +168,27 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                                         </h4>
                                                                         <?php
 
-                                                                        $sqlProvjeraJeLiInstruktor = "SELECT * FROM instruktori WHERE instruktor_id = {$red['korisnik_id']}";
-                                                                        $rezultatProvjere = $con->query($sqlProvjeraJeLiInstruktor); // Iz baze uzima instruktor_id, predmeti.predmet_id i naziv_predmeta i sprema u $rezultatPredmeta
+                                                                        $sqlProvjeraJeLiInstruktor = "SELECT instruktor_id FROM instruktori WHERE korisnik_id = {$red['korisnik_id']}";
+                                                                        $rezultatProvjere = $con->query($sqlProvjeraJeLiInstruktor);
+
                                                                         if ($rezultatProvjere->num_rows > 0) {
-                                                                            
-                                                                            $idInstruktora =$rezultatProvjere->fetch_assoc();
-                                                                            $sviPredmetiInstruktora = "SELECT instruktori.instruktor_id, predmeti.predmet_id, naziv_predmeta, predmet_boja FROM instruktori, instruktorovipredmeti, predmeti WHERE instruktorovipredmeti.predmet_id=predmeti.predmet_id AND instruktorovipredmeti.instruktor_id= instruktori.instruktor_id AND instruktorovipredmeti.instruktor_id= {$idInstruktora['instruktor_id']} ";
-                                                                            $rezultatPredmeta = $con->query($sviPredmetiInstruktora); // Iz baze uzima instruktor_id, predmeti.predmet_id i naziv_predmeta i sprema u $rezultatPredmeta
-    
-                                                                            if ($rezultatPredmeta->num_rows > 0) {
-                                                                                while ($predmetRed = $rezultatPredmeta->fetch_assoc()) {
-                                                                                    $naziv_predmeta = $predmetRed['naziv_predmeta'];
-                                                                                    $predmet_id = $predmetRed['predmet_id'];
-                                                                                    $predmetBoja = $predmetRed['predmet_boja'];
-                                                                                    echo '<span class="badge" style="background-color: ' . $predmetBoja . ';">' . $naziv_predmeta . '</span> ';
+                                                                            while ($idInstruktora = $rezultatProvjere->fetch_assoc()) {
+                                                                                $sviPredmetiInstruktora = "SELECT instruktori.instruktor_id, predmeti.predmet_id, naziv_predmeta, predmet_boja FROM instruktori, instruktorovipredmeti, predmeti WHERE instruktorovipredmeti.predmet_id=predmeti.predmet_id AND instruktorovipredmeti.instruktor_id= instruktori.instruktor_id AND instruktorovipredmeti.instruktor_id= {$idInstruktora['instruktor_id']} ";
+                                                                                $rezultatPredmeta = $con->query($sviPredmetiInstruktora);
+
+                                                                                if ($rezultatPredmeta->num_rows > 0) {
+                                                                                    while ($predmetRed = $rezultatPredmeta->fetch_assoc()) {
+                                                                                        $naziv_predmeta = $predmetRed['naziv_predmeta'];
+                                                                                        $predmet_id = $predmetRed['predmet_id'];
+                                                                                        $predmetBoja = $predmetRed['predmet_boja'];
+                                                                                        echo '<span class="badge" style="background-color: ' . $predmetBoja . ';">' . $naziv_predmeta . '</span> ';
+                                                                                    }
                                                                                 }
                                                                             }
-                                                                        }
-                                                                        else {
+                                                                        } else {
                                                                             echo '<span class="badge bg-danger">Nije instruktor</span>';
-                                                                        } 
-                                                                        
+                                                                        }
+
                                                                         ?>
                                                                         <p class="text-secondary mb-1">
                                                                             <?php echo $red['status_naziv']; ?>
@@ -181,15 +196,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                                         <p class="text-secondary mb-1">
                                                                             <?php echo $red["prebivaliste"]; ?>
                                                                         </p>
-                                                                       
+
 
                                                                         <a class="btn btn-primary" href="../../profil?korisnik=<?php echo $red['korisnik_id']; ?>">Pogledaj profil</a>
+
+
 
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
+
 
                                             <?php endwhile;
                                             else :
@@ -210,26 +228,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
 
-    <script>
-        window.onload = function() {
-            var forms = document.getElementsByTagName('form');
-            for (var i = 0; i < forms.length; i++) {
-                forms[i].id = 'form' + (i + 1); // Assign a unique id to each form
-                var buttons = forms[i].getElementsByTagName('button');
-                for (var j = 0; j < buttons.length; j++) {
-                    buttons[j].value = i + 1; // Assign the form index to each button
-                }
-            }
-        }
-    </script>
-
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
     <script src="../../assets/js/main.js"></script>
-
 </body>
 
 </html>

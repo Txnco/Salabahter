@@ -56,8 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     $_SESSION["registered"] = true;
 
                     echo $status;
-                    // header("Location: prijava.php");
-                    // die;
+                    header("Location: prijava.php");
+                    die;
                 }
             } else echo "Krivi unos!";
         }
@@ -222,7 +222,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                     <?php
                                                     if ($status1->num_rows > 0) :
                                                         while ($row = $status1->fetch_assoc()) :
-                                                            if ($row["status_id"] == 5) continue; // Skip the iteration if status_id is 5
+                                                            if ($row["status_id"] == 3678) continue; // Skip the iteration if status_id is 5
                                                     ?>
 
                                                             <label class="btn btn-secondary mb-2 animate__animated animate__fadeIn" style="width: 100%; padding: 10px 0; border-radius: 8px;">

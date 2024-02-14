@@ -90,7 +90,7 @@ $pathToLogout="account/logout.php";
             <div class="carousel-container">
               <div class="carousel-content">
                 <h2 class="animate__animated animate__fadeInDown">Samostalno učenje</h2>
-                <p class="animate__animated animate__fadeInUp">Učenici mogu dijeliti PDF skripte za učenje međusobno, stvarajući tako dinamičnu razmjenu resursa i povratnih informacija unutar zajednice.đ</p>
+                <p class="animate__animated animate__fadeInUp">Učenici mogu dijeliti PDF skripte za učenje međusobno, stvarajući tako dinamičnu razmjenu resursa i povratnih informacija unutar zajednice.</p>
                 <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Započni</a>
               </div>
             </div>

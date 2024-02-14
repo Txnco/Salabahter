@@ -218,9 +218,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                         <p class="text-secondary mb-1">
                                                             <?php echo $red["prebivaliste"]; ?>
                                                         </p>
-                                                        <p class="text-muted font-size-sm">
-                                                            <?php echo $red["naziv_grada"]; ?>
-                                                        </p>
+                                                        
 
                                                         <a class="btn btn-primary" href="profil?korisnik=<?php echo $red['korisnik_id']; ?>">Pogledaj profil</a>
 
