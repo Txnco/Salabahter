@@ -135,7 +135,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                 </div>
 
                                 <div class="col-sm-2 text-center my-auto">
-                                    <span style="font-size: 1em;">Komentar/span>
+                                    <span style="font-size: 1em;">Komentar</span>
                                 </div>
 
                                 <div class="col-sm-2 text-center my-auto">
