@@ -168,8 +168,8 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
   <link href="../../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
   <!-- Glavni prefložak za CSS  -->
-  <link href="../../assets/css/style.css" rel="stylesheet">
 
+  <link href="../../assets/css/style.css" rel="stylesheet">
   <link href="../../assets/css/nadzornaploca.css" rel="stylesheet">
 
 </head>
@@ -192,27 +192,33 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
 
 
       <div class="row gutters-sm">
-        
-      <?php include 'izbornik.php'; ?>
 
-        <div class="col-md-3 mb-3">
+        <?php include 'izbornik.php'; ?>
+
+        <div class="col-sm-3 mb-3">
           <div class="card">
             <div class="card-body">
               <div class="d-flex flex-column align-items-center text-center">
-                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle"
+                  width="150">
                 <div class="mt-3">
-                  <h4> <?php echo $korisnik["ime"] . " " . $korisnik["prezime"] ?></h4>
-                  <?php if ($isAdmin == 1) : //provjerava se ako je korisnik admin 
-                  ?>
+                  <h4>
+                    <?php echo $korisnik["ime"] . " " . $korisnik["prezime"] ?>
+                  </h4>
+                  <?php if ($isAdmin == 1): //provjerava se ako je korisnik admin 
+                      ?>
                     <p class="text-muted font-size-sm"><i>Administrator</i></p>
                   <?php endif; ?>
-                  <p class="text-muted font-size-sm"><?php echo $korisnik["adresa"] . ",  ";
-                                                      echo $korisnik['prebivaliste']; ?></p>
-                  <?php if ($korisnikJeInstruktor) : ?> <!-- Ako je korisnik instruktor makne se tipka postani instruktor -->
+                  <p class="text-muted font-size-sm">
+                    <?php echo $korisnik["adresa"] . ",  ";
+                    echo $korisnik['prebivaliste']; ?>
+                  </p>
+                  <?php if ($korisnikJeInstruktor): ?>
+                    <!-- Ako je korisnik instruktor makne se tipka postani instruktor -->
                     <label class="btn btn-administrator">Instruktor</label>
-                  <?php elseif (!isset($zahtjev)) : ?>
+                  <?php elseif (!isset($zahtjev)): ?>
                     <a class="btn btn-administrator" name="postaniInstruktor" href="../zahtjev.php">Postani instruktor</a>
-                  <?php else : ?>
+                  <?php else: ?>
                     <label class="btn btn-administrator">Zahtjev poslan</label>
                   <?php endif; ?>
                 </div>
@@ -222,7 +228,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
 
 
 
-          <?php if ($isAdmin == 1) : ?> <!-- Ako je korisnik Admin onda može dodati predmet -->
+          <?php if ($isAdmin == 1): ?> <!-- Ako je korisnik Admin onda može dodati predmet -->
             <div class="card mt-3">
               <form method="POST">
                 <p class="text-muted font-size-sm m-2"><i>Dodavanje predmeta</i></p>
@@ -248,13 +254,15 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                     <h6 class="mb-0">Ime</h6>
                   </div>
                   <div class="col-sm-3 text-secondary">
-                    <input type="text" class="form-control" name="imePromjena" id="imePromjena" value="<?php echo $korisnik["ime"] ?>" required>
+                    <input type="text" class="form-control" name="imePromjena" id="imePromjena"
+                      value="<?php echo $korisnik["ime"] ?>" required>
                   </div>
                   <div class="col-sm-2 align-self-center">
                     <h6 class="mb-0">Prezime</h6>
                   </div>
                   <div class="col-sm-3 text-secondary">
-                    <input type="text" class="form-control" name="prezimePromjena" id="prezimePromjena" value="<?php echo $korisnik["prezime"] ?>" required>
+                    <input type="text" class="form-control" name="prezimePromjena" id="prezimePromjena"
+                      value="<?php echo $korisnik["prezime"] ?>" required>
                   </div>
                 </div>
                 <hr>
@@ -263,7 +271,8 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                     <h6 class="mb-0">Email</h6>
                   </div>
                   <div class="col-sm-5 text-secondary">
-                    <input type="text" class="form-control" name="emailPromjena" id="emailPromjena" value="<?php echo $korisnik["email"] ?>" required>
+                    <input type="text" class="form-control" name="emailPromjena" id="emailPromjena"
+                      value="<?php echo $korisnik["email"] ?>" required>
                   </div>
                 </div>
                 <hr>
@@ -272,10 +281,12 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                     <h6 class="mb-0">Adresa</h6>
                   </div>
                   <div class="col-sm-4 text-secondary">
-                    <input type="text" class="form-control" name="adresaPromjena" id="adresaPromjena" value="<?php echo $korisnik["adresa"] ?>" required>
+                    <input type="text" class="form-control" name="adresaPromjena" id="adresaPromjena"
+                      value="<?php echo $korisnik["adresa"] ?>" required>
                   </div>
                   <div class="col-sm-4 text-secondary">
-                    <input type="text" class="form-control" name="prebivalistePromjena" id="prebivalistePromjena" value="<?php echo $korisnik["prebivaliste"] ?>" required>
+                    <input type="text" class="form-control" name="prebivalistePromjena" id="prebivalistePromjena"
+                      value="<?php echo $korisnik["prebivaliste"] ?>" required>
                   </div>
                 </div>
                 <hr>
@@ -290,7 +301,8 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                       $result = $con->query($sql);
                       while ($row = $result->fetch_assoc()) {
                         $selected = ($korisnik['grad_id'] == $row['grad_id']) ? 'selected' : ''; ?>
-                        <option value="<?php echo $row["grad_id"]; ?>" <?php echo $selected; ?>> <!-- Za promijenu grada korisnika -->
+                        <option value="<?php echo $row["grad_id"]; ?>" <?php echo $selected; ?>>
+                          <!-- Za promijenu grada korisnika -->
                           <?php echo $row["naziv_grada"]; ?>
                         </option>
                       <?php } ?>
@@ -307,16 +319,20 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
             </div>
           </div>
 
-          <?php if ($korisnikJeInstruktor) : ?> <!-- Ako je korisnik instruktor onda se prikazuju predmeti koje predaje -->
+          <?php if ($korisnikJeInstruktor): ?>
+            <!-- Ako je korisnik instruktor onda se prikazuju predmeti koje predaje -->
             <div class="row gutters-sm">
               <div class="col-sm-6 mb-3">
                 <div class="card h-100">
                   <div class="card-body">
                     <h6 class="d-flex align-items-center mb-3">Predmeti</h6>
-                    <?php while ($row = $rezultatInstruktoroviPredmeti->fetch_assoc()) : ?>
-                      <small><?php echo $row['naziv_predmeta']; ?></small>
+                    <?php while ($row = $rezultatInstruktoroviPredmeti->fetch_assoc()): ?>
+                      <small>
+                        <?php echo $row['naziv_predmeta']; ?>
+                      </small>
                       <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="80"
+                          aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     <?php endwhile; ?>
 
@@ -328,23 +344,28 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
               <div class="col-sm-6 mb-3">
                 <div class="card h-100">
                   <div class="card-body">
-                    <h6 class="d-flex align-items-center mb-3">Skripte</h6> <!-- Ispis skripti koje je instruktor dodao -->
+                    <h6 class="d-flex align-items-center mb-3">Skripte</h6>
+                    <!-- Ispis skripti koje je instruktor dodao -->
                     <div class="row overflow-auto" style="max-height: 300px;">
                       <div class="col-sm mb-3">
                         <?php
-                        if ($korisnikImaSkripte) :
-                          while ($row = $resultSkripteKorisnika->fetch_assoc()) : ?>
+                        if ($korisnikImaSkripte):
+                          while ($row = $resultSkripteKorisnika->fetch_assoc()): ?>
 
                             <div class="card-body">
-                              <small><?php echo $row['naziv_skripte']; ?></small>
+                              <small>
+                                <?php echo $row['naziv_skripte']; ?>
+                              </small>
                               <div class="progress mb-3" style="height: 5px">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 100%"
+                                  aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                               <a href="<?php echo $row['skripta_putanja']; ?>" class="btn btn-primary" download>Preuzmi</a>
                             </div>
 
-                        <?php endwhile;
-                        else : echo "Instruktor još nije dodao skripte";
+                          <?php endwhile;
+                        else:
+                          echo "Instruktor još nije dodao skripte";
                         endif; ?>
                       </div>
                     </div>
@@ -367,9 +388,12 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
   <div class="row gutters-sm">
 
   </div>
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+      class="bi bi-arrow-up-short"></i></a>
 
   <script src="../../assets/js/main.js"></script>
+
+  
 
 </body>
 
