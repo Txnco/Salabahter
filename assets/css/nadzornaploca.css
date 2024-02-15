@@ -11,6 +11,7 @@ body{
     box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
 }
 
+
 .card {
     position: relative;
     display: flex;
@@ -93,4 +94,33 @@ body{
 
 .btn-close-white::before, .btn-close-white::after {
     background-color: red;
+}
+
+.izbornik{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+@media (max-width: 992px) {
+    .row.gutters-sm {
+        display: flex;
+        flex-direction: column;
+    }
+    .izbornik {
+        display: block;
+        width: 100%;
+        order: 1;
+        margin-bottom: 2rem;
+        
+    }
+    .col-sm-3, .col-sm-6 {
+        width: 100%;
+    }
 }
