@@ -1,16 +1,31 @@
 <?php
 $con = require_once "../ukljucivanje/connection/spajanje.php";
 include_once("../ukljucivanje/functions/funkcije.php");
+require '../vendor/autoload.php';
+
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
+if (isset($_SESSION['verifikacija']) && time() - $_SESSION['verifikacija'] < 5 * 60) {
+    // Redirect to verifikacija.php
+    header('Location: verifikacije.php');
+    exit();
+}
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 $sql = "SELECT * FROM statusKorisnika";
 
 $status1 = $con->query($sql);
 
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-    
+
     $status = $_POST['unosStatusa'];
+
     if (0 < $status && $status < 4) {
 
         $ime = $_POST['unosIme'];
@@ -21,117 +36,43 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $email = $_POST['unosEposte'];
         $password = $_POST['unosLozinke'];
 
+        $verifikacijski_kod = rand(100000, 999999);
 
         if (isset($_POST['prijava'])) {
 
 
-            do {
-                $verifikacijski_kod = rand(100000, 999999);
-            
-                // Check if the verification code exists in the database
-                $query = "SELECT * FROM neverificiranikorisnik WHERE verifikacijski_kod = ?";
-                $stmt = $con->prepare($query);
-                $stmt->bind_param("i", $verifikacijski_kod);
-                $stmt->execute();
-                $result = $stmt->get_result();
-            } while ($result->num_rows < 0);
-            
-            $encrypt_password = password_hash($password, PASSWORD_DEFAULT);
-                        
-            if (!empty($email) && !empty($password)) {
-                $provjeraEmail = provjera_email($email, $con);
-                
-                if ($provjeraEmail == 0) {
-                    $upis = "INSERT INTO neverificiranikorisnik (ime,prezime,email,lozinka,adresa,prebivaliste,mjesto,status_korisnika,verifikacijski_kod) VALUES (?,?,?,?,?,?,?,?,?)";
-                    
-                    $stmt = $con->stmt_init();
-                    
-                    if (!$stmt->prepare($upis)) {
-                        die("SQL error:" . $con->error);
-                    }
-                    
-                    $stmt->bind_param(
-                        "ssssssssi",
-                        $ime,
-                        $prezime,
-                        $email,
-                        $encrypt_password,
-                        $adresa,
-                        $prebivaliste,
-                        $grad,
-                        $status,
-                        $verifikacijski_kod
-                    );
-                    
-                    $stmt->execute();
-                    session_start();
-                    
-                    
-                    
-                    header("Location: prijava.php");
-                    die;
-                }
-            } else "Neuspješna registracija!";
+            // Prepare a SQL statement
+            $stmt = $con->prepare("SELECT * FROM neverificiranikorisnici WHERE verifikacijski_kod = ?");
+            $stmt->bind_param("i", $verifikacijski_kod);
 
-//Treba skinuti PHPMailer na neku foru
-// use PHPMailer\PHPMailer\PHPMailer;
-// use PHPMailer\PHPMailer\Exception;
+            // Execute the statement
+            $stmt->execute();
 
-// require 'vendor/autoload.php';
+            // Get the result
+            $result = $stmt->get_result();
 
-// $mail = new PHPMailer(true);
+            if ($result->num_rows > 0) {
+                // Verification code exists, redirect back to the registration page
+                header("Location: registration_page.php");
+                exit();
+            } else {
 
-// try {
-//     //Server settings
-//     $mail->SMTPDebug = 2;                                 
-//     $mail->isSMTP();                                      
-//     $mail->Host       = 'smtp.zoho.eu';  // Specify main and backup SMTP servers
-//     $mail->SMTPAuth   = true;                             // Enable SMTP authentication
-//     $mail->Username   = 'info@slabahter.eu';              // SMTP username
-//     $mail->Password   = 'Salabahter1!';                  // SMTP password
-//     $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
-//     $mail->Port       = 465;                              // TCP port to connect to
-
-//     //Recipients
-//     $mail->setFrom('info@slabahter.eu', 'Mailer');
-//     $mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
-
-//     // Content
-//     $mail->isHTML(true);                                  // Set email format to HTML
-//     $mail->Subject = 'Here is the subject';
-//     $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-//     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-
-//     $mail->send();
-//     echo 'Message has been sent';
-// } catch (Exception $e) {
-//     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-// }
-
-
-           
-
-            if($tocankod){
-
-                
                 $encrypt_password = password_hash($password, PASSWORD_DEFAULT);
-                
+
                 if (!empty($email) && !empty($password)) {
-                    
                     $provjeraEmail = provjera_email($email, $con);
-                    
-                    
+
                     if ($provjeraEmail == 0) {
-                        $upis = "INSERT INTO korisnik (ime,prezime,email,lozinka,adresa,prebivaliste,mjesto,status_korisnika) VALUES (?,?,?,?,?,?,?,?)";
-                        
+                        $upis = "INSERT INTO neverificiranikorisnici (ime,prezime,email,lozinka,adresa,prebivaliste,mjesto,status_korisnika,verifikacijski_kod) VALUES (?,?,?,?,?,?,?,?,?)";
+
                         $stmt = $con->stmt_init();
-                        
+
                         if (!$stmt->prepare($upis)) {
                             die("SQL error:" . $con->error);
                         }
-                        
+
                         $stmt->bind_param(
-                            "ssssssss",
+                            "ssssssssi",
                             $ime,
                             $prezime,
                             $email,
@@ -139,21 +80,103 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             $adresa,
                             $prebivaliste,
                             $grad,
-                            $status
+                            $status,
+                            $verifikacijski_kod
                         );
-                        
+
                         $stmt->execute();
                         session_start();
-                        $_SESSION["registered"] = true;
-                        
-                        echo $status;
-                        header("Location: prijava.php");
-                        die;
-                    }
-                } else echo "Krivi unos!";
-            }
-        }
 
+
+
+                        // header("Location: prijava.php");
+                        // die;
+                    }
+                } else "Neuspješna registracija!";
+
+
+                $mail = new PHPMailer(true);
+
+                try {
+
+                    //Server settings
+                    $mail->SMTPDebug = 2;
+                    $mail->isSMTP();
+                    $mail->Host       = 'smtp.zoho.eu';  // Specify main and backup SMTP servers
+                    $mail->SMTPAuth   = true;                             // Enable SMTP authentication
+                    $mail->Username   = 'info@salabahter.eu';              // SMTP username
+                    $mail->Password   = 'Salabahter1!';                  // SMTP password
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Use ::ENCRYPTION_STARTTLS for port 587
+                    $mail->Port = 465; // Use 587 for TLS                           // TCP port to connect to
+
+                    //Recipients
+                    $mail->setFrom('info@salabahter.eu', 'Šalabahter');
+                    $mail->addAddress($email, $ime);     // Add a recipient
+
+                    // Content
+                    $mail->isHTML(true);                                  // Set email format to HTML
+                    $mail->Subject = 'Kod za verifikaciju registracije';
+                    $mail->Body    = $verifikacijski_kod;
+                    $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+                    $mail->send();
+
+                    $_SESSION['verifikacija'] = time();
+
+                    // Redirect to verifikacija.php
+                    header('Location: verifikacije.php');
+                    exit();
+
+
+                    echo 'Message has been sent';
+                } catch (Exception $e) {
+                    echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                }
+            }
+
+
+            // if ($tocankod) {
+
+
+            //     $encrypt_password = password_hash($password, PASSWORD_DEFAULT);
+
+            //     if (!empty($email) && !empty($password)) {
+
+            //         $provjeraEmail = provjera_email($email, $con);
+
+
+            //         if ($provjeraEmail == 0) {
+            //             $upis = "INSERT INTO korisnik (ime,prezime,email,lozinka,adresa,prebivaliste,mjesto,status_korisnika) VALUES (?,?,?,?,?,?,?,?)";
+
+            //             $stmt = $con->stmt_init();
+
+            //             if (!$stmt->prepare($upis)) {
+            //                 die("SQL error:" . $con->error);
+            //             }
+
+            //             $stmt->bind_param(
+            //                 "ssssssss",
+            //                 $ime,
+            //                 $prezime,
+            //                 $email,
+            //                 $encrypt_password,
+            //                 $adresa,
+            //                 $prebivaliste,
+            //                 $grad,
+            //                 $status
+            //             );
+
+            //             $stmt->execute();
+            //             session_start();
+            //             $_SESSION["registered"] = true;
+
+            //             echo $status;
+            //             header("Location: prijava.php");
+            //             die;
+            //         }
+            //     } else echo "Krivi unos!";
+            // }
+        }
     }
 }
 
@@ -200,7 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                             <h6 class="h5 mb-0">Dobrodošli!</h6>
                                             <p class="text-muted mt-2 mb-2">Unesite svoje podatke kako bi ste otvorili svoj račun.</p>
 
-                                            <form class="needs-validation" method="post" >
+                                            <form class="needs-validation" method="post">
                                                 <div class="row">
                                                     <div class="col-sm-6">
 
@@ -375,7 +398,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         </div>
         <!-- Row -->
     </div>
-    </div>
+   
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
