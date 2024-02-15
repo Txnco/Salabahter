@@ -9,6 +9,7 @@ $status1 = $con->query($sql);
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
+    
     $status = $_POST['unosStatusa'];
     if (0 < $status && $status < 4) {
 
@@ -23,24 +24,34 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         if (isset($_POST['prijava'])) {
 
+
+            do {
+                $verifikacijski_kod = rand(100000, 999999);
+            
+                // Check if the verification code exists in the database
+                $query = "SELECT * FROM neverificiranikorisnik WHERE verifikacijski_kod = ?";
+                $stmt = $con->prepare($query);
+                $stmt->bind_param("i", $verifikacijski_kod);
+                $stmt->execute();
+                $result = $stmt->get_result();
+            } while ($result->num_rows < 0);
+            
             $encrypt_password = password_hash($password, PASSWORD_DEFAULT);
-
+                        
             if (!empty($email) && !empty($password)) {
-
                 $provjeraEmail = provjera_email($email, $con);
-
-
+                
                 if ($provjeraEmail == 0) {
-                    $upis = "INSERT INTO korisnik (ime,prezime,email,lozinka,adresa,prebivaliste,mjesto,status_korisnika) VALUES (?,?,?,?,?,?,?,?)";
-
+                    $upis = "INSERT INTO neverificiranikorisnik (ime,prezime,email,lozinka,adresa,prebivaliste,mjesto,status_korisnika,verifikacijski_kod) VALUES (?,?,?,?,?,?,?,?,?)";
+                    
                     $stmt = $con->stmt_init();
-
+                    
                     if (!$stmt->prepare($upis)) {
                         die("SQL error:" . $con->error);
                     }
-
+                    
                     $stmt->bind_param(
-                        "ssssssss",
+                        "ssssssssi",
                         $ime,
                         $prezime,
                         $email,
@@ -48,19 +59,101 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         $adresa,
                         $prebivaliste,
                         $grad,
-                        $status
+                        $status,
+                        $verifikacijski_kod
                     );
-
+                    
                     $stmt->execute();
                     session_start();
-                    $_SESSION["registered"] = true;
-
-                    echo $status;
+                    
+                    
+                    
                     header("Location: prijava.php");
                     die;
                 }
-            } else echo "Krivi unos!";
+            } else "Neuspješna registracija!";
+
+//Treba skinuti PHPMailer na neku foru
+// use PHPMailer\PHPMailer\PHPMailer;
+// use PHPMailer\PHPMailer\Exception;
+
+// require 'vendor/autoload.php';
+
+// $mail = new PHPMailer(true);
+
+// try {
+//     //Server settings
+//     $mail->SMTPDebug = 2;                                 
+//     $mail->isSMTP();                                      
+//     $mail->Host       = 'smtp.zoho.eu';  // Specify main and backup SMTP servers
+//     $mail->SMTPAuth   = true;                             // Enable SMTP authentication
+//     $mail->Username   = 'info@slabahter.eu';              // SMTP username
+//     $mail->Password   = 'Salabahter1!';                  // SMTP password
+//     $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+//     $mail->Port       = 465;                              // TCP port to connect to
+
+//     //Recipients
+//     $mail->setFrom('info@slabahter.eu', 'Mailer');
+//     $mail->addAddress('joe@example.net', 'Joe User');     // Add a recipient
+
+//     // Content
+//     $mail->isHTML(true);                                  // Set email format to HTML
+//     $mail->Subject = 'Here is the subject';
+//     $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
+//     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+//     $mail->send();
+//     echo 'Message has been sent';
+// } catch (Exception $e) {
+//     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+// }
+
+
+           
+
+            if($tocankod){
+
+                
+                $encrypt_password = password_hash($password, PASSWORD_DEFAULT);
+                
+                if (!empty($email) && !empty($password)) {
+                    
+                    $provjeraEmail = provjera_email($email, $con);
+                    
+                    
+                    if ($provjeraEmail == 0) {
+                        $upis = "INSERT INTO korisnik (ime,prezime,email,lozinka,adresa,prebivaliste,mjesto,status_korisnika) VALUES (?,?,?,?,?,?,?,?)";
+                        
+                        $stmt = $con->stmt_init();
+                        
+                        if (!$stmt->prepare($upis)) {
+                            die("SQL error:" . $con->error);
+                        }
+                        
+                        $stmt->bind_param(
+                            "ssssssss",
+                            $ime,
+                            $prezime,
+                            $email,
+                            $encrypt_password,
+                            $adresa,
+                            $prebivaliste,
+                            $grad,
+                            $status
+                        );
+                        
+                        $stmt->execute();
+                        session_start();
+                        $_SESSION["registered"] = true;
+                        
+                        echo $status;
+                        header("Location: prijava.php");
+                        die;
+                    }
+                } else echo "Krivi unos!";
+            }
         }
+
     }
 }
 
@@ -107,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                             <h6 class="h5 mb-0">Dobrodošli!</h6>
                                             <p class="text-muted mt-2 mb-2">Unesite svoje podatke kako bi ste otvorili svoj račun.</p>
 
-                                            <form class="needs-validation" method="post">
+                                            <form class="needs-validation" method="post" >
                                                 <div class="row">
                                                     <div class="col-sm-6">
 
