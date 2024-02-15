@@ -124,3 +124,22 @@ body{
         width: 100%;
     }
 }
+
+
+    @media (min-width: 992px) {
+        #izbornikCollapse {
+            display: block;
+        }
+        #izbornikDefault {
+            display: none;
+        }
+    }
+
+    @media (max-width: 991px) {
+        #izbornikCollapse {
+            display: none;
+        }
+        #izbornikDefault {
+            display: block;
+        }
+    }
