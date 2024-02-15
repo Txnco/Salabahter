@@ -163,19 +163,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                     }
                                                     ?>
                                                 </select>
+
+
                                             </div>
 
-
-                                            <div class="row mt-2">
-                                            <div class="col-sm d-flex justify-content-center align-self-end ">
-                                                <a href="instruktori.php" class="btn btn-outline-danger m-2">Izbriši filter</a>
-                                                <button class="btn btn-success m-2" type="submit">Pretraži</button>
+                                            <div class="col-sm">
+                                                <div class="row mt-2 d-flex align-items-end">
+                                                    <div class="d-flex justify-content-center" id="trazilica">
+                                                        <a href="instruktori.php" class="btn btn-outline-danger mt-2 ml-2 mr-2" id="izbrisi">Izbriši filter</a>
+                                                        <button class="btn btn-success mt-2 ml-2 mr-2" id="pretrazi" type="submit">Pretraži</button>
+                                                    </div>
                                                 </div>
                                             </div>
 
-                                            
+
                                         </div>
-                                        
+
                                     </div>
                                 </form>
                             </div>
