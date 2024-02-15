@@ -270,13 +270,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $('.arrow-up').hide();
             });
 
-            // on('click', '#postavkeTrazilice', function(e) {
-            //     e.preventDefault();
-
-            //     // Show the dropdown menu
-            //     $('#postavkeTrazilice').collapse('show');
-            // });
-
 
             <?php if ($_SERVER['REQUEST_METHOD'] == 'POST') : ?>
                 $('#postavkeTrazilice').collapse('show');

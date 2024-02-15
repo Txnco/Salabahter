@@ -1,7 +1,7 @@
 <?php
 
 $trenutnaStranica = "račun";
-$trenutnaStranica2 = "račun";
+$trenutnaStranica2 = "Račun";
 
 $putanjaDoPocetne = "../../";
 $putanjaDoInstruktora = "../../instruktori.php";
