@@ -127,19 +127,23 @@ body{
 
 
     @media (min-width: 992px) {
-        #izbornikCollapse {
-            display: block;
-        }
-        #izbornikDefault {
+        #izbornikMobitel {
             display: none;
+        }
+        #izbornikWeb {
+            display: block;
+            
         }
     }
 
     @media (max-width: 991px) {
-        #izbornikCollapse {
-            display: none;
-        }
-        #izbornikDefault {
+        #izbornikMobitel {
             display: block;
+            flex-direction: column;
+
+        }
+        #izbornikWeb {
+            
+            display: none;
         }
     }

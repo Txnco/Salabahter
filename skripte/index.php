@@ -58,7 +58,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pretraži Skripte</title>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <?php include '../assets/css/stiliranjeSporedno.php'; ?> <!-- Sve poveznice za stil web stranice -->
+
+    <link href="../assets/css/skripte.css" rel="stylesheet">
 
 </head>
 
@@ -78,18 +81,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div class="row d-flex justify-content-center align-items-center m-2">
-                    <div class="col-sm-6 ">
+                    <div class="col-sm-4 ">
                         <div class="card mb-3">
                             <div class="card-body m-2">
                                 <form method="POST">
 
                                     <div class="row d-flex justify-content-center align-items-center mb-2">
-                                        <div class="col-sm-5">
+                                        <div class="col-sm-8">
                                             <input class="form-control mt-2 mb-2" type="search" placeholder="Pretraži skripte" name="searchTerm">
                                         </div>
-                                        <div class="col-sm-5 p-1">
-                                            <button class="btn btn-success" type="submit">Pretraži</button>
-                                            <a href="#postavkeTrazilice" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="postavkeTrazilice" id="filtrirajTipka">Filtriraj
+                                        <div class="col-sm">
+                                            <a href="#postavkeTrazilice"  data-toggle="collapse" aria-expanded="false" aria-controls="postavkeTrazilice" id="filtrirajTipka">Filtriraj
                                                 <svg class="arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="display: none;">
                                                     <path d="M3.22 10.53a.749.749 0 0 1 0-1.06l4.25-4.25a.749.749 0 0 1 1.06 0l4.25 4.25a.749.749 0 1 1-1.06 1.06L8 6.811 4.28 10.53a.749.749 0 0 1-1.06 0Z"></path>
                                                 </svg>
@@ -97,16 +99,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                     <path d="M12.78 5.22a.749.749 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.06 0L3.22 6.28a.749.749 0 1 1 1.06-1.06L8 8.939l3.72-3.719a.749.749 0 0 1 1.06 0Z"></path>
                                                 </svg>
                                             </a>
+                                            
                                         </div>
 
-                                        <?php if(isset($_SESSION['user_id'])):?>
-                                        <div class="col-sm p-1">
-                                            <a class="btn btn-success" href="nova_skripta.php" type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="white">
-                                                    <path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path>
-                                                </svg></a>
 
-                                        </div>
-                                        <?php endif; ?>
 
 
                                     </div>
@@ -127,9 +123,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                 </select>
                                             </div>
 
-                                            <div class="col-sm d-flex justify-content-center align-self-end">
-                                                <a href="../skripte/" class="btn btn-outline-danger">Izbriši filter</a>
-                                            </div>
+                                            <div class="row mt-2 d-flex align-items-center justify-content-center">
+                                                    <div class="col" id="trazilica">
+                                                        <a href="../skripte/" class="btn btn-outline-danger mt-2 ml-2 mr-2" id="izbrisi">Izbriši filter</a>
+                                                        <button class="btn btn-success mt-2 ml-2 mr-2" id="pretrazi" type="submit">Pretraži</button>
+                                                    </div>
+                                                </div>
+
+
+
                                         </div>
                                     </div>
 
@@ -144,6 +146,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="container">
             <div class="main-body mt-3">
+
+                <?php if (isset($_SESSION['user_id'])) : ?>
+                    <div class="col-sm p-1">
+                        <a class="btn btn-success" href="nova_skripta.php" type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="white">
+                                <path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path>
+                            </svg> Dodaj skriptu</a>
+
+                    </div>
+                <?php endif; ?>
+
                 <div class="row">
                     <div class="col">
                         <div class="row">

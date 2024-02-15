@@ -1,7 +1,7 @@
 <?php
 
 $trenutnaStranica = "račun";
-$trenutnaStranica2 = "zahtjevi";
+$trenutnaStranica2 = "Zahtjevi";
 
 $putanjaDoPocetne = "../../";
 $putanjaDoInstruktora = "../../instruktori.php";
@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             echo "Error: " . $con->error;
         }
 
-        if (isset($rezultatZahtjeva) && $rezultatZahtjeva->num_rows > 0) {
+        if (isset($rezultatZahtjeva) && $rezultatZahtjeva->num_rows < 0) {
             header("Location: ../admin");
             die;
         }
@@ -140,7 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             echo "Error: " . $con->error;
         }
 
-        if (isset($rezultatZahtjeva) && $rezultatZahtjeva->num_rows > 0) {
+        if (isset($rezultatZahtjeva) && $rezultatZahtjeva->num_rows < 0) {
             header("Location: ../admin");
             die;
         }
@@ -322,7 +322,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     </script>
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
     <script src="../../assets/js/main.js"></script>
+
 </body>
 
 </html>

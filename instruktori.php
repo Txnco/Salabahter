@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php include 'ukljucivanje/header.php'; ?>
 
     <div class="justify-content-md-center mb-4">
-        <div class="hero-section text-center" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)), url(assets/img/more-service-3.jpg);">
+        <div class=" text-center" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)), url(assets/img/more-service-3.jpg);">
             <div class="container ">
                 <div class="row">
                     <div class="col-lg-6 mx-auto mt-5">
@@ -118,7 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
                                     <div class="collapse animate__animated animate__slideinDown" id="postavkeTrazilice">
-                                        <div class="row justify-content-md-center mt-3">
+                                        <div class="row justify-content-sm-center mt-3">
                                             <div class="col-sm">
                                                 <span class="text-muted">Predmet</span>
                                                 <select class="form-control" name="predmet">
@@ -167,14 +167,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                                             </div>
 
-                                            <div class="col-sm">
-                                                <div class="row mt-2 d-flex align-items-end">
-                                                    <div class="d-flex justify-content-center" id="trazilica">
+                                           
+                                                <div class="row mt-2 d-flex align-items-center justify-content-center">
+                                                    <div class="col" id="trazilica">
                                                         <a href="instruktori.php" class="btn btn-outline-danger mt-2 ml-2 mr-2" id="izbrisi">Izbriši filter</a>
                                                         <button class="btn btn-success mt-2 ml-2 mr-2" id="pretrazi" type="submit">Pretraži</button>
                                                     </div>
                                                 </div>
-                                            </div>
 
 
                                         </div>
