@@ -273,22 +273,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                       ?></label>
                 </div>
               </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Phone</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                  Ako ocemo dodamo
-                </div>
-              </div>
+
               <hr>
               <div class="row">
                 <div class="col-sm-3">
                   <h6 class="mb-0">Adresa</h6>
                 </div>
                 <div class="col-sm-7 text-secondary">
-                  <label type="text"><?php echo $korisnik["adresa"] . ", " .  $korisnik["prebivaliste"] // Ispis koriskinove adrese stanovanja ?></label>
+                  <label type="text"><?php echo $korisnik["adresa"] . ", " .  $korisnik["prebivaliste"] // Ispis koriskinove adrese stanovanja 
+                                      ?></label>
                 </div>
               </div>
               <hr>
@@ -369,7 +362,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                 <div class="row">
                   <?php
-                 
+
 
                   $sqlSveRecnezije = "SELECT * FROM recenzije WHERE zaKorisnika = {$korisnikID}";
                   $rezultatSveRecenzije = $con->query($sqlSveRecnezije);
@@ -426,61 +419,61 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                   <a type="button" id="otvoriPrijavu" class="text text-danger" style="font-size: 0.9rem;" data-toggle="modal" data-target="#prijavaRecenzije<?php echo $red['recenzija_id']; ?>">Prijavi recenziju!</a>
                                 </div>
                               </div>
-                              <?php elseif (isset($_SESSION['user_id']) && !$prijavljenaRecenzija):?>
-                                <div class="row">
+                            <?php elseif (isset($_SESSION['user_id']) && !$prijavljenaRecenzija) : ?>
+                              <div class="row">
                                 <div class="col d-flex justify-content-end">
-                                  <a  class="text text-success" style="font-size: 0.9rem;" >Recenzija prijavljena!</a>
+                                  <a class="text text-success" style="font-size: 0.9rem;">Recenzija prijavljena!</a>
                                 </div>
                               </div>
-                              <?php endif; ?>
+                            <?php endif; ?>
 
-                              <!-- Modal -->
-                              <div class="modal fade" id="prijavaRecenzije<?php echo $red['recenzija_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="prijavaRecenzijeTitle" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                  <div class="modal-content">
-                                    <div class="modal-header">
-                                      <h5 class="modal-title" id="exampleModalLongTitle">Prijava recenzije</h5>
-                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                      </button>
-                                    </div>
-                                    <div class="modal-body">
-                                      <form method="POST">
-
-                                        <h5><?php echo $korisnik['ime'] . " " . $korisnik['prezime'] ?></h5>
-                                        <div class="row">
-                                          <div class="col">
-                                            <?php
-                                            for ($i = 1; $i <= 5; $i++) {
-                                              if ($i <= $korisnik['ocjena']) {
-                                                echo '<i class="fa fa-star" style="color:gold;"></i>';
-                                              } else {
-                                                echo '<i class="fa fa-star-o"></i>';
-                                              }
-                                            }
-                                            ?>
-
-                                          </div>
-                                        </div>
-                                        <p><?php echo $korisnik['komentar'] ?></p>
-
-                                        <div class="form-group">
-                                          <label for="razlogPrijave" class="col-form-label">Razlog prijave:</label>
-                                          <textarea class="form-control" id="razlogPrijave" name="razlogPrijave"></textarea>
-                                          <input name="prijavljenaRecenzija" value="<?php echo $red['recenzija_id'] ?>" hidden>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
-                                      <button type="submit" class="btn btn-danger" name="prijavaRecenzije">Prijavi</button>
-                                    </div>
-
-
-                                    </form>
+                            <!-- Modal -->
+                            <div class="modal fade" id="prijavaRecenzije<?php echo $red['recenzija_id']; ?>" tabindex="-1" role="dialog" aria-labelledby="prijavaRecenzijeTitle" aria-hidden="true">
+                              <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Prijava recenzije</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
                                   </div>
+                                  <div class="modal-body">
+                                    <form method="POST">
+
+                                      <h5><?php echo $korisnik['ime'] . " " . $korisnik['prezime'] ?></h5>
+                                      <div class="row">
+                                        <div class="col">
+                                          <?php
+                                          for ($i = 1; $i <= 5; $i++) {
+                                            if ($i <= $korisnik['ocjena']) {
+                                              echo '<i class="fa fa-star" style="color:gold;"></i>';
+                                            } else {
+                                              echo '<i class="fa fa-star-o"></i>';
+                                            }
+                                          }
+                                          ?>
+
+                                        </div>
+                                      </div>
+                                      <p><?php echo $korisnik['komentar'] ?></p>
+
+                                      <div class="form-group">
+                                        <label for="razlogPrijave" class="col-form-label">Razlog prijave:</label>
+                                        <textarea class="form-control" id="razlogPrijave" name="razlogPrijave"></textarea>
+                                        <input name="prijavljenaRecenzija" value="<?php echo $red['recenzija_id'] ?>" hidden>
+                                      </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+                                    <button type="submit" class="btn btn-danger" name="prijavaRecenzije">Prijavi</button>
+                                  </div>
+
+
+                                  </form>
                                 </div>
                               </div>
-                            
+                            </div>
+
 
                           </div>
                         </div>
