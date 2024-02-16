@@ -116,7 +116,7 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Shuffle Bootstrap Template - Index</title>
+  <title>Račun</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -124,7 +124,8 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- Ikone -->
 
-  <link href="../assets/css/dashboard.css" rel="stylesheet">
+
+  <link href="../assets/css/nadzornaploca.css" rel="stylesheet">
 
 </head>
 
@@ -157,11 +158,11 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                   <p class="text-muted font-size-sm"><?php echo $korisnik["adresa"] . ",  ";
                                                       echo $korisnik['prebivaliste']; ?></p>
                   <?php if ($korisnikJeInstruktor) : ?> <!-- Ako je korisnik instruktor makne se tipka postani instruktor -->
-                    <label class="btn btn-outline-primary">Instruktor</label>
+                    <label class="btn btn-racun">Instruktor</label>
                   <?php elseif (!isset($zahtjev)) : ?>
-                    <a class="btn btn-outline-primary" name="postaniInstruktor" href="zahtjev.php">Postani instruktor</a>
+                    <a class="btn btn-racun" name="postaniInstruktor" href="zahtjev.php">Postani instruktor</a>
                   <?php else : ?>
-                    <label class="btn btn-outline-primary">Zahtjev poslan</label>
+                    <label class="btn btn-racun">Zahtjev poslan</label>
                   <?php endif; ?>
                 </div>
               </div>
@@ -174,43 +175,31 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
             <div class="card-body">
               <form method="post">
                 <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-3 align-self-center">
                     <h6 class="mb-0">Ime</h6>
                   </div>
-                  <div class="col-sm-5 text-secondary">
+                  <div class="col-sm-3 text-secondary">
                     <input type="text" class="form-control" name="imePromjena" id="imePromjena" value="<?php echo $korisnik["ime"] ?>" required>
                   </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-2 align-self-center">
                     <h6 class="mb-0">Prezime</h6>
                   </div>
-                  <div class="col-sm-5 text-secondary">
+                  <div class="col-sm-3 text-secondary">
                     <input type="text" class="form-control" name="prezimePromjena" id="prezimePromjena" value="<?php echo $korisnik["prezime"] ?>" required>
                   </div>
                 </div>
                 <hr>
                 <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-3 align-self-center">
                     <h6 class="mb-0">Email</h6>
                   </div>
-                  <div class="col-sm-9 text-secondary">
+                  <div class="col-sm-5 text-secondary">
                     <input type="text" class="form-control" name="emailPromjena" id="emailPromjena" value="<?php echo $korisnik["email"] ?>" required>
                   </div>
                 </div>
                 <hr>
                 <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">Phone</h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    Ako ocemo dodamo
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-3 align-self-center">
                     <h6 class="mb-0">Adresa</h6>
                   </div>
                   <div class="col-sm-4 text-secondary">
@@ -222,17 +211,18 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                 </div>
                 <hr>
                 <div class="row">
-                  <div class="col-sm-3">
+                  <div class="col-sm-3 align-self-center">
                     <h6 class="mb-0">Obližnji grad</h6>
                   </div>
-                  <div class="col-sm-9 text-secondary">
+                  <div class="col-sm-5 text-secondary">
                     <select type="text" class="form-control" name="mjestoPromjena" id="mjestoPromjena" required>
                       <?php
                       $sql = "SELECT * FROM gradovi";
                       $result = $con->query($sql);
                       while ($row = $result->fetch_assoc()) {
                         $selected = ($korisnik['grad_id'] == $row['grad_id']) ? 'selected' : ''; ?>
-                        <option value="<?php echo $row["grad_id"]; ?>" <?php echo $selected; ?>> <!-- Za promijenu grada korisnika -->
+                        <option value="<?php echo $row["grad_id"]; ?>" <?php echo $selected; ?>>
+                          <!-- Za promijenu grada korisnika -->
                           <?php echo $row["naziv_grada"]; ?>
                         </option>
                       <?php } ?>
@@ -242,64 +232,64 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                 <hr>
                 <div class="row">
                   <div class="col-sm-12">
-                    <button class="btn btn-info" name="upisPromjena" type="submit">Spremi promjene</button>
+                    <button class="btn btn-racun" name="upisPromjena" type="submit">Spremi promjene</button>
                   </div>
                 </div>
               </form>
             </div>
           </div>
-        
 
 
 
-        <?php if ($korisnikJeInstruktor) : ?> <!-- Ako je korisnik instruktor onda se prikazuju predmeti koje predaje -->
-          <div class="row gutters-sm">
-            <div class="col-sm-6 mb-3">
-              <div class="card h-100">
-                <div class="card-body">
-                  <h6 class="d-flex align-items-center mb-3">Predmeti</h6>
-                  <?php while ($row = $rezultatInstruktoroviPredmeti->fetch_assoc()) : ?>
-                    <small><?php echo $row['naziv_predmeta']; ?></small>
-                    <div class="progress mb-3" style="height: 5px">
-                      <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  <?php endwhile; ?>
 
+          <?php if ($korisnikJeInstruktor) : ?> <!-- Ako je korisnik instruktor onda se prikazuju predmeti koje predaje -->
+            <div class="row gutters-sm">
+              <div class="col-sm-6 mb-3">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h6 class="d-flex align-items-center mb-3">Predmeti</h6>
+                    <?php while ($row = $rezultatInstruktoroviPredmeti->fetch_assoc()) : ?>
+                      <small><?php echo $row['naziv_predmeta']; ?></small>
+                      <div class="progress mb-3" style="height: 5px">
+                        <div class="progress-bar progress" role="progressbar" style="width: 100%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div>
+                    <?php endwhile; ?>
+
+                  </div>
                 </div>
               </div>
-            </div>
 
 
-            <div class="col-sm-6 mb-3">
-              <div class="card h-100">
-                <div class="card-body">
-                  <h6 class="d-flex align-items-center mb-3">Skripte</h6> <!-- Ispis skripti koje je instruktor dodao -->
-                  <div class="row overflow-auto" style="max-height: 300px;">
-                    <div class="col-sm mb-3">
-                      <?php
-                      if ($korisnikImaSkripte) :
-                        while ($row = $resultSkripteKorisnika->fetch_assoc()) : ?>
+              <div class="col-sm-6 mb-3">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h6 class="d-flex align-items-center mb-3">Skripte</h6> <!-- Ispis skripti koje je instruktor dodao -->
+                    <div class="row overflow-auto" style="max-height: 300px;">
+                      <div class="col-sm mb-3">
+                        <?php
+                        if ($korisnikImaSkripte) :
+                          while ($row = $resultSkripteKorisnika->fetch_assoc()) : ?>
 
-                          <div class="card-body">
-                            <small><?php echo $row['naziv_skripte']; ?></small>
-                            <div class="progress mb-3" style="height: 5px">
-                              <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="card-body">
+                              <small><?php echo $row['naziv_skripte']; ?></small>
+                              <div class="progress mb-3" style="height: 5px">
+                                <div class="progress-bar progress" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                              </div>
+                              <a href="<?php echo $row['skripta_putanja']; ?>" class="btn btn-racun" download>Preuzmi</a>
                             </div>
-                            <a href="<?php echo $row['skripta_putanja']; ?>" class="btn btn-primary" download>Preuzmi</a>
-                          </div>
 
-                      <?php endwhile;
-                      else : echo "Instruktor još nije dodao skripte";
-                      endif; ?>
+                        <?php endwhile;
+                        else : echo "Instruktor još nije dodao skripte";
+                        endif; ?>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        <?php endif; ?>
+          <?php endif; ?>
         </div>
-        </div>
+      </div>
 
 
       <?php if ($imaRecenzije) : ?>
@@ -379,7 +369,7 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
         </div>
       <?php endif; ?>
 
-     
+
     </div>
   </div>
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         );
 
                         $stmt->execute();
-                        session_start();
+                        
 
 
 

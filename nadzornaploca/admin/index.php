@@ -215,11 +215,11 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                   </p>
                   <?php if ($korisnikJeInstruktor): ?>
                     <!-- Ako je korisnik instruktor makne se tipka postani instruktor -->
-                    <label class="btn btn-administrator">Instruktor</label>
+                    <label class="btn btn-racun">Instruktor</label>
                   <?php elseif (!isset($zahtjev)): ?>
-                    <a class="btn btn-administrator" name="postaniInstruktor" href="../zahtjev.php">Postani instruktor</a>
+                    <a class="btn btn-racun" name="postaniInstruktor" href="../zahtjev.php">Postani instruktor</a>
                   <?php else: ?>
-                    <label class="btn btn-administrator">Zahtjev poslan</label>
+                    <label class="btn btn-racun">Zahtjev poslan</label>
                   <?php endif; ?>
                 </div>
               </div>
@@ -238,7 +238,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                   <input type="text" class="form-control" name="upisPredmeta" id="upisPredmeta">
                 </div>
                 <div class="col-sm-12 mb-4">
-                  <button class="btn btn-administrator" name="upisPredmet" type="submit">Upisi predmet</button>
+                  <button class="btn btn-racun" name="upisPredmet" type="submit">Upisi predmet</button>
                 </div>
                 <form>
             </div>
@@ -312,7 +312,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                 <hr>
                 <div class="row">
                   <div class="col-sm-12">
-                    <button class="btn btn-administrator" name="upisPromjena" type="submit">Spremi promjene</button>
+                    <button class="btn btn-racun" name="upisPromjena" type="submit">Spremi promjene</button>
                   </div>
                 </div>
               </form>
