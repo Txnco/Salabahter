@@ -37,12 +37,11 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") { // Provjeri da li je korisnik posla
 
     $promjenaImena = $_POST['imePromjena'];
     $promjenaPrezimena = $_POST['prezimePromjena'];
-    $promjenaEmaila = $_POST['emailPromjena'];
     $promjenaAdrese = $_POST['adresaPromjena'];
     $promjenaPrebivalista = $_POST['prebivalistePromjena'];
     $promjenaMjesta = $_POST['mjestoPromjena'];
 
-    $sql = sprintf("UPDATE korisnik SET ime='$promjenaImena', prezime='$promjenaPrezimena', email='$promjenaEmaila', adresa='$promjenaAdrese', prebivaliste ='$promjenaPrebivalista', mjesto='$promjenaMjesta' WHERE korisnik_id = {$_SESSION['user_id']}");
+    $sql = sprintf("UPDATE korisnik SET ime='$promjenaImena', prezime='$promjenaPrezimena', adresa='$promjenaAdrese', prebivaliste ='$promjenaPrebivalista', mjesto='$promjenaMjesta' WHERE korisnik_id = {$_SESSION['user_id']}");
 
     $result = $con->query($sql);
 
@@ -196,7 +195,7 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                     <h6 class="mb-0">Email</h6>
                   </div>
                   <div class="col-sm-9 text-secondary">
-                    <input type="text" class="form-control" name="emailPromjena" id="emailPromjena" value="<?php echo $korisnik["email"] ?>" required>
+                    <input type="text" class="form-control" name="emailPromjena" id="emailPromjena" value="<?php echo $korisnik["email"] ?>" disabled>
                   </div>
                 </div>
                 <hr>

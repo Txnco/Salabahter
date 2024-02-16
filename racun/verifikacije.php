@@ -3,31 +3,76 @@ $con = require_once "../ukljucivanje/connection/spajanje.php";
 include_once("../ukljucivanje/functions/funkcije.php");
 require '../vendor/autoload.php';
 
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 
-if($_SERVER['REQUEST_METHOD']=='POST'){
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $kod = $_POST['unosKoda'];
     $email = $_SESSION['email'];
 
-    $sql = "SELECT * FROM korisnici WHERE email = '$email' AND verifikacijski_kod = '$kod'";
-    $rezultat = mysqli_query($con, $sql);
-    $brojRedova = mysqli_num_rows($rezultat);
+    if (isset($_SESSION['kodPoslan']) == false) {
 
-    if($brojRedova == 1){
-        $sql = "UPDATE korisnici SET verifikacijski_status = 'verificiran' WHERE email = '$email'";
-        $rezultat = mysqli_query($con, $sql);
+        header('Location: registracija.php');
+        die;
+    }
+    $stmt = $con->prepare("SELECT * FROM neverificiranikorisnici WHERE email = ? AND verifikacijski_kod = ?");
 
-        if($rezultat){
-            echo "<script>alert('Uspješno ste verificirali svoj račun.')</script>";
-            echo "<script>window.location.href = 'prijava.php'</script>";
-        }else{
-            echo "<script>alert('Došlo je do greške. Molimo pokušajte ponovno.')</script>";
-        }
-    }else{
-        echo "<script>alert('Uneseni kod nije ispravan.')</script>";
+    $stmt->bind_param("ss", $email, $kod);
+
+    $stmt->execute();
+
+    $rezultatNeVerificiranihKorisnika = $stmt->get_result();
+
+    $neverificirani = $rezultatNeVerificiranihKorisnika->fetch_assoc();
+
+
+    if ($stmt->error) {
+        echo "Greška prilikom dohvaćanja korisnika!";
+        echo $con->error;
     }
 
 
+
+    if ($rezultatNeVerificiranihKorisnika->num_rows > 0) {
+
+
+        $ime = $neverificirani['ime'];
+        $prezime = $neverificirani['prezime'];
+        $email = $neverificirani['email'];
+        $lozinka = $neverificirani['lozinka'];
+        $adresa = $neverificirani['adresa'];
+        $prebivaliste = $neverificirani['prebivaliste'];
+        $mjesto = $neverificirani['mjesto'];
+        $status_korisnika = $neverificirani['status_korisnika'];
+
+        $sqlRegistracijaKorisnika = "INSERT INTO korisnik (ime, prezime, email, lozinka, adresa, prebivaliste, mjesto, status_korisnika) VALUES ('$ime', '$prezime', '$email', '$lozinka', '$adresa', '$prebivaliste', '$mjesto', '$status_korisnika')";
+        $rezultatRegistracijeKorisnika = $con->query($sqlRegistracijaKorisnika);
+
+        if ($con->error) {
+            echo "Greška prilikom upisa korisnika!";
+            echo $con->error;
+        }
+
+        if ($rezultatRegistracijeKorisnika) {
+            $stmt = $con->prepare("DELETE FROM neverificiranikorisnici WHERE email = ? AND verifikacijski_kod = ?");
+            $stmt->bind_param("ss", $email, $kod);
+            $stmt->execute();
+
+            $_SESSION["registered"] = true;
+
+            header('Location: prijava.php');
+            die;
+        } else {
+            echo "Greška prilikom registracije korisnika!";
+        }
+    } else {
+        $_SESSION['registered'] = false;
+        header('Location: registracija.php');
+        die;
+    };
 }
 
 

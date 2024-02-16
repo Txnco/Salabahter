@@ -3,14 +3,12 @@ $con = require_once "../ukljucivanje/connection/spajanje.php";
 include_once("../ukljucivanje/functions/funkcije.php");
 require '../vendor/autoload.php';
 
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
 
 if (isset($_SESSION['verifikacija']) && time() - $_SESSION['verifikacija'] < 5 * 60) {
-    // Redirect to verifikacija.php
-    header('Location: verifikacije.php');
-    exit();
+    if (!$_SESSION["registered"]) {
+        header('Location: verifikacije.php');
+        exit();
+    }
 }
 
 use PHPMailer\PHPMailer\PHPMailer;
@@ -52,8 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
+
                 // Verification code exists, redirect back to the registration page
-                header("Location: registration_page.php");
+                header("Location: registracija.php");
                 exit();
             } else {
 
@@ -86,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                         $stmt->execute();
                         session_start();
-
+                        $_SESSION['email'] = $email;
 
 
                         // header("Location: prijava.php");
@@ -95,12 +94,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 } else "Neuspješna registracija!";
 
 
+
                 $mail = new PHPMailer(true);
 
                 try {
+                    $body = file_get_contents('../assets/css/izgledeposte.html');
+                    $body = str_replace('{KOD}', $verifikacijski_kod, $body);
 
                     //Server settings
-                    $mail->SMTPDebug = 2;
+                    $mail->SMTPDebug =0;
                     $mail->isSMTP();
                     $mail->Host       = 'smtp.zoho.eu';  // Specify main and backup SMTP servers
                     $mail->SMTPAuth   = true;                             // Enable SMTP authentication
@@ -116,19 +118,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     // Content
                     $mail->isHTML(true);                                  // Set email format to HTML
                     $mail->Subject = 'Kod za verifikaciju registracije';
-                    $mail->Body    = $verifikacijski_kod;
+                    $mail->Body    = $body;
                     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
 
                     $mail->send();
 
                     $_SESSION['verifikacija'] = time();
+                    $_SESSION['kodPoslan'] = true;
 
-                    // Redirect to verifikacija.php
+                    // Redirect to verifikacije.php
                     header('Location: verifikacije.php');
                     exit();
-
-
-                    echo 'Message has been sent';
                 } catch (Exception $e) {
                     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                 }
@@ -398,7 +398,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <!-- Row -->
     </div>
-   
+
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
