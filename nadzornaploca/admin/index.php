@@ -199,26 +199,65 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
           <div class="card">
             <div class="card-body">
               <div class="d-flex flex-column align-items-center text-center">
-                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle"
-                  width="150">
+                <div class="profile-pic-container">
+                  <img id="profile-pic" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                  <div id="change-pic" class="overlay">
+                    <button id="otvoriPrijenosSlike" class="overlay"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="28" height="28">
+                        <path d="M15 3c.55 0 1 .45 1 1v9c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1 0-.55.45-1 1-1h4c.55 0 1 .45 1 1Zm-4.5 9c1.94 0 3.5-1.56 3.5-3.5S12.44 5 10.5 5 7 6.56 7 8.5 8.56 12 10.5 12ZM13 8.5c0 1.38-1.13 2.5-2.5 2.5S8 9.87 8 8.5 9.13 6 10.5 6 13 7.13 13 8.5ZM6 5V4H2v1Z"></path>
+                      </svg></button>
+                  </div>
+                </div>
+
+                <!-- Prozor za promjenu slike -->
+                <div class="modal fade" id="novaSlika" tabindex="-1" role="dialog" aria-labelledby="novaSlika" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Prijava recenzije</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <form method="POST">
+
+                          <div class="file-upload-wrapper">
+                            <input type="file" id="input-file-now-custom-2" class="file-upload" data-height="500" />
+                          </div>
+
+
+                          <!-- data-browse="Bestand kiezen" -->
+                          
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+                        <button type="submit" class="btn btn-danger" name="prijavaRecenzije">Prijavi</button>
+                      </div>
+
+
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="mt-3">
                   <h4>
                     <?php echo $korisnik["ime"] . " " . $korisnik["prezime"] ?>
                   </h4>
-                  <?php if ($isAdmin == 1): //provjerava se ako je korisnik admin 
-                      ?>
+                  <?php if ($isAdmin == 1) : //provjerava se ako je korisnik admin 
+                  ?>
                     <p class="text-muted font-size-sm"><i>Administrator</i></p>
                   <?php endif; ?>
                   <p class="text-muted font-size-sm">
                     <?php echo $korisnik["adresa"] . ",  ";
                     echo $korisnik['prebivaliste']; ?>
                   </p>
-                  <?php if ($korisnikJeInstruktor): ?>
+                  <?php if ($korisnikJeInstruktor) : ?>
                     <!-- Ako je korisnik instruktor makne se tipka postani instruktor -->
                     <label class="btn btn-racun">Instruktor</label>
-                  <?php elseif (!isset($zahtjev)): ?>
+                  <?php elseif (!isset($zahtjev)) : ?>
                     <a class="btn btn-racun" name="postaniInstruktor" href="../zahtjev.php">Postani instruktor</a>
-                  <?php else: ?>
+                  <?php else : ?>
                     <label class="btn btn-racun">Zahtjev poslan</label>
                   <?php endif; ?>
                 </div>
@@ -228,7 +267,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
 
 
 
-          <?php if ($isAdmin == 1): ?> <!-- Ako je korisnik Admin onda može dodati predmet -->
+          <?php if ($isAdmin == 1) : ?> <!-- Ako je korisnik Admin onda može dodati predmet -->
             <div class="card mt-3">
               <form method="POST">
                 <p class="text-muted font-size-sm m-2"><i>Dodavanje predmeta</i></p>
@@ -254,15 +293,13 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                     <h6 class="mb-0">Ime</h6>
                   </div>
                   <div class="col-sm-3 text-secondary">
-                    <input type="text" class="form-control" name="imePromjena" id="imePromjena"
-                      value="<?php echo $korisnik["ime"] ?>" required>
+                    <input type="text" class="form-control" name="imePromjena" id="imePromjena" value="<?php echo $korisnik["ime"] ?>" required>
                   </div>
                   <div class="col-sm-2 align-self-center">
                     <h6 class="mb-0">Prezime</h6>
                   </div>
                   <div class="col-sm-3 text-secondary">
-                    <input type="text" class="form-control" name="prezimePromjena" id="prezimePromjena"
-                      value="<?php echo $korisnik["prezime"] ?>" required>
+                    <input type="text" class="form-control" name="prezimePromjena" id="prezimePromjena" value="<?php echo $korisnik["prezime"] ?>" required>
                   </div>
                 </div>
                 <hr>
@@ -271,8 +308,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                     <h6 class="mb-0">Email</h6>
                   </div>
                   <div class="col-sm-5 text-secondary">
-                    <input type="text" class="form-control" name="emailPromjena" id="emailPromjena"
-                      value="<?php echo $korisnik["email"] ?>" required>
+                    <input type="text" class="form-control" name="emailPromjena" id="emailPromjena" value="<?php echo $korisnik["email"] ?>" required>
                   </div>
                 </div>
                 <hr>
@@ -281,12 +317,10 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                     <h6 class="mb-0">Adresa</h6>
                   </div>
                   <div class="col-sm-4 text-secondary">
-                    <input type="text" class="form-control" name="adresaPromjena" id="adresaPromjena"
-                      value="<?php echo $korisnik["adresa"] ?>" required>
+                    <input type="text" class="form-control" name="adresaPromjena" id="adresaPromjena" value="<?php echo $korisnik["adresa"] ?>" required>
                   </div>
                   <div class="col-sm-4 text-secondary">
-                    <input type="text" class="form-control" name="prebivalistePromjena" id="prebivalistePromjena"
-                      value="<?php echo $korisnik["prebivaliste"] ?>" required>
+                    <input type="text" class="form-control" name="prebivalistePromjena" id="prebivalistePromjena" value="<?php echo $korisnik["prebivaliste"] ?>" required>
                   </div>
                 </div>
                 <hr>
@@ -319,20 +353,19 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
             </div>
           </div>
 
-          <?php if ($korisnikJeInstruktor): ?>
+          <?php if ($korisnikJeInstruktor) : ?>
             <!-- Ako je korisnik instruktor onda se prikazuju predmeti koje predaje -->
             <div class="row gutters-sm">
               <div class="col-sm-6 mb-3">
                 <div class="card h-100">
                   <div class="card-body">
                     <h6 class="d-flex align-items-center mb-3">Predmeti</h6>
-                    <?php while ($row = $rezultatInstruktoroviPredmeti->fetch_assoc()): ?>
+                    <?php while ($row = $rezultatInstruktoroviPredmeti->fetch_assoc()) : ?>
                       <small>
                         <?php echo $row['naziv_predmeta']; ?>
                       </small>
                       <div class="progress mb-3" style="height: 5px">
-                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="80"
-                          aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
                       </div>
                     <?php endwhile; ?>
 
@@ -349,22 +382,21 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
                     <div class="row overflow-auto" style="max-height: 300px;">
                       <div class="col-sm mb-3">
                         <?php
-                        if ($korisnikImaSkripte):
-                          while ($row = $resultSkripteKorisnika->fetch_assoc()): ?>
+                        if ($korisnikImaSkripte) :
+                          while ($row = $resultSkripteKorisnika->fetch_assoc()) : ?>
 
                             <div class="card-body">
                               <small>
                                 <?php echo $row['naziv_skripte']; ?>
                               </small>
                               <div class="progress mb-3" style="height: 5px">
-                                <div class="progress-bar bg-primary" role="progressbar" style="width: 100%"
-                                  aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                                <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
                               <a href="<?php echo $row['skripta_putanja']; ?>" class="btn btn-primary" download>Preuzmi</a>
                             </div>
 
-                          <?php endwhile;
-                        else:
+                        <?php endwhile;
+                        else :
                           echo "Instruktor još nije dodao skripte";
                         endif; ?>
                       </div>
@@ -388,12 +420,48 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
   <div class="row gutters-sm">
 
   </div>
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
 
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
   <script src="../../assets/js/main.js"></script>
 
-  
+  <script>
+    $(document).ready(function() {
+      // Open the modal
+      $('#otvoriPrijenosSlike').click(function() {
+        $('#novaSlika').modal('show');
+      });
+
+      // Close the modal
+      $('#closeModalButton').click(function() {
+        $('#novaSlika').modal('hide');
+      });
+
+      $('#novaSlika form').submit(function(e) {
+        e.preventDefault();
+        form.onsubmit = function(e) {
+          e.preventDefault();
+          var file = document.getElementById("file").files[0];
+          var formData = new FormData();
+          formData.append("file", file);
+          fetch('/upload', { // replace '/upload' with your upload endpoint
+            method: 'POST',
+            body: formData
+          }).then(response => {
+            if (response.ok) {
+              console.log('Upload successful');
+            } else {
+              console.error('Upload failed');
+            }
+          });
+        }
+      });
+
+    });
+  </script>
 
 </body>
 

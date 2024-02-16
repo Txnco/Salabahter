@@ -165,3 +165,79 @@ body {
     background-color: #744bda;
     border-radius: 0.4rem;
 }
+
+
+#upload-button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: none;
+    border: none;
+    font-size: 2em;
+    color: #008CBA;
+    opacity: 0;
+    transition: .5s ease;
+}
+
+.profile-pic-container:hover #upload-button {
+    opacity: 1;
+}
+
+.profile-pic-container {
+    position: relative;
+    display: inline-block;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: transparent;
+}
+
+.profile-pic-container:hover .overlay {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+
+#change-pic {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 5;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    
+}

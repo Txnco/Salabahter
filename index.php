@@ -37,7 +37,7 @@ $pathToLogout="account/logout.php";
 
 <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true && isset($user)): $_SESSION["loggedin"]=false ; ?>
           <div id="loginSuccessAlert" class="alert alert-success alert-dismissible fade show login-success-message" role="alert">
-              User logged in successfully!
+              Uspješno ste se prijavili!
               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
               </button>
