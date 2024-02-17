@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 15, 2024 at 10:30 PM
+-- Generation Time: Feb 17, 2024 at 06:14 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -178,8 +178,19 @@ CREATE TABLE `grupekartica` (
   `grupa_naziv` varchar(255) DEFAULT NULL,
   `grupa_opis` text DEFAULT NULL,
   `datum_kreiranja` timestamp NOT NULL DEFAULT current_timestamp(),
-  `vlasnik_id` int(11) DEFAULT NULL
+  `vlasnik_id` int(11) DEFAULT NULL,
+  `predmet_id` int(11) DEFAULT NULL,
+  `javno` tinyint(1) DEFAULT 0,
+  `broj_pregleda` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `grupekartica`
+--
+
+INSERT INTO `grupekartica` (`grupa_id`, `grupa_naziv`, `grupa_opis`, `datum_kreiranja`, `vlasnik_id`, `predmet_id`, `javno`, `broj_pregleda`) VALUES
+(1, 'Proba', 'Loremsdijfiowakjskl', '2024-02-17 10:40:32', 22, 8, 1, 8),
+(2, 'jedan', 'je', '2024-02-17 10:50:27', 22, 11, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -299,7 +310,10 @@ INSERT INTO `korisnik` (`korisnik_id`, `ime`, `prezime`, `email`, `lozinka`, `ad
 (33, 'Mobi', 'Mobi', 'mobi@mobi', '$2y$10$OUM.7ZzAIS3hbokj9rsevu/j.hkhXNOJTJ/Myj.mjO9daHb7lTFhu', 'Mobi', 'Mobi', 278, NULL, 2, 0),
 (35, 'Ivan', 'Mikec', 'ivan@ivan', '$2y$10$1ZcseMym4pcZGTXeqJd.fOE/d0XIeau1ha38.MwwclfFextB5i0Qi', 'Dravska 23', 'Oporovec', 302, NULL, 1, 0),
 (36, 'Emily ', 'Ivanović', 'emilyivanovic456@gmail.com', '$2y$10$pnd6n.om2UxMu6AxYM/ww.TYlaX20/m.hl3pff1pHjBs9e7lXJsd2', 'Školska 2', 'Goričan', 301, NULL, 1, 0),
-(809, 'Niko', 'nikic', 'nik@nik', '$2y$10$./nYmVBnaTnroS9ei5BwVO3nS590D1W6S7lNv1Kjou.VzN73hfHXe', 'Nuhert', 'Nesjg', 315, NULL, 2, 0);
+(809, 'Niko', 'nikic', 'nik@nik', '$2y$10$./nYmVBnaTnroS9ei5BwVO3nS590D1W6S7lNv1Kjou.VzN73hfHXe', 'Nuhert', 'Nesjg', 315, NULL, 2, 0),
+(819, 'asd', 'Ivanovic', 'salabahter.learning@gmail.com', '$2y$10$SE6o4c48Pe.G6BtqImS0BuKDsnWZ37HGL31GakurRqL0MdsjSYYMq', 'Gradska ulica 3', 'Goričan', 380, NULL, 2, 0),
+(820, 'Antonio', 'Ivanovic', 'toncooffical@gmail.com', '$2y$10$SBmOJVihKbMXFp.x.bhkruFFr4T7iWHbwUe/.8KXJVDEOZh5S1DD6', 'Skolska 2', 'Goričan', 300, NULL, 2, 0),
+(821, 'Lucija', 'Banožić', 'lucy.banozic@gmail.com', '$2y$10$bY.kqGdAjIPuzurVEr.07O7BFEdi4oV0TcrKExtH1nAILBIxJvLke', 'Prvomajska 1', 'Mihovljan', 300, NULL, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -316,7 +330,7 @@ CREATE TABLE `neverificiranikorisnici` (
   `adresa` varchar(255) NOT NULL,
   `prebivaliste` varchar(255) NOT NULL,
   `mjesto` int(11) NOT NULL,
-  `status_korisnika` int(11) NOT NULL,
+  `status_korisnika` int(20) NOT NULL,
   `verifikacijski_kod` int(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -325,7 +339,7 @@ CREATE TABLE `neverificiranikorisnici` (
 --
 
 INSERT INTO `neverificiranikorisnici` (`korisnik_id`, `ime`, `prezime`, `email`, `lozinka`, `adresa`, `prebivaliste`, `mjesto`, `status_korisnika`, `verifikacijski_kod`) VALUES
-(9, 'asd', 'asd', 'salabahter.learning@gmail.com', '$2y$10$3hhwRzp43XQ5.XXFTrrt/u1ecxrhTo5Bp3AQa8W51OjNqrOmPZuce', 'asd', 'asdr', 318, 2, 816357);
+(25, 'Antonio', 'Ivanovic', 'toncoedits@gmail.com', '$2y$10$WluL6Iq0EQ7aPdpscEdzgu/Zp/5S.Ig0ZFa.4vxO10MlVKPPrc9Se', 'Aa', 'Aa', 371, 2, 340082);
 
 -- --------------------------------------------------------
 
@@ -536,7 +550,8 @@ ALTER TABLE `gradovi`
 --
 ALTER TABLE `grupekartica`
   ADD PRIMARY KEY (`grupa_id`),
-  ADD KEY `vlasnik_id` (`vlasnik_id`);
+  ADD KEY `FK_vlasnikKartice` (`vlasnik_id`),
+  ADD KEY `predmet_id` (`predmet_id`);
 
 --
 -- Indexes for table `instruktori`
@@ -559,7 +574,7 @@ ALTER TABLE `instruktorovipredmeti`
 --
 ALTER TABLE `kartice`
   ADD PRIMARY KEY (`kartica_id`),
-  ADD KEY `grupa_id` (`grupa_id`);
+  ADD KEY `FK_grupaKartica` (`grupa_id`);
 
 --
 -- Indexes for table `korisnik`
@@ -579,7 +594,10 @@ ALTER TABLE `korisnik`
 --
 ALTER TABLE `neverificiranikorisnici`
   ADD PRIMARY KEY (`korisnik_id`),
-  ADD UNIQUE KEY `verifikacijski_kod` (`verifikacijski_kod`);
+  ADD UNIQUE KEY `verifikacijski_kod` (`verifikacijski_kod`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `FK_grad` (`mjesto`),
+  ADD KEY `FK_statusKorisnika` (`status_korisnika`);
 
 --
 -- Indexes for table `predmeti`
@@ -654,12 +672,6 @@ ALTER TABLE `gradovi`
   MODIFY `grad_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=385;
 
 --
--- AUTO_INCREMENT for table `grupekartica`
---
-ALTER TABLE `grupekartica`
-  MODIFY `grupa_id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT for table `instruktori`
 --
 ALTER TABLE `instruktori`
@@ -681,13 +693,13 @@ ALTER TABLE `kartice`
 -- AUTO_INCREMENT for table `korisnik`
 --
 ALTER TABLE `korisnik`
-  MODIFY `korisnik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=812;
+  MODIFY `korisnik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=822;
 
 --
 -- AUTO_INCREMENT for table `neverificiranikorisnici`
 --
 ALTER TABLE `neverificiranikorisnici`
-  MODIFY `korisnik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `korisnik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `predmeti`
@@ -745,7 +757,7 @@ ALTER TABLE `gradovi`
 -- Constraints for table `grupekartica`
 --
 ALTER TABLE `grupekartica`
-  ADD CONSTRAINT `grupekartica_ibfk_1` FOREIGN KEY (`vlasnik_id`) REFERENCES `korisnik` (`korisnik_id`);
+  ADD CONSTRAINT `FK_vlasnikKartice` FOREIGN KEY (`vlasnik_id`) REFERENCES `korisnik` (`korisnik_id`);
 
 --
 -- Constraints for table `instruktori`
@@ -764,7 +776,7 @@ ALTER TABLE `instruktorovipredmeti`
 -- Constraints for table `kartice`
 --
 ALTER TABLE `kartice`
-  ADD CONSTRAINT `kartice_ibfk_1` FOREIGN KEY (`grupa_id`) REFERENCES `grupekartica` (`grupa_id`);
+  ADD CONSTRAINT `FK_grupaKartica` FOREIGN KEY (`grupa_id`) REFERENCES `grupekartica` (`grupa_id`);
 
 --
 -- Constraints for table `korisnik`
@@ -772,6 +784,13 @@ ALTER TABLE `kartice`
 ALTER TABLE `korisnik`
   ADD CONSTRAINT `korisnik_ibfk_1` FOREIGN KEY (`status_korisnika`) REFERENCES `statuskorisnika` (`status_id`),
   ADD CONSTRAINT `korisnik_ibfk_2` FOREIGN KEY (`mjesto`) REFERENCES `gradovi` (`grad_id`);
+
+--
+-- Constraints for table `neverificiranikorisnici`
+--
+ALTER TABLE `neverificiranikorisnici`
+  ADD CONSTRAINT `FK_grad` FOREIGN KEY (`mjesto`) REFERENCES `gradovi` (`grad_id`),
+  ADD CONSTRAINT `FK_statusKorisnika` FOREIGN KEY (`status_korisnika`) REFERENCES `statuskorisnika` (`status_id`);
 
 --
 -- Constraints for table `predmetizahtjeva`

@@ -143,19 +143,26 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           <div class="card">
             <div class="card-body">
               <div class="d-flex flex-column align-items-center text-center">
-                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="125">
                 <div class="mt-3">
                   <!-- Ispis podataka o korisniku -->
-                  <h4> <?php echo $korisnik["ime"] . " " . $korisnik["prezime"] ?> </h4>
-                  <p class="text-secondary mb-1">
-                    <?php echo $korisnik['status_naziv']; ?></p>
-                  <p class="text-muted font-size-sm"><?php echo $korisnik["adresa"] . ",  ";
-                                                      echo $korisnik['prebivaliste']; ?></p>
+
+                  <h4> <?php echo $korisnik["ime"] . " " . $korisnik["prezime"] ?> </h4> <!-- Ispis korisnikova imena i prezimena -->
 
                   <?php if ($korisnikJeInstruktor) : // Ako je korisnik instruktor, ispiše se natpis Instruktor 
                   ?>
                     <label class="text">Instruktor</label>
                   <?php endif; ?>
+
+                  <p class="text-secondary mb-1">
+                    <?php echo $korisnik['status_naziv']; ?>
+                  </p>
+
+                  <p class="text-muted font-size-sm"><?php echo $korisnik["adresa"] . ",  ";
+                                                      echo $korisnik['prebivaliste']; ?>
+                  </p>
+
+
                 </div>
               </div>
             </div>
@@ -249,17 +256,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                   <h6 class="mb-0">Ime</h6>
                 </div>
                 <div class="col-sm-5 text-secondary">
-                  <label type="text"><?php echo $korisnik["ime"] // Ipis kosinikova imena 
-                                      ?></label>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Prezime</h6>
-                </div>
-                <div class="col-sm-5 text-secondary">
-                  <label type="text"><?php echo $korisnik["prezime"] // Ispis kosinikova prezimena 
+                  <label type="text"><?php echo $korisnik["ime"] . " " . $korisnik["prezime"] // Ipis kosinikova imena 
                                       ?></label>
                 </div>
               </div>
