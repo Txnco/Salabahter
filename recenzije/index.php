@@ -56,9 +56,11 @@ if ($rezultatInstruktor->num_rows > 0) { // Ako je korisnik instruktor onda se p
 $sqlAkojeKorisnikVecNapisaoRecenziju = "SELECT * FROM recenzije WHERE odKorisnika = {$_SESSION['user_id']} AND zaKorisnika = {$korisnikID}";
 $rezultatAkojeKorisnikVecNapisaoRecenziju = $con->query($sqlAkojeKorisnikVecNapisaoRecenziju);
 if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
+
   $korisnikVecNapisaoRecenziju = true;
   header("Location: ../profil?korisnik={$korisnikID}");
   die;
+  
 } else {
   $korisnikVecNapisaoRecenziju = false;
 }
