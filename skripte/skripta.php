@@ -87,7 +87,11 @@ function dohvatipodatkevlasnika($kreator_id)
     <title>Skripte</title>
 
     <?php include '../assets/css/stiliranjeSporedno.php'; ?>
-
+    <style>
+        iframe {
+        width: 100%; 
+        }
+    </style>
 </head>
 
 <body>
@@ -133,7 +137,9 @@ function dohvatipodatkevlasnika($kreator_id)
                         
                     </br>
                     <?php if (!empty($putanjaDoOdabraneSkripte)) { ?>
-                        <embed src="<?php echo $putanjaDoOdabraneSkripte; ?>" type="application/pdf" width="75%" height="600px" class="mx-auto d-block" />
+                        <div class="mx-5">
+                        <iframe src="<?php echo $putanjaDoOdabraneSkripte; ?>" width="800" height="600"></iframe>
+                        </div>
                     <?php } else { ?>
                         <p>Nažalost, nešto je pošlo po krivu.</p>
                         <a href="../dashboard/report.php?skripta_id=<?php echo $skripta_id; ?>" style="color: red;">Prijavi</a>
