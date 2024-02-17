@@ -135,47 +135,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
 
-            // if ($tocankod) {
-
-
-            //     $encrypt_password = password_hash($password, PASSWORD_DEFAULT);
-
-            //     if (!empty($email) && !empty($password)) {
-
-            //         $provjeraEmail = provjera_email($email, $con);
-
-
-            //         if ($provjeraEmail == 0) {
-            //             $upis = "INSERT INTO korisnik (ime,prezime,email,lozinka,adresa,prebivaliste,mjesto,status_korisnika) VALUES (?,?,?,?,?,?,?,?)";
-
-            //             $stmt = $con->stmt_init();
-
-            //             if (!$stmt->prepare($upis)) {
-            //                 die("SQL error:" . $con->error);
-            //             }
-
-            //             $stmt->bind_param(
-            //                 "ssssssss",
-            //                 $ime,
-            //                 $prezime,
-            //                 $email,
-            //                 $encrypt_password,
-            //                 $adresa,
-            //                 $prebivaliste,
-            //                 $grad,
-            //                 $status
-            //             );
-
-            //             $stmt->execute();
-            //             session_start();
-            //             $_SESSION["registered"] = true;
-
-            //             echo $status;
-            //             header("Location: prijava.php");
-            //             die;
-            //         }
-            //     } else echo "Krivi unos!";
-            // }
         }
     }
 }

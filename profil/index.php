@@ -94,6 +94,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 }
 
 
+$sqlAkojeKorisnikVecNapisaoRecenziju = "SELECT * FROM recenzije WHERE odKorisnika = {$_SESSION['user_id']} AND zaKorisnika = {$korisnikID}";
+$rezultatAkojeKorisnikVecNapisaoRecenziju = $con->query($sqlAkojeKorisnikVecNapisaoRecenziju);
+if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
+  $korisnikVecNapisaoRecenziju = true;
+} else {
+  $korisnikVecNapisaoRecenziju = false;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -112,7 +120,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- Ikone -->
 
-  <link href="../assets/css/dashboard.css" rel="stylesheet">
   <link href="../assets/css/recenzije.css" rel="stylesheet">
   <script src="../ukljucivanje/javascript/profil.js"></script>
 
@@ -168,22 +175,22 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             </div>
           </div>
 
-          <?php if ($imaRecenzije) : ?>
-            <div class="card mt-3">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-12 ">
-                    <div class="content text-center">
-
-                      <div class="ratings">
+          <div class="card mt-3">
+            <div class="card-body ">
+              <div class="row">
+                <div class="col-12 ">
+                  <div class="content text-center">
+                    
+                    <div class="ratings">
+                          <?php if ($imaRecenzije) : ?>
                         <?php
 
-                        $sqlDohvatiOcjene = "SELECT ROUND(AVG(ocjena),1) as prosjek, COUNT(ocjena) as brojOcjena FROM recenzije WHERE zaKorisnika = {$korisnikID}";
+                        $sqlDohvatiOcjene = "SELECT ROUND(AVG(ocjena),1) as prosjek, COUNT(ocjena) as brojOcjena FROM recenzije WHERE zaKorisnika = {$korisnikID} ";
                         $rezultatOcjene = $con->query($sqlDohvatiOcjene);
                         $ocjene = $rezultatOcjene->fetch_assoc();
                         $ocjene = floatval($ocjene['prosjek']);
 
-                        $sqlBrojRecenzija = "SELECT COUNT(ocjena) as brojOcjena FROM recenzije WHERE zaKorisnika = {$korisnikID}";
+                        $sqlBrojRecenzija = "SELECT COUNT(ocjena) as brojOcjena FROM recenzije WHERE zaKorisnika = {$korisnikID} ";
                         $rezultatBrojRecenzija = $con->query($sqlBrojRecenzija);
                         $brojRecenzija = $rezultatBrojRecenzija->fetch_assoc();
                         $brojRecenzija = $brojRecenzija['brojOcjena'];
@@ -206,8 +213,51 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                         <div class="rating-text">
                           <span><?php echo $brojRecenzija ?> recenzija</span>
+                          <br>
+                          <?php
+                          $sqlCountRecenzije = "SELECT COUNT(*) as count FROM recenzije WHERE zaKorisnika = {$korisnikID}";
+                          $resultCountRecenzije = $con->query($sqlCountRecenzije);
+                          $countRecenzije = $resultCountRecenzije->fetch_assoc();
 
+                          if ($countRecenzije['count'] > 6) :
+                          ?>
+                            <a class="link" href="../recenzije/sve.php?korisnik=<?php echo $korisnikID; ?>">Prikaži sve recenzije</a>
+                          <?php
+                          endif;
+                          ?>
                         </div>
+                        
+                        <?php endif; ?>
+
+                        <?php if (isset($_SESSION['user_id']) && !$korisnikVecNapisaoRecenziju) : ?>
+
+                          <div class="row mt-2">
+                            <div class="col ">
+                              <a class="mr-auto text-secondary" href="../recenzije/?korisnik=<?php echo $korisnikID ?>">Napiši recenziju za <?php
+                                                                                                                                            if ($korisnik['status_naziv'] == "Instruktor") {
+                                                                                                                                              echo "instruktora";
+                                                                                                                                            } else if ($korisnik['status_naziv'] == "Student") {
+                                                                                                                                              echo "studenta";
+                                                                                                                                            } else if ($korisnik['status_naziv'] == "Profesor") {
+                                                                                                                                              echo "profesora";
+                                                                                                                                            } else {
+                                                                                                                                              echo "korisnika";
+                                                                                                                                            }
+
+
+                                                                                                                                            ?></a>
+                              <svg class="ml-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path>
+                              </svg>
+                            </div>
+                          </div>
+
+
+
+                        <?php
+                        else : "";
+                        endif; ?>
+
 
                       </div>
                     </div>
@@ -215,36 +265,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 </div>
               </div>
             </div>
-          <?php endif; ?>
-
-          <?php if (isset($_SESSION['user_id'])) : ?>
-            <div class="card mt-3">
-              <div class="card-body ">
-                <div class="row">
-                  <div class="col-17 d-flex justify-content-center align-items-center">
-                    <a class="mr-auto text-secondary" href="../recenzije/?korisnik=<?php echo $korisnikID ?>">Napiši recenziju za <?php
-                                                                                                                                  if ($korisnik['status_naziv'] == "Instruktor") {
-                                                                                                                                    echo "instruktora";
-                                                                                                                                  } else if ($korisnik['status_naziv'] == "Student") {
-                                                                                                                                    echo "studenta";
-                                                                                                                                  } else if ($korisnik['status_naziv'] == "Profesor") {
-                                                                                                                                    echo "profesora";
-                                                                                                                                  } else {
-                                                                                                                                    echo "korisnika";
-                                                                                                                                  }
+          
 
 
-                                                                                                                                  ?></a>
-                    <svg class="ml-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                      <path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path>
-                    </svg>
-                  </div>
-                </div>
-
-
-              </div>
-            </div>
-          <?php endif; ?>
         </div>
 
         <div class="col-md-8">
@@ -358,10 +381,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <hr>
 
                 <div class="row">
+
+                  <?php
+                  $sqlCountRecenzije = "SELECT COUNT(*) as count FROM recenzije WHERE zaKorisnika = {$korisnikID}";
+                  $resultCountRecenzije = $con->query($sqlCountRecenzije);
+                  $countRecenzije = $resultCountRecenzije->fetch_assoc();
+
+                  if ($countRecenzije['count'] > 6) :
+                  ?>
+                    <a class="link" href="../recenzije/sve.php?korisnik=<?php echo $korisnikID; ?>">Prikaži sve recenzije</a>
+                  <?php
+                  endif;
+                  ?>
+
                   <?php
 
 
-                  $sqlSveRecnezije = "SELECT * FROM recenzije WHERE zaKorisnika = {$korisnikID}";
+                  $sqlSveRecnezije = "SELECT * FROM recenzije WHERE zaKorisnika = {$korisnikID} LIMIT 6";
                   $rezultatSveRecenzije = $con->query($sqlSveRecnezije);
                   if ($rezultatSveRecenzije->num_rows > 0) :
                     while ($red = $rezultatSveRecenzije->fetch_assoc()) :
@@ -379,6 +415,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         WHERE recenzije.recenzija_id = {$red['recenzija_id']}";
                       $rezultatKorisnik = $con->query($sqlKorisnik);
                       $korisnik = $rezultatKorisnik->fetch_assoc();
+
                   ?>
                       <div class="col-sm-4">
                         <div class="card mt-4 ">
