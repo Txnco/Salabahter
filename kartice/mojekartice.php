@@ -3,12 +3,12 @@ session_start();
 $con = require "../ukljucivanje/connection/spajanje.php";
 include("../ukljucivanje/functions/funkcije.php");
 
-$trenutnaStranica = "kartice";
+$trenutnaStranica = "kartice1";
 
 $putanjaDoPocetne = "../";
 $putanjaDoInstruktora = "../instruktori.php";
 $putanjaDoSkripta = "../skripte/";
-$putanjaDoKartica = "../kartice.php";
+$putanjaDoKartica = "../kartice/";
 $putanjaDoOnama = "../onama.php";
 
 $putanjaDoPrijave = "../racun/prijava.php";

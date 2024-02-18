@@ -20,65 +20,46 @@ $putanjaDoOdjave = "../racun/odjava.php";
 $con = require "../ukljucivanje/connection/spajanje.php";
 include("../ukljucivanje/functions/funkcije.php");
 
-// Provjera prijave korisnika
 $user = provjeri_prijavu($con);
 if (!isset($_SESSION["user_id"])) {
     header("Location: ../racun/prijava.php");
     exit;
 }
 
-// Provjera podnesenog obrasca za prijenos datoteka
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Provjera uspješnosti prijenosa datoteke
     if (isset($_FILES["skripta"]) && $_FILES["skripta"]["error"] == 0) {
-        // Direktorij za pohranu skripti
         $uploadDir = "skripte/";
-
-        // Generiranje jedinstvenog imena datoteke
         $uniqueFilename = uniqid() . "_" . $_FILES["skripta"]["name"];
-
-        // Putanja do pohranjene datoteke
         $skripta_putanja = $uploadDir . $uniqueFilename;
 
-        // Pohrana datoteke
         if (move_uploaded_file($_FILES["skripta"]["tmp_name"], $skripta_putanja)) {
-            // Informacije o skripti
+           
             $nazivSkripte = $_POST["naziv_skripte"];
             $opisSkripte = $_POST["opis_skripte"];
             $korisnikId = $_SESSION["user_id"];
-
-            // Provjera odabranog predmeta
             if (isset($_POST["predmet_id"]) && !empty($_POST["predmet_id"])) {
                 $predmetId = $_POST["predmet_id"];
-
-                // Datum kreiranja
                 $datumKreiranja = date('Y-m-d'); 
 
-                // Priprema SQL upita za unos informacija o skripti u bazu podataka
                 $sqlInsertSkripta = "INSERT INTO skripte (naziv_skripte, opis_skripte, skripta_putanja, korisnik_id, predmet_id, datum_kreiranja) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = $con->prepare($sqlInsertSkripta);
                 $stmt->bind_param("sssiis", $nazivSkripte, $opisSkripte, $skripta_putanja, $korisnikId, $predmetId, $datumKreiranja);
                 $stmt->execute();
 
                 if ($stmt->affected_rows > 0) {
-                    // Uspješno dodana skripta
                     echo "Skripta je uspješno prenesena i pohranjena.";
                     header("Location: skripta.php?skripta_id=" . $stmt->insert_id);
                     exit;
                 } else {
-                    // Greška pri unosu informacija o skripti
                     echo "Došlo je do greške pri unosu informacija o skripti.";
                 }
             } else {
-                // Poruka ako predmet nije odabran
                 echo "Molimo odaberite predmet.";
             }
         } else {
-            // Greška pri prijenosu datoteke
             echo "Došlo je do greške pri prijenosu datoteke.";
         }
     } else {
-        // Greška pri prijenosu datoteke
         echo "Prijenos datoteke nije uspio.";
     }
 }
@@ -100,9 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <?php include '../ukljucivanje/header.php'; ?>
 
-    <div class="container mt-5">
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-8 mt-3">
                 <div class="card">
                     <div class="card-header">
                         <h2 class="text-center">Prijenos Skripte</h2>

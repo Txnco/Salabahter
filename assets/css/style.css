@@ -3,28 +3,25 @@
 # General
 --------------------------------------------------------------*/
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Poppins", sans-serif !important;
   background-color: #f3efff;
 }
 
 a {
-  text-decoration: none;
+  text-decoration: none !important;
   color: #1bbca3;
 }
 
 a:hover {
-  color: #2ae0c4;
+  color: #2ae0c4 !important;
   text-decoration: none;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: "Roboto", sans-serif;
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Poppins", sans-serif !important;
+  color: #111111 !important;
 }
+
 
 
 /*--------------------------------------------------------------

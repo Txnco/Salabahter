@@ -8,7 +8,7 @@ $trenutnaStranica = "kartice";
 $putanjaDoPocetne = "../";
 $putanjaDoInstruktora = "../instruktori.php";
 $putanjaDoSkripta = "../skripte/";
-$putanjaDoKartica = "../kartice.php";
+$putanjaDoKartica = "../kartice/";
 $putanjaDoOnama = "../onama.php";
 
 $putanjaDoPrijave = "../racun/prijava.php";
