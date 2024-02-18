@@ -55,7 +55,7 @@ $pathToLogout="account/logout.php";
         <div class="carousel-inner" role="listbox">
 
           
-          <div class="carousel-item active" style="background-image: url(assets/img/slide/s1.jpg);">
+          <div class="carousel-item active" style="background-image: url(assets/img/pocetna2.jpg);">
             <div class="carousel-container">
               <div class="carousel-content">
                 <h2 class="animate__animated animate__fadeInDown">Dobrodošli na <span>Šalabahter</span></h2>
@@ -66,7 +66,7 @@ $pathToLogout="account/logout.php";
           </div>
 
           
-          <div class="carousel-item" style="background-image: url(assets/img/slide/s2.jpg);">
+          <div class="carousel-item" style="background-image: url(assets/img/pocetna.jpg);">
             <div class="carousel-container">
               <div class="carousel-content">
                 <h2 class="animate__animated animate__fadeInDown">Razvoj komunikacijskih vještina</h2>
@@ -76,7 +76,7 @@ $pathToLogout="account/logout.php";
             </div>
           </div>
           
-          <div class="carousel-item" style="background-image: url(assets/img/slide/s3.jpg);">
+          <div class="carousel-item" style="background-image: url(assets/img/pocetna3.jpg);">
             <div class="carousel-container">
               <div class="carousel-content">
                 <h2 class="animate__animated animate__fadeInDown">Transparentnost podrške</h2>
