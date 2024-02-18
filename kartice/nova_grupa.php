@@ -8,7 +8,7 @@ $trenutnaStranica = "kartice";
 $putanjaDoPocetne = "../";
 $putanjaDoInstruktora = "../instruktori.php";
 $putanjaDoSkripta = "../skripte/";
-$putanjaDoKartica = "../kartice.php";
+$putanjaDoKartica = "../kartice/";
 $putanjaDoOnama = "../onama.php";
 
 $putanjaDoPrijave = "../racun/prijava.php";
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 $sqlInsertGrupa = "INSERT INTO grupekartica (grupa_naziv, grupa_opis, vlasnik_id, javno, predmet_id, datum_kreiranja) VALUES (?, ?, ?, ?, ?, ?)";
                 $stmt = $con->prepare($sqlInsertGrupa);
-                $stmt->bind_param("ssiiis", $nazivGrupe, $opisGrupe, $vlasnikId, $javno, $predmetId, $datumKreiranja);
+                $stmt->bind_param("ssiiis", $nazivGrupe, $opisGrupe, $vlasnikId, $javno, $predmetId, $datumKreiranja);                
                 $stmt->execute();
 
                 if ($stmt->affected_rows > 0) {
@@ -85,11 +85,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8">
+            <div class="col-md-8 mt-3">
 
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="text-center">Prijenos Skripte</h2>
+                        <h2 class="text-center">Izrada nove grupe kartica za ponavljanje</h2>
                     </div>
 
                     <div class="card-body">

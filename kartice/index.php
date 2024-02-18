@@ -27,31 +27,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $searchTerm = $_POST["searchTerm"];
     $selectedSubject = $_POST["selectedSubject"];
 
-    // SQL query to search scripts
-    $sql = "SELECT * FROM grupekartica";
+    // Početni SQL upit za pretraživanje skripti
+    $sql = "SELECT * FROM grupekartica WHERE javno = 1";
 
+    // Dodavanje uvjeta pretrage na osnovu unesenog termina pretrage
     if (!empty($searchTerm)) {
-        $sql .= " WHERE (grupa_naziv LIKE '%$searchTerm%' OR grupa_opis LIKE '%$searchTerm%')";
+        $sql .= " AND (grupa_naziv LIKE '%$searchTerm%' OR grupa_opis LIKE '%$searchTerm%')";
     }
 
+    // Dodavanje uvjeta pretrage na osnovu odabranog predmeta
     if (!empty($selectedSubject)) {
-        if (strpos($sql, 'WHERE') !== false) {
-            
-            $sql .= " AND predmet_id = '$selectedSubject'";
-        } else {
-            
-            $sql .= " WHERE predmet_id = '$selectedSubject'";
-        }
+        $sql .= " AND predmet_id = '$selectedSubject'";
     }
 
-
-    // Execute the SQL query to search scripts
+    // Izvršavanje SQL upita za pretragu skripti
     $result = $con->query($sql);
 } else {
-    // SQL upit za dohvaćanje svih skripti
-    $sql = "SELECT * FROM grupekartica";
+    // Izvršavanje SQL upita za dohvaćanje svih skripti (bez pretrage)
+    $sql = "SELECT * FROM grupekartica WHERE javno = 1";
     $result = $con->query($sql);
 }
+
 
 
 ?>
@@ -64,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pretraži grupe kartica za ponavljanje</title>
 
-    <?php include '../assets/css/stiliranjeSporedno.php'; ?> <!-- Sve poveznice za stil web stranice -->
+    <?php include '../assets/css/stiliranjeSporedno.php'; ?> 
 
 </head>
 

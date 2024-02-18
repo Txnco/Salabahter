@@ -3,12 +3,12 @@ session_start();
 $con = require "../ukljucivanje/connection/spajanje.php";
 include("../ukljucivanje/functions/funkcije.php");
 
-$trenutnaStranica = "skripte";
+$trenutnaStranica = "kartice";
 
 $putanjaDoPocetne = "../";
 $putanjaDoInstruktora = "../instruktori.php";
 $putanjaDoSkripta = "../skripte/";
-$putanjaDoKartica = "../kartice.php";
+$putanjaDoKartica = "../kartice/";
 $putanjaDoOnama = "../onama.php";
 
 $putanjaDoPrijave = "../racun/prijava.php";
@@ -40,6 +40,14 @@ if($redSkripta = $rezultatSkripta->fetch_assoc()){
     $predmetBoja = $redPredmet['predmet_boja'];
     
 }
+
+    $sqlUpdatePregleda = "UPDATE grupekartica SET broj_pregleda = broj_pregleda + 1 WHERE grupa_id = $grupa_id"; 
+    $resultUpdatePregleda = $con->query($sqlUpdatePregleda);
+    
+    $sqlBrojPregleda = "SELECT broj_pregleda FROM grupekartica WHERE grupa_id = $grupa_id";
+    $resultBrojPregleda = $con->query($sqlBrojPregleda);
+    $rowBrojPregleda = $resultBrojPregleda->fetch_assoc();
+    $brojpregleda = $rowBrojPregleda['broj_pregleda'];
 function dohvatipodatkevlasnika($vlasnik_id)
 {
 
@@ -76,7 +84,7 @@ function dohvatipodatkevlasnika($vlasnik_id)
                     <div class="row">
                         <div class="col">
                             <p class="card-text">Broj pregleda:
-                                USKORO
+                                <?php echo " $brojpregleda ";?>
                             </p>
                         </div>
                         <div class="col text-right">
