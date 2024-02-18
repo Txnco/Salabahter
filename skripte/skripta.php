@@ -91,6 +91,9 @@ function dohvatipodatkevlasnika($kreator_id)
         iframe {
         width: 100%; 
         }
+        object {
+        width: 100%; 
+        }
     </style>
 </head>
 
@@ -137,8 +140,11 @@ function dohvatipodatkevlasnika($kreator_id)
                         
                     </br>
                     <?php if (!empty($putanjaDoOdabraneSkripte)) { ?>
-                        <div class="mx-5">
-                        <iframe src="<?php echo $putanjaDoOdabraneSkripte; ?>" width="800" height="600"></iframe>
+                        <div class="mx-1">
+                        <object data="<?php echo $putanjaDoOdabraneSkripte; ?>" type="application/pdf" width="800" height="600">
+                        <p>Izgleda da vaš preglednik ne može prikazati PDF datoteku.
+                        Možete preuzeti datoteku  <a href="<?php echo $putanjaDoOdabraneSkripte; ?>">ovdje</a>.</p>
+                        </object>
                         </div>
                     <?php } else { ?>
                         <p>Nažalost, nešto je pošlo po krivu.</p>
