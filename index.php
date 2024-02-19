@@ -273,7 +273,7 @@ $pathToLogout = "account/logout.php";
                 </li>
 
                 <li>
-                  <a data-bs-toggle="collapse" data-bs-target="#accordion-list-2" class="collapsed"><span>02</span> Što kod zahtjeva? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-bs-toggle="collapse" data-bs-target="#accordion-list-2" class="collapsed"><span>02</span> Kako poslati zahtjev? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-2" class="collapse" data-bs-parent=".accordion-list">
                     <p>
                       Nakon pritiska na tipku postani instruktor morate ispuniti obrazac sa svim potrebnim informacijama. Nakon što se prijavite, administratori će pregledati vaš zahtjev i odobriti ga ili odbiti ovisno o vašim kvalifikacijama.
@@ -535,7 +535,7 @@ $pathToLogout = "account/logout.php";
               <div class="row">
                 <div class="col-md-6 form-group">
                   <label for="name">Vaše ime</label>
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Vaše ime" required>
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
                   <label for="email">Vaša e-pošta</label>
