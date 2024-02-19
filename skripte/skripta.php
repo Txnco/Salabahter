@@ -85,16 +85,14 @@ function dohvatipodatkevlasnika($kreator_id)
 
     <?php include '../assets/css/stiliranjeSporedno.php'; ?>
     <style>
-        iframe {
-        width: 100%; 
+        @media only screen and (max-width: 600px) {
+        embed {
+            width: 100%;
+            height: 500px;
         }
-        object {
-        width: 100%; 
         }
-    </style>
-    <script>
-      
-    </script>
+        </style>
+
 </head>
 
 <body>
@@ -141,12 +139,8 @@ function dohvatipodatkevlasnika($kreator_id)
                     </br>
                     <?php if (!empty($putanjaDoOdabraneSkripte)) { ?>
                         <div class="mx-1">
-                        <style>
-                            .pdfobject-container { height: 500px; border: 1px solid #ccc; }
-                            </style>
-                            <div id="my-pdf"></div>
-                            <script src="https://unpkg.com/pdfobject"></script>
-                            <script>PDFObject.embed("<?php echo $putanjaDoOdabraneSkripte; ?>", "#my-pdf");</script>
+                        <embed src="<?php echo $putanjaDoOdabraneSkripte; ?>" type="application/pdf" width="100%" height="700px" />
+
                         </div>
                     <?php } else { ?>
                         <p>Nažalost, nešto je pošlo po krivu.</p>
@@ -205,10 +199,11 @@ function dohvatipodatkevlasnika($kreator_id)
     </div>
     
 </div>
+
  
                     
-                    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-                    <script src="../assets/js/main.js"></script>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <script src="../assets/js/main.js"></script>
 
 </body>
 
