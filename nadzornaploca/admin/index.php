@@ -82,6 +82,32 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     header("Location: /nadzornaploca");
     die;
   }
+  if (isset($_POST['postavljanjeSlike'])) {
+
+    $promjenaSlike = $_FILES['slika'];
+
+
+    $prijenosnaMapa = "profilneslike/";
+    $jedinstvenoIme = uniqid() . "_" . $_FILES["slika"]["name"];
+    $putanjaSlike = $prijenosnaMapa . $jedinstvenoIme;
+
+    if (move_uploaded_file($_FILES["slika"]["tmp_name"], "../" . $putanjaSlike)) {
+
+      $sqlDohvatiProfilnuSliku = "SELECT slika_korisnika FROM korisnik WHERE korisnik_id = {$_SESSION['user_id']}"; // Dohvati trenutnu sliku korisnika
+      $rezultatProfilnaSlika = $con->query($sqlDohvatiProfilnuSliku);
+      $profilnaSlika = $rezultatProfilnaSlika->fetch_assoc();
+      if ($profilnaSlika['slika_korisnika'] != null) {
+        unlink("../" .$profilnaSlika['slika_korisnika']); // Obriši staru sliku
+      }
+
+      $sqlUpisSlike = "UPDATE korisnik SET slika_korisnika =  '{$putanjaSlike}' WHERE korisnik_id = {$_SESSION['user_id']}";
+      $rezultatUpisSlike = $con->query($sqlUpisSlike);
+      header("Location: /nadzornaploca/admin");
+      die;
+    } else {
+      echo "Prijenos slike nije uspio";
+    }
+  }
 }
 
 
@@ -148,7 +174,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Shuffle Bootstrap Template - Index</title>
+  <title>Administrator</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -178,17 +204,8 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
 
   <?php include '../../ukljucivanje/header.php'; ?>
 
-  <div class="container">
+  <div class="container ">
     <div class="main-body">
-
-      <!-- Breadcrumb -->
-      <nav aria-label="breadcrumb" class="main-breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="../">Početna</a></li>
-          <li class="breadcrumb-item active"><a href="javascript:void(0)" aria-current="page">Račun</a></li>
-        </ol>
-      </nav>
-      <!-- /Breadcrumb -->
 
 
       <div class="row gutters-sm">
@@ -197,10 +214,30 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
 
         <div class="col-sm-3 mb-3">
           <div class="card">
-            <div class="card-body">
+            <div class="card-body" style="height: 361px;">
               <div class="d-flex flex-column align-items-center text-center">
                 <div class="profile-pic-container">
-                  <img id="profile-pic" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+
+
+                  <?php
+
+                  $sqlDohvatiProfilnuSliku = "SELECT slika_korisnika FROM korisnik WHERE korisnik_id = {$_SESSION['user_id']}";
+                  $rezultatProfilnaSlika = $con->query($sqlDohvatiProfilnuSliku);
+                  $profilnaSlika = $rezultatProfilnaSlika->fetch_assoc();
+
+
+                  if ($profilnaSlika['slika_korisnika'] != null) {
+                    $profilnaSlika['slika_korisnika'] = "../" . $profilnaSlika['slika_korisnika']; 
+
+                    echo "<div  style='width: 150px; height: 150px; overflow: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center;'>
+                    <img src='{$profilnaSlika['slika_korisnika']}' alt='Profilna slika' style='width: 100%; height: 100%; object-fit: cover;' />
+                  </div>";
+                  } else {
+                    echo '<img id="profile-pic" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">';
+                  }
+
+                  ?>
+
                   <div id="change-pic" class="overlay">
                     <button id="otvoriPrijenosSlike" class="overlay"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="28" height="28">
                         <path d="M15 3c.55 0 1 .45 1 1v9c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V4c0-.55.45-1 1-1 0-.55.45-1 1-1h4c.55 0 1 .45 1 1Zm-4.5 9c1.94 0 3.5-1.56 3.5-3.5S12.44 5 10.5 5 7 6.56 7 8.5 8.56 12 10.5 12ZM13 8.5c0 1.38-1.13 2.5-2.5 2.5S8 9.87 8 8.5 9.13 6 10.5 6 13 7.13 13 8.5ZM6 5V4H2v1Z"></path>
@@ -210,31 +247,24 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
 
                 <!-- Prozor za promjenu slike -->
                 <div class="modal fade" id="novaSlika" tabindex="-1" role="dialog" aria-labelledby="novaSlika" aria-hidden="true">
-                  <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-dialog modal-dialog-centered" role="profilnaSlika">
                     <div class="modal-content">
-                      <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Prijava recenzije</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                      <div class="modal-body">
-                        <form method="POST">
-
+                      <form method="POST" enctype="multipart/form-data">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Postavi profilnu sliku</h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">
                           <div class="file-upload-wrapper">
-                            <input type="file" id="input-file-now-custom-2" class="file-upload" data-height="500" />
+                            <input type="file" name="slika" id="unosSlike" class="file-upload" data-height="500" accept=".jpg, .jpeg" />
                           </div>
-
-
-                          <!-- data-browse="Bestand kiezen" -->
-                          
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
-                        <button type="submit" class="btn btn-danger" name="prijavaRecenzije">Prijavi</button>
-                      </div>
-
-
+                        </div>
+                        <div class="modal-footer">
+                          <button id="zatvoriPrijenosSlike" type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+                          <button type="submit" class="btn btn-danger" name="postavljanjeSlike">Postavi sliku</button>
+                        </div>
                       </form>
                     </div>
                   </div>
@@ -286,7 +316,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
         </div>
         <div class="col-sm-6">
           <div class="card mb-3">
-            <div class="card-body">
+            <div class="card-body" >
               <form method="post">
                 <div class="row">
                   <div class="col-sm-3 align-self-center">
@@ -425,7 +455,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
   <script src="https://code.jquery.com/jquery-3.7.1.js"> </script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
   <script src="../../assets/js/main.js"></script>
 
   <script>
@@ -436,28 +466,8 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
       });
 
       // Close the modal
-      $('#closeModalButton').click(function() {
+      $('#zatvoriPrijenosSlike').click(function() {
         $('#novaSlika').modal('hide');
-      });
-
-      $('#novaSlika form').submit(function(e) {
-        e.preventDefault();
-        form.onsubmit = function(e) {
-          e.preventDefault();
-          var file = document.getElementById("file").files[0];
-          var formData = new FormData();
-          formData.append("file", file);
-          fetch('/upload', { // replace '/upload' with your upload endpoint
-            method: 'POST',
-            body: formData
-          }).then(response => {
-            if (response.ok) {
-              console.log('Upload successful');
-            } else {
-              console.error('Upload failed');
-            }
-          });
-        }
       });
 
     });

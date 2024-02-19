@@ -32,14 +32,7 @@
                 <a href="svikorisnici.php" class="nav-link nadlink <?php echo $trenutnaStranica2 == "Korisnici" ? 'aktivno' : '' ?>">Svi
                     korisnici</a>
             </li>
-            <li class="nav-item">
-                <a href="" class="nav-link nadlink <?php echo $trenutnaStranica2 == "skripte" ? 'aktivno' : '' ?>">Sve
-                    skripte</a>
-            </li>
-            <li class="nav-item">
-                <a href="" class="nav-link nadlink <?php echo $trenutnaStranica2 == "grupekartica" ? 'aktivno' : '' ?>">Sve
-                    grupe kartica</a>
-            </li>
+            
         </ul>
     </div>
 
@@ -88,14 +81,7 @@
                 <a href="svikorisnici.php" class="nav-link nadlink <?php echo $trenutnaStranica2 == "Korisnici" ? 'aktivno' : '' ?>">Svi
                     korisnici</a>
             </li>
-            <li class="nav-item">
-                <a href="" class="nav-link nadlink <?php echo $trenutnaStranica2 == "skripte" ? 'aktivno' : '' ?>">Sve
-                    skripte</a>
-            </li>
-            <li class="nav-item">
-                <a href="" class="nav-link nadlink <?php echo $trenutnaStranica2 == "grupekartica" ? 'aktivno' : '' ?>">Sve
-                    grupe kartica</a>
-            </li>
+           
 
         </ul>
     </div>

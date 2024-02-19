@@ -167,13 +167,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                                             </div>
 
-                                           
-                                                <div class="row mt-2 d-flex align-items-center justify-content-center">
-                                                    <div class="col" id="trazilica">
-                                                        <a href="instruktori.php" class="btn btn-outline-danger mt-2 ml-2 mr-2" id="izbrisi">Izbriši filter</a>
-                                                        <button class="btn btn-success mt-2 ml-2 mr-2" id="pretrazi" type="submit">Pretraži</button>
-                                                    </div>
+
+                                            <div class="row mt-2 d-flex align-items-center justify-content-center">
+                                                <div class="col" id="trazilica">
+                                                    <a href="instruktori.php" class="btn btn-outline-danger mt-2 ml-2 mr-2" id="izbrisi">Izbriši filter</a>
+                                                    <button class="btn btn-success mt-2 ml-2 mr-2" id="pretrazi" type="submit">Pretraži</button>
                                                 </div>
+                                            </div>
 
 
                                         </div>
@@ -199,7 +199,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         <div class="card" style="height: 390px;">
                                             <div class="card-body">
                                                 <div class="d-flex flex-column align-items-center text-center">
-                                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100">
+                                                    <?php
+
+                                                    $sqlDohvatiProfilnuSliku = "SELECT slika_korisnika FROM korisnik WHERE korisnik_id = {$red['korisnik_id']}";
+                                                    $rezultatProfilnaSlika = $con->query($sqlDohvatiProfilnuSliku);
+                                                    $profilnaSlika = $rezultatProfilnaSlika->fetch_assoc();
+
+                                                    if ($profilnaSlika['slika_korisnika'] != null) {
+                                                        $profilnaSlika['slika_korisnika'] =  "nadzornaploca/". $profilnaSlika['slika_korisnika'];
+
+                                                        echo "<div class='ml-3' style='width: 100px; height: 100px; overflow: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center;'>
+                                                            <img src='{$profilnaSlika['slika_korisnika']}' alt='Profilna slika' style='width: 100%; height: 100%; object-fit: cover;' />
+                                                             </div>";
+                                                    } else {
+                                                        echo '<img  src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100px">';
+                                                    }
+
+                                                    ?>
                                                     <div class="mt-3">
                                                         <h4>
                                                             <?php echo $red["ime"] . " " . $red["prezime"] ?>

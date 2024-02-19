@@ -121,16 +121,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <div class="container">
         <div class="main-body">
 
-            <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb" class="main-breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="../../">Početna</a></li>
-                    <li class="breadcrumb-item active"><a href="../admin/" aria-current="page">Račun</a></li>
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)" aria-current="page">Prijave recenzija</a></li>
-                </ol>
-            </nav>
-            <!-- /Breadcrumb -->
-
             <div class="row gutters-sm">
                 <?php include 'izbornik.php'; ?>
 
@@ -140,23 +130,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             <h2 class="text-center mt-3">Prijave recenzija</h2>
                             <br>
                             <div class="row m-2 mx-auto">
-                                <div class="col-sm-2 text-center my-auto">
+                                <div class="col-sm-2 text-center my-auto d-none d-sm-block">
                                     <span style="font-size: 1em;">Autor</span>
                                 </div>
 
-                                <div class="col-sm-2 text-center my-auto">
+                                <div class="col-sm-2 text-center my-auto d-none d-sm-block">
                                     <span style="font-size: 1em;">Komentar</span>
                                 </div>
 
-                                <div class="col-sm-2 text-center my-auto">
+                                <div class="col-sm-2 text-center my-auto d-none d-sm-block">
                                     <span style="font-size: 1em;">Ocjena</span>
                                 </div>
 
-                                <div class="col-sm-2 text-center my-auto">
+                                <div class="col-sm-2 text-center my-auto d-none d-sm-block">
                                     <span style="font-size: 1em;">Prijavio korisnik</span>
                                 </div>
 
-                                <div class="col-sm-2 text-center my-auto">
+                                <div class="col-sm-2 text-center my-auto d-none d-sm-block">
                                     <span style="font-size: 1em;">Razlog prijave</span>
                                 </div>
                             </div>

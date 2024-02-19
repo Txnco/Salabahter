@@ -26,7 +26,7 @@
           <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "onama" ? 'active' : '' ?>" href="<?php echo $putanjaDoOnama?>" >O nama</a></li>
 
           <?php if(!isset($_SESSION["user_id"])): ?>
-              <a href="<?php echo $putanjaDoPrijave ?>" class="nav-link scrollto ml-3" role="button">Prijava</a>
+              <a href="<?php echo $putanjaDoPrijave ?>" class="nav-link scrollto" role="button">Prijava</a>
               <a href="<?php echo $putanjaDoRegistracije ?>" class="nav-link scrollto" role="button">Registracija</a>
       <?php else: ?>
               <a href="<?php echo $putanjaDoRacuna ?>" class="nav-link scrollto mr-2 <?php echo $trenutnaStranica == "račun" ? 'active' : '' ?>" role="button">Račun</a>
