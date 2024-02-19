@@ -112,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $mail->Port = 465; // Use 587 for TLS                           // TCP port to connect to
 
                     //Recipients
-                    $mail->setFrom('info@salabahter.eu', 'Šalabahter');
+                    $mail->setFrom('info@salabahter.eu', 'Salabahter');
                     $mail->addAddress($email, $ime);     // Add a recipient
 
                     // Content
