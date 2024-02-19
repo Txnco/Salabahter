@@ -132,15 +132,13 @@ function dohvatipodatkevlasnika($kreator_id)
                         <div class="row justify-content-center">
                             <div class="col">
                                 <div class="card-title text-center">
-                                    <a type="button" id="qrKod" class="text text-info" style="font-size: 0.9rem;" data-toggle="modal" data-target="#qrKod">Podijeli skriptu!</a>
+                                    <button type="button" href="generirajQRKodSkripte.php/?skripta_id=<?php echo $skripta_id ?>" class="btn btn-primary" data-toggle="modal" data-target="#qrKodModal"><i class="bi bi-qr-code"></i></button>
                                     <a href="<?php echo $putanjaDoOdabraneSkripte; ?>" class="btn btn-success">Preuzmi</a>
 
 
                                 </div>
                             </div>
                         </div>
-
-
 
 
                         </br>
@@ -246,7 +244,7 @@ function dohvatipodatkevlasnika($kreator_id)
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Prijava recenzije</h5>
+                    <h5 class="modal-title">QR KOD SKRIPTE</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -254,18 +252,31 @@ function dohvatipodatkevlasnika($kreator_id)
 
                 <div class="modal-body">
 
-                 <p> BOKKK</p>
-                    <div class="modal-body">
-                        <img id="qrKodSlika" src="" alt="QR Code">
+                    <div class="row">
+                        <div class="col">
+                            <?php
+                            // Get the data URL of the QR code
+                            $qrCodeDataUrl = require 'generirajQRKodSkripte.php';
+                            ?>
+
+                        </div>
+                        <div class="col">
+
+                            <h4 class="card-title" style="font-family: Poppins; text-align: center;"><b>
+                                    <?php echo "$nazivSkripte"; ?>
+                                </b></h4>
+                            <h5 class="card-info" style="font-family: Poppins; text-align: center;"> <a class="link" href="../profil?korisnik=<?php echo $kreator_id ?>">
+                                    <?php echo $imePrezimeKorisnika ?>
+                                </a>,
+                                <?php echo "$datum   ";
+                                echo '<span class="badge" style="background-color: ' . $predmetBoja . ';">' . $predmetNaziv . '</span> '; ?>
+                            </h5>
+
+                        </div>
+
                     </div>
 
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
-
-                </div>
-
-
 
             </div>
         </div>
@@ -273,6 +284,7 @@ function dohvatipodatkevlasnika($kreator_id)
 
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
     <script src="https://code.jquery.com/jquery-3.7.1.js"> </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="../../assets/js/main.js"></script>
