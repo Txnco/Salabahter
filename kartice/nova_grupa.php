@@ -95,9 +95,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
 
                     <div class="card-body">
-                        <form method="post"  enctype="multipart/form-data">
+                        <form method="post" class="needs-validation"  enctype="multipart/form-data">
                             <div class="form-group">
-                                <label for="naziv_grupe">Naziv Grupe Kartica</label>
+                                <label for="naziv_grupe" style="color: #FFFFFF;">Naziv Grupe Kartica</label>
                                 <input type="text" class="form-control" id="naziv_grupe" name="naziv_grupe" required>
                             </div>
                             <div class="form-group">

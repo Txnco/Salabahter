@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="container ">
                 <div class="row">
                     <div class="col-lg-6 mx-auto mt-5">
-                        <h1 class="display-4 " style="color: #FFFFFF;">Pretraži Skripte</h1>
+                        <h1 class="display-4 " style="color: #FFFFFF;" >Pretraži Skripte</h1>
                         <p class="lead" style="color: #FFFFFF;">Pretražite skripte koje su objavili naši korisnici i uživajte u besplatnim </br> pogodnostima platforme Šalabahter, ili <a href="nova_skripta.phps">objavite skriptu samostalno</a> i pomognite ostalima.</p>
                     </div>
                 </div>

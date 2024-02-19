@@ -61,9 +61,6 @@ if($redSkripta = $rezultatSkripta->fetch_assoc()){
     $sviInstruktori= dohvatiinstruktore($predmet_id);
 }
 
-
-
-
 function dohvatipodatkevlasnika($kreator_id)
 {
 
@@ -95,6 +92,9 @@ function dohvatipodatkevlasnika($kreator_id)
         width: 100%; 
         }
     </style>
+    <script>
+      
+    </script>
 </head>
 
 <body>
@@ -141,10 +141,12 @@ function dohvatipodatkevlasnika($kreator_id)
                     </br>
                     <?php if (!empty($putanjaDoOdabraneSkripte)) { ?>
                         <div class="mx-1">
-                        <object data="<?php echo $putanjaDoOdabraneSkripte; ?>" type="application/pdf" width="800" height="600">
-                        <p>Izgleda da vaš preglednik ne može prikazati PDF datoteku.
-                        Možete preuzeti datoteku  <a href="<?php echo $putanjaDoOdabraneSkripte; ?>">ovdje</a>.</p>
-                        </object>
+                        <style>
+                            .pdfobject-container { height: 500px; border: 1px solid #ccc; }
+                            </style>
+                            <div id="my-pdf"></div>
+                            <script src="https://unpkg.com/pdfobject"></script>
+                            <script>PDFObject.embed("<?php echo $putanjaDoOdabraneSkripte; ?>", "#my-pdf");</script>
                         </div>
                     <?php } else { ?>
                         <p>Nažalost, nešto je pošlo po krivu.</p>
@@ -204,41 +206,6 @@ function dohvatipodatkevlasnika($kreator_id)
     
 </div>
  
- 
- 
-    <!--
-                        <h5 class="card-text mt-3" style="font-family: Poppins; text-align: center;">Instruktori koji
-                            predaju ovaj predmet:</h5>
-                        <div class="row">
-                        <?php
-                            /*
-                            while ($redInstruktori = $sviInstruktori->fetch_assoc()) {
-                                $instruktor_id = $redInstruktori['instruktor_id'];
-                                $sqlInstruktor = "SELECT korisnik_id, opis FROM instruktori WHERE instruktor_id = $instruktor_id";
-                                
-                                $resultInstruktor = $con->query($sqlInstruktor);
-                                $redInstruktor = $resultInstruktor->fetch_assoc();
-                                $korisnik_id = $redInstruktor['korisnik_id'];
-
-                                $sqlKorisnik = "SELECT ime, prezime FROM korisnik WHERE korisnik_id = $korisnik_id";
-                                $resultKorisnik = $con->query($sqlKorisnik);
-                                $rowKorisnik = $resultKorisnik->fetch_assoc();
-
-                                $imeInstruktora = $rowKorisnik['ime'];
-                                $prezimeInstruktora = $rowKorisnik['prezime'];
-                                $opisInstruktora = $redInstruktor['opis'];
-                            ?>
-                            <div class="col-md-4">
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body">
-                                        <h5 class="card-title"><?php echo $imeInstruktora . " " . $prezimeInstruktora; ?></h5>
-                                        <p class="card-text"><?php echo $opisInstruktora; ?></p>    
-                                    </div>
-                                </div>
-                            </div>
-                            <?php
-                            }*/?>
-                    </div>-->
                     
                     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
                     <script src="../assets/js/main.js"></script>
