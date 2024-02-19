@@ -40,32 +40,33 @@ if ($redGrupa = $rezultatGrupa->fetch_assoc()) {
     $javno = $redGrupa['javno'];
     $predmetId = $redGrupa['predmet_id'];
     $datumKreiranja = $redGrupa['datum_kreiranja'];
+    $imePrezimeKorisnika = dohvatipodatkevlasnika($vlasnikId);
+
+    $sqlPredmet = "SELECT naziv_predmeta, predmet_boja FROM predmeti WHERE predmet_id =  $predmetId";
+    $rezultatPredmet = $con->query($sqlPredmet);
+    $redPredmet = $rezultatPredmet->fetch_assoc();
+    $predmetNaziv = $redPredmet['naziv_predmeta'];
+    $predmetBoja = $redPredmet['predmet_boja'];
+}
+$sqlUpdatePregleda = "UPDATE grupekartica SET broj_pregleda = broj_pregleda + 1 WHERE grupa_id = $grupa_id"; 
+$resultUpdatePregleda = $con->query($sqlUpdatePregleda);
+
+$sqlBrojPregleda = "SELECT broj_pregleda FROM grupekartica WHERE grupa_id = $grupa_id";
+$resultBrojPregleda = $con->query($sqlBrojPregleda);
+$rowBrojPregleda = $resultBrojPregleda->fetch_assoc();
+$brojpregleda = $rowBrojPregleda['broj_pregleda'];
+function dohvatipodatkevlasnika($vlasnik_id)
+{
+
+$con = require "../ukljucivanje/connection/spajanje.php";
+$sqlKorisnik = "SELECT ime, prezime FROM korisnik WHERE korisnik_id = $vlasnik_id";
+$resultKorisnik = $con->query($sqlKorisnik);
+$rowKorisnik = $resultKorisnik->fetch_assoc();
+$ime = $rowKorisnik['ime'];
+$prezime = $rowKorisnik['prezime'];
+return $ime . " " . $prezime;
 }
 
-
-
-// Provjeri je li poslan zahtjev za brisanje kartice
-if (isset($_POST['delete_card'])) {
-    // Provjeri je li poslan ID kartice i ID grupe
-    if (isset($_POST['kartica_id']) && isset( $_GET['grupa_id'])) {
-        $karticaId = $_POST['kartica_id'];
-        $grupa_id = $_GET['grupa_id'];
-        
-        // Pripremi upit za brisanje kartice
-        $sql = "DELETE FROM kartice WHERE kartica_id = $karticaId AND grupa_id = $grupaId";
-        
-        // Izvrši upit za brisanje kartice
-        if (mysqli_query($con, $sql)) {
-            echo "Kartica je uspješno obrisana.";
-        } else {
-            echo "Došlo je do greške prilikom brisanja kartice: " . mysqli_error($con);
-        }
-    } else {
-        echo "Nisu poslani potrebni podaci za brisanje kartice.";
-    }
-} else {
-    echo "Zahtjev za brisanje kartice nije poslan.";
-}
 ?>
 
 <!DOCTYPE html>
@@ -91,7 +92,12 @@ if (isset($_POST['delete_card'])) {
             <div class="col-md-4 mb-4">
                 <div class="card mb-4">
                     <div class="card-header py-3">
-                        <h4 class="mt-3 mb-2 d-inline">Događaj</h4>
+                        <h4 class="mt-3 mb-2 d-inline"><?php echo "$nazivGrupe"; ?></h4>
+                        <h6 class="card-info" style="font-family: Poppins; text-align: center;"> <a class="link"
+                            href="../profil?korisnik=<?php echo $vlasnikId ?>"> <?php echo $imePrezimeKorisnika; ?>
+                        </a>, <?php echo "$datumKreiranja"; ?>
+                        <?php  echo '<span class="badge" style="background-color: ' . $predmetBoja . ';">' . $predmetNaziv . '</span> '; ?>
+                    </h6>
                         <a href="#" id="editEvent">uredi</a>
                     </div>
 
@@ -152,71 +158,57 @@ if (isset($_POST['delete_card'])) {
             </div>
 
             <div class="col-md-8 mb-4">
-                <form action="action.php" method="get">
-                    <input type="hidden" name="create_competition" value="1">
+                <form action="akcije.php" method="get">
+                    <input type="hidden" name="nova_kartica" value="1">
                     <input type="hidden" name="grupa_id" value="<?php echo $grupa_id; ?>">
                     <button type="submit" class="btn btn-success">Dodaj novu karticu</button>
                 </form>
                 <div class="mb-3 mt-2 overflow-auto" style="max-height: 70vh;">
+    <?php
+    $sql = "SELECT * FROM kartice WHERE grupa_id = $grupa_id";
+    $result = mysqli_query($con, $sql);
 
-                    <?php
-                    $sql = "SELECT * FROM kartice WHERE grupa_id = $grupa_id";
-                    $result = mysqli_query($con, $sql);
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+    ?>
+            <div class="card mb-4">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading<?php echo $row['kartica_id']; ?>">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $row['kartica_id']; ?>" aria-expanded="false" aria-controls="collapse<?php echo $row['kartica_id']; ?>">
+                            <?php echo $row['pitanje']; ?>
+                        </button>
+                    </h2>
+                    <div id="collapse<?php echo $row['kartica_id']; ?>" class="accordion-collapse collapse" aria-labelledby="heading<?php echo $row['kartica_id']; ?>" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <p><?php echo $row['odgovor']; ?></p>
 
-                    if (mysqli_num_rows($result) > 0) {
-                        while ($row = mysqli_fetch_assoc($result)) {
-                    ?>
-                            <div class="card mb-4">
-                                <div class="accordion-item">
-                                    <h2 class="accordion-header" id="heading<?php echo $row['kartica_id']; ?>">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $row['kartica_id']; ?>" aria-expanded="false" aria-controls="collapse<?php echo $row['kartica_id']; ?>">
-                                            <?php echo $row['pitanje']; ?>
-                                        </button>
-                                    </h2>
-                                    <div id="collapse<?php echo $row['kartica_id']; ?>" class="accordion-collapse collapse" aria-labelledby="heading<?php echo $row['kartica_id']; ?>" data-bs-parent="#accordionExample">
-                                        <div class="accordion-body">
-                                            <p><?php echo $row['odgovor']; ?></p>
-                                            <a href="novo.php?grupa_id=<?php echo $grupa_id; ?>" onclick="deleteCard(<?php echo $row['kartica_id']; ?>, <?php echo $grupa_id; ?>)" class="text text-danger" style="font-size: 0.9rem;">Obriši</a>
+                            <form action="akcije.php" method="POST">
+                                <input type="hidden" name="action" value="obrisi_karticu" />
+                                <input type="hidden" name="grupa_id" value="<?php echo $grupa_id; ?>" />
+                                <input type="hidden" name="kartica_id" value="<?php echo $row['kartica_id']; ?>" />
+                                <button type="submit" class="btn btn-danger mt-2">Izbriši</button>
+                            </form>
+                            <?php echo "<form action='akcije.php' method='GET'> <input type='hidden' name='kartica_id' value='{$row['kartica_id']}'/> <input type='hidden' name='action' value='brisi_auto_iz_baze'/> <input type='submit' name='Submit' value='Briši'/></form>"?>
 
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                    <?php
-                        }
-                    } else {
-                        echo "Nema kartica";
-                    }
-                    ?>
-
-
+                        </div>
+                    </div>
                 </div>
+            </div>
+    <?php
+        }
+    } else {
+        echo "Nema kartica";
+    }
+    ?>
+</div>
+
             </div>
 
         </div>
 
 
     </div>
-    <script>
-   function deleteCard(karticaId, grupaId) {
-    var confirmDelete = confirm("Jeste li sigurni da želite obrisati ovu karticu?");
-    if (confirmDelete) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                // Ažuriraj sadržaj stranice ili prikaži poruku
-                alert(this.responseText);
-                location.reload(); // Osvježi stranicu nakon brisanja kartice
-            }
-        };
-        xhttp.open("POST", "novo.php?grupa_id=" + grupaId, true); // Pass grupa_id in the URL
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send("delete_card=1&kartica_id=" + karticaId + "&grupa_id=" + grupaId);
-    }
-}
-
-</script>
+    
 </body>
 
 </html>
