@@ -41,7 +41,7 @@ $brojZahtjeva = $rezultatZahtjeva->num_rows;
 $sqlPrijaveRecenzija = "SELECT * FROM prijavarecenzije";
 $rezultatPrijaveRecenzija = $con->query($sqlPrijaveRecenzija);
 while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
-  $brojPrijavaRecenzija = $rezultatPrijaveRecenzija->num_rows;
+    $brojPrijavaRecenzija = $rezultatPrijaveRecenzija->num_rows;
 }
 
 
@@ -194,43 +194,35 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     <div class="container">
         <div class="main-body">
 
-            <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb" class="main-breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="../../">Početna</a></li>
-                    <li class="breadcrumb-item active"><a href="../admin/" aria-current="page">Račun</a></li>
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)" aria-current="page">Zahtjevi</a></li>
-                </ol>
-            </nav>
-            <!-- /Breadcrumb -->
+
 
             <div class="row gutters-sm">
                 <?php include 'izbornik.php'; ?>
 
 
-                <div class="col-sm-9">
+                <div class="col-sm">
                     <div class="card">
                         <div class="card-body p-0">
                             <h2 class="text-center mt-3">Zahtjevi za instruktora</h2>
                             <br>
                             <div class="row m-2 mx-auto">
-                                <div class="col-sm-2 text-center my-auto">
+                                <div class="col-sm-2 text-center my-auto d-none d-sm-block">
                                     <span style="font-size: 1em;">Profilna slika</span>
                                 </div>
 
-                                <div class="col-sm-2 text-center my-auto">
+                                <div class="col-sm-2 text-center my-auto d-none d-sm-block">
                                     <span style="font-size: 1em;">Ime i prezime</span>
                                 </div>
 
-                                <div class="col-sm-2 text-center my-auto">
+                                <div class="col-sm-2 text-center my-auto d-none d-sm-block">
                                     <span style="font-size: 1em;">Motivacija</span>
                                 </div>
 
-                                <div class="col-sm-2 text-center my-auto">
+                                <div class="col-sm-2 text-center my-auto d-none d-sm-block">
                                     <span style="font-size: 1em;">Predmeti</span>
                                 </div>
 
-                                <div class="col-sm-2 text-center my-auto">
+                                <div class="col-sm-2 text-center my-auto d-none d-sm-block">
                                     <span style="font-size: 1em;">Autentikacija</span>
                                 </div>
                             </div>
@@ -257,35 +249,56 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                                 <form method="POST">
                                     <div class="row m-2 mx-auto">
 
-                                        <div class="col-sm-2 text-center my-auto">
-                                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100rem">
+                                        <div class="col-6 col-sm-2 text-center my-auto">
+
+
+
+                                            <?php
+
+                                            $sqlDohvatiProfilnuSliku = "SELECT slika_korisnika FROM korisnik WHERE korisnik_id = {$row['korisnik_id']}";
+                                            $rezultatProfilnaSlika = $con->query($sqlDohvatiProfilnuSliku);
+                                            $profilnaSlika = $rezultatProfilnaSlika->fetch_assoc();
+
+
+                                            if ($profilnaSlika['slika_korisnika'] != null) {
+                                                $profilnaSlika['slika_korisnika'] = "../" . $profilnaSlika['slika_korisnika'];
+
+                                                echo "<div  style='width: 150px; height: 150px; overflow: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center;'>
+  <img src='{$profilnaSlika['slika_korisnika']}' alt='Profilna slika' style='width: 100%; height: 100%; object-fit: cover;' />
+</div>";
+                                            } else {
+                                                echo '<img  src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100px">';
+                                            }
+
+                                            ?>
+
                                         </div>
 
-                                        <div class="col-sm-2 text-center my-auto">
+                                        <div class="col-6 col-sm-2 text-center my-auto">
                                             <h6 class="card-text"><a class="link" href="../../profil?korisnik=<?php echo $row['korisnik_id'] ?>"><?php echo $row["ime"] . " " . $row["prezime"] . "<br>" ?></a><?php echo $row["status_naziv"] ?></h6>
                                         </div>
 
-                                        <div class="col-sm-2 text-center my-auto">
+                                        <div class="col-6 col-sm-2 text-center my-auto">
                                             <h6 class="card-text"><?php echo $row['motivacija'] ?></h6>
                                         </div>
 
-                                        <div class="col-sm-2 text-center my-auto">
+                                        <div class="col-6 col-sm-2 text-center my-auto">
                                             <h6 class="card-text"><?php foreach ($predmeti as $predmet) {
                                                                         echo $predmet . ", ";
                                                                     } ?></h6>
                                         </div>
 
-                                        <div class="col-sm-2 text-center my-auto">
+                                        <div class="col-6 col-sm-2 text-center my-auto">
                                             <a class="btn btn-primary" href="../<?php echo $row["autentikacija"] ?>" download>Preuzmi</a>
-
                                         </div>
-                                        <div class="col-sm-2 text-center my-auto">
+
+                                        <div class="col-6 col-sm-2 text-center my-auto">
                                             <input type="hidden" name="korisnik_id" value="<?php echo $row['korisnik_id']; ?>">
                                             <input type="hidden" name="zahtjev_id" value="<?php echo $row['zahtjev_id']; ?>">
-                                            <div class="col-sm-2 text-center p-1 my-auto">
+                                            <div class="col-12 text-center p-1 my-auto">
                                                 <button class="btn btn-success" name="prihvatiZahtjev" type="submit">Prihvati</button>
-                                            </div> <!-- Svaki zahtjev ima svoj ID, treba za svaki ID zahtjeva sloziti LOOP da se prihvati/odbaci samo onaj koji je stisnuti a ne svi koji su u formu -->
-                                            <div class="col-sm-2 text-center p-1 my-auto">
+                                            </div>
+                                            <div class="col-12 text-center p-1 my-auto">
                                                 <button class="btn btn-danger" name="odbijZahtjev" type="submit">Odbij</button>
                                             </div>
                                         </div>

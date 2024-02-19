@@ -57,12 +57,11 @@ $sqlAkojeKorisnikVecNapisaoRecenziju = "SELECT * FROM recenzije WHERE odKorisnik
 $rezultatAkojeKorisnikVecNapisaoRecenziju = $con->query($sqlAkojeKorisnikVecNapisaoRecenziju);
 if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
 
-  $korisnikVecNapisaoRecenziju = true;
-  header("Location: ../profil?korisnik={$korisnikID}");
-  die;
-  
+    $korisnikVecNapisaoRecenziju = true;
+    header("Location: ../profil?korisnik={$korisnikID}");
+    die;
 } else {
-  $korisnikVecNapisaoRecenziju = false;
+    $korisnikVecNapisaoRecenziju = false;
 }
 
 
@@ -159,7 +158,25 @@ if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
                                     <div class="account-block d-flex justify-content-center">
                                         <div class="d-flex flex-column  text-center ">
                                             <div class="mt-5">
-                                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+
+                                                <?php
+
+                                                $sqlDohvatiProfilnuSliku = "SELECT slika_korisnika FROM korisnik WHERE korisnik_id = {$korisnikID}";
+                                                $rezultatProfilnaSlika = $con->query($sqlDohvatiProfilnuSliku);
+                                                $profilnaSlika = $rezultatProfilnaSlika->fetch_assoc();
+
+
+                                                if ($profilnaSlika['slika_korisnika'] != null) {
+                                                    $profilnaSlika['slika_korisnika'] = "../nadzornaploca/" . $profilnaSlika['slika_korisnika'];
+
+                                                    echo "<div  style='width: 150px; height: 150px; overflow: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center;'>
+    <img src='{$profilnaSlika['slika_korisnika']}' alt='Profilna slika' style='width: 100%; height: 100%; object-fit: cover;' />
+  </div>";
+                                                } else {
+                                                    echo '<img id="profile-pic" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">';
+                                                }
+                                                ?>
+
                                                 <!-- Ispis podataka o korisniku -->
                                                 <h4 class="mt-3"> <?php echo $korisnik["ime"] . " " . $korisnik["prezime"] ?> </h4>
                                                 <p class="text-secondary mb-1">

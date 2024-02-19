@@ -121,8 +121,8 @@ if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- Ikone -->
 
   <link href="../assets/css/recenzije.css" rel="stylesheet">
-  <script src="../ukljucivanje/javascript/profil.js"></script>
-
+  
+  <link href="../assets/css/nadzornaploca.css" rel="stylesheet">
 
 
 </head>
@@ -133,24 +133,36 @@ if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
 
 
 
-  <div class="container">
-    <div class="main-body">
+  <div class="container" >
+    <div class="main-body ">
 
-      <!-- Breadcrumb -->
-      <nav aria-label="breadcrumb" class="main-breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="../">Početna</a></li>
-          <li class="breadcrumb-item active"><a href="javascript:void(0)" aria-current="page">Račun</a></li>
-        </ol>
-      </nav>
-      <!-- /Breadcrumb -->
 
       <div class="row gutters-sm">
         <div class="col-md-4 mb-3 ">
           <div class="card">
             <div class="card-body">
               <div class="d-flex flex-column align-items-center text-center">
-                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="125">
+
+
+                <?php
+
+                $sqlDohvatiProfilnuSliku = "SELECT slika_korisnika FROM korisnik WHERE korisnik_id = {$korisnikID}";
+                $rezultatProfilnaSlika = $con->query($sqlDohvatiProfilnuSliku);
+                $profilnaSlika = $rezultatProfilnaSlika->fetch_assoc();
+
+
+                if ($profilnaSlika['slika_korisnika'] != null) {
+                  $profilnaSlika['slika_korisnika'] = "../nadzornaploca/" . $profilnaSlika['slika_korisnika'];
+
+                  echo "<div  style='width: 150px; height: 150px; overflow: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center;'>
+    <img src='{$profilnaSlika['slika_korisnika']}' alt='Profilna slika' style='width: 100%; height: 100%; object-fit: cover;' />
+  </div>";
+                } else {
+                  echo '<img id="profile-pic" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">';
+                }
+
+                ?>
+
                 <div class="mt-3">
                   <!-- Ispis podataka o korisniku -->
 
@@ -180,9 +192,9 @@ if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
               <div class="row">
                 <div class="col-12 ">
                   <div class="content text-center">
-                    
+
                     <div class="ratings">
-                          <?php if ($imaRecenzije) : ?>
+                      <?php if ($imaRecenzije) : ?>
                         <?php
 
                         $sqlDohvatiOcjene = "SELECT ROUND(AVG(ocjena),1) as prosjek, COUNT(ocjena) as brojOcjena FROM recenzije WHERE zaKorisnika = {$korisnikID} ";
@@ -226,46 +238,46 @@ if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
                           endif;
                           ?>
                         </div>
-                        
-                        <?php endif; ?>
 
-                        <?php if (isset($_SESSION['user_id']) && !$korisnikVecNapisaoRecenziju) : ?>
+                      <?php endif; ?>
 
-                          <div class="row mt-2">
-                            <div class="col ">
-                              <a class="mr-auto text-secondary" href="../recenzije/?korisnik=<?php echo $korisnikID ?>">Napiši recenziju za <?php
-                                                                                                                                            if ($korisnik['status_naziv'] == "Instruktor") {
-                                                                                                                                              echo "instruktora";
-                                                                                                                                            } else if ($korisnik['status_naziv'] == "Student") {
-                                                                                                                                              echo "studenta";
-                                                                                                                                            } else if ($korisnik['status_naziv'] == "Profesor") {
-                                                                                                                                              echo "profesora";
-                                                                                                                                            } else {
-                                                                                                                                              echo "korisnika";
-                                                                                                                                            }
+                      <?php if (isset($_SESSION['user_id']) && !$korisnikVecNapisaoRecenziju) : ?>
+
+                        <div class="row mt-2">
+                          <div class="col ">
+                            <a class="mr-auto text-secondary" href="../recenzije/?korisnik=<?php echo $korisnikID ?>">Napiši recenziju za <?php
+                                                                                                                                          if ($korisnik['status_naziv'] == "Instruktor") {
+                                                                                                                                            echo "instruktora";
+                                                                                                                                          } else if ($korisnik['status_naziv'] == "Student") {
+                                                                                                                                            echo "studenta";
+                                                                                                                                          } else if ($korisnik['status_naziv'] == "Profesor") {
+                                                                                                                                            echo "profesora";
+                                                                                                                                          } else {
+                                                                                                                                            echo "korisnika";
+                                                                                                                                          }
 
 
-                                                                                                                                            ?></a>
-                              <svg class="ml-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                <path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path>
-                              </svg>
-                            </div>
+                                                                                                                                          ?></a>
+                            <svg class="ml-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                              <path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path>
+                            </svg>
                           </div>
+                        </div>
 
 
 
-                        <?php
-                        else : "";
-                        endif; ?>
+                      <?php
+                      else : "";
+                      endif; ?>
 
 
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          
+          </div>
+
 
 
         </div>

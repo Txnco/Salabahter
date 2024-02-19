@@ -125,15 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <div class="container">
         <div class="main-body">
 
-            <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb" class="main-breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="../../">Početna</a></li>
-                    <li class="breadcrumb-item active"><a href="../admin/" aria-current="page">Račun</a></li>
-                    <li class="breadcrumb-item active"><a href="javascript:void(0)" aria-current="page">Prijave recenzija</a></li>
-                </ol>
-            </nav>
-            <!-- /Breadcrumb -->
+
 
             <div class="row gutters-sm">
                 <?php include 'izbornik.php'; ?>
@@ -161,7 +153,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                             <div class="card-body">
 
                                                                 <div class="d-flex flex-column align-items-center text-center">
-                                                                    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100">
+                                                                    <?php
+
+                                                                    $sqlDohvatiProfilnuSliku = "SELECT slika_korisnika FROM korisnik WHERE korisnik_id = {$red['korisnik_id']}";
+                                                                    $rezultatProfilnaSlika = $con->query($sqlDohvatiProfilnuSliku);
+                                                                    $profilnaSlika = $rezultatProfilnaSlika->fetch_assoc();
+
+                                                                    if ($profilnaSlika['slika_korisnika'] != null) {
+                                                                        echo "<div class='ml-3' style='width: 100px; height: 100px; overflow: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center;'>
+                                                                        <img src='{$profilnaSlika['slika_korisnika']}' alt='Profilna slika' style='width: 100%; height: 100%; object-fit: cover;' />
+                                                                        </div>";
+                                                                    } else {
+                                                                        echo '<img  src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100px">';
+                                                                    }
+
+                                                                    ?>
                                                                     <div class="mt-3">
                                                                         <h4>
                                                                             <?php echo $red["ime"] . " " . $red["prezime"] ?>
@@ -228,9 +234,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" ></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" ></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
+
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
     <script src="../../assets/js/main.js"></script>
 </body>
