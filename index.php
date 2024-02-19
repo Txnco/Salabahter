@@ -160,7 +160,7 @@ $pathToLogout = "account/logout.php";
 
         <div class="section-title">
           <h2>Naše usluge</h2>
-          <p>Tražite instruktora za neki predmet? Došli ste na pravu stranicu za Vas. Naša web stranica olakšava Vam da pronađete instruktora. Također na našoj web stranici možete pronaći i skripte za učenje iz raznih predemta i kartice za ponavljanje. </p>
+          <p>Tražite instruktora za neki predmet? Došli ste na pravu stranicu za Vas. Naša web stranica olakšava Vam da pronađete instruktora. Također na našoj web stranici možete pronaći i skripte za učenje iz raznih predmeta i kartice za ponavljanje. </p>
         </div>
 
         <div class="row justify-content-center">
@@ -176,7 +176,7 @@ $pathToLogout = "account/logout.php";
             <div class="icon-box">
               <div class="icon"><i class="bx bx-file"></i></div>
               <h4 class="title"><a href="">Skripte</a></h4>
-              <p class="description">Dijenjenje je znanje. Možete učuti iz raznih skripta za pojedini predmet.</p>
+              <p class="description">Dijeljenje je znanje. Možete učuti iz raznih skripta za pojedini predmet.</p>
             </div>
           </div>
 

@@ -1,6 +1,6 @@
 <?php
     session_start();
-    $neuspjelaPrijava;
+    $neuspjelaPrijava=false;
 
     $con = require_once "../ukljucivanje/connection/spajanje.php";
     include_once("../ukljucivanje/functions/funkcije.php");

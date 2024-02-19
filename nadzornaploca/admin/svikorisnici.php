@@ -160,6 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                                     $profilnaSlika = $rezultatProfilnaSlika->fetch_assoc();
 
                                                                     if ($profilnaSlika['slika_korisnika'] != null) {
+                                                                        $profilnaSlika['slika_korisnika'] = '../' . $profilnaSlika['slika_korisnika'];
                                                                         echo "<div class='ml-3' style='width: 100px; height: 100px; overflow: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center;'>
                                                                         <img src='{$profilnaSlika['slika_korisnika']}' alt='Profilna slika' style='width: 100%; height: 100%; object-fit: cover;' />
                                                                         </div>";

@@ -86,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     $promjenaSlike = $_FILES['slika'];
 
-    $predlozak ="../";
+
     $prijenosnaMapa = "profilneslike/";
     $jedinstvenoIme = uniqid() . "_" . $_FILES["slika"]["name"];
     $putanjaSlike = $prijenosnaMapa . $jedinstvenoIme;
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
       $rezultatProfilnaSlika = $con->query($sqlDohvatiProfilnuSliku);
       $profilnaSlika = $rezultatProfilnaSlika->fetch_assoc();
       if ($profilnaSlika['slika_korisnika'] != null) {
-        unlink($profilnaSlika['slika_korisnika']); // Obriši staru sliku
+        unlink("../" .$profilnaSlika['slika_korisnika']); // Obriši staru sliku
       }
 
       $sqlUpisSlike = "UPDATE korisnik SET slika_korisnika =  '{$putanjaSlike}' WHERE korisnik_id = {$_SESSION['user_id']}";
