@@ -1,6 +1,6 @@
 <?php
     session_start();
-    $is_invalid = false;
+    $neuspjelaPrijava;
 
     $con = require_once "../ukljucivanje/connection/spajanje.php";
     include_once("../ukljucivanje/functions/funkcije.php");
@@ -44,7 +44,7 @@
         }
         
 
-        $is_invalid = true; // Ako prijava nije uspjesna, ispisat ce se poruka korisniku
+        $neuspjelaPrijava = true; // Ako prijava nije uspjesna, ispisat ce se poruka korisniku
 
     }
 
@@ -71,7 +71,7 @@
                 <div class="card-body p-0">
                                  <?php if (isset($_SESSION["registered"]) && @$_SESSION["registered"] == 'true'): @$_SESSION["registered"]=false; ?>
                                     <div class="alert alert-success">Uspješna registriracija! </div>
-                                 <?php  elseif ($is_invalid): ?>
+                                 <?php  elseif ($neuspjelaPrijava): ?>
                                     <div id="alert" class="alert alert-danger">Prijava nije uspijela! </div>
                                  <?php  endif; ?>
                     <div class="row no-gutters">

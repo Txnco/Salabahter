@@ -6,13 +6,13 @@ include("ukljucivanje/functions/funkcije.php");
 $user = provjeri_prijavu($con);
 
 
-$pathToPocetna ='index.php';
+$pathToPocetna = 'index.php';
 $putanjaDoSkripta = "skripta.php";
 
-$pathToLogin="account/login.php";
-$pathToRegister="account/register.php";
-$pathToRacun="dashboard/";
-$pathToLogout="account/logout.php";
+$pathToLogin = "account/login.php";
+$pathToRegister = "account/register.php";
+$pathToRacun = "dashboard/";
+$pathToLogout = "account/logout.php";
 ?>
 
 <!DOCTYPE html>
@@ -26,7 +26,7 @@ $pathToLogout="account/logout.php";
   <meta content="" name="description">
   <meta content="" name="keywords">
 
-  <?php include 'assets/css/stiliranjeGlavno.php'; ?>   <!-- Sve poveznice za stil web stranice -->
+  <?php include 'assets/css/stiliranjeGlavno.php'; ?> <!-- Sve poveznice za stil web stranice -->
 
   <link href="assets/css/izbornik.css" rel="stylesheet">
   <script src="ukljucivanje/javascript/izbornik.js"></script>
@@ -35,14 +35,14 @@ $pathToLogout="account/logout.php";
 
 <body>
 
-<?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true && isset($user)): $_SESSION["loggedin"]=false ; ?>
-          <div id="loginSuccessAlert" class="alert alert-success alert-dismissible fade show login-success-message" role="alert">
-              Uspješno ste se prijavili!
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-    <?php endif; ?>
+  <?php if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true && isset($user)) : $_SESSION["loggedin"] = false; ?>
+    <div id="loginSuccessAlert" class="alert alert-success alert-dismissible fade show login-success-message" role="alert">
+      Uspješno ste se prijavili!
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  <?php endif; ?>
 
 
   <section id="hero">
@@ -53,7 +53,7 @@ $pathToLogout="account/logout.php";
 
         <div class="carousel-inner" role="listbox">
 
-          
+
           <div class="carousel-item active" style="background-image: url(assets/img/pocetna2.jpg);">
             <div class="carousel-container">
               <div class="carousel-content">
@@ -64,7 +64,7 @@ $pathToLogout="account/logout.php";
             </div>
           </div>
 
-          
+
           <div class="carousel-item" style="background-image: url(assets/img/pocetna.jpg);">
             <div class="carousel-container">
               <div class="carousel-content">
@@ -74,7 +74,7 @@ $pathToLogout="account/logout.php";
               </div>
             </div>
           </div>
-          
+
           <div class="carousel-item" style="background-image: url(assets/img/pocetna3.jpg);">
             <div class="carousel-container">
               <div class="carousel-content">
@@ -84,7 +84,7 @@ $pathToLogout="account/logout.php";
               </div>
             </div>
           </div>
-          
+
           <div class="carousel-item" style="background-image: url(assets/img/slide/s4.jpg);">
             <div class="carousel-container">
               <div class="carousel-content">
@@ -109,8 +109,8 @@ $pathToLogout="account/logout.php";
     </div>
   </section>
 
-  
- <header id="header" class="d-flex align-items-center">
+
+  <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
       <div class="logo">
@@ -129,28 +129,28 @@ $pathToLogout="account/logout.php";
               <li><a class="nav-link scrollto " href="kartice/nova_grupa.php">Napravi kartice</a></li>
             </ul>
           </li>
-          <li><a class="nav-link scrollto " href="onama.php" >O nama</a></li>
+          <li><a class="nav-link scrollto " href="onama.php">O nama</a></li>
 
-          <?php if(!isset($_SESSION["user_id"])): ?>
-              <a href="racun/prijava.php" class="nav-link scrollto ml-3" role="button">Prijava</a>
-              <a href="racun/registracija.php" class="nav-link scrollto" role="button">Registracija</a>
-      <?php else: ?>
-              <a href="nadzornaploca/index.php" class="nav-link scrollto mr-2" role="button">Račun</a>
-              <a href="racun/odjava.php" id="logout" class="nav-link scrollto " role="button">Odjava</a>
-      <?php endif; ?>
+          <?php if (!isset($_SESSION["user_id"])) : ?>
+            <a href="racun/prijava.php" class="nav-link scrollto ml-3" role="button">Prijava</a>
+            <a href="racun/registracija.php" class="nav-link scrollto" role="button">Registracija</a>
+          <?php else : ?>
+            <a href="nadzornaploca/index.php" class="nav-link scrollto mr-2" role="button">Račun</a>
+            <a href="racun/odjava.php" id="logout" class="nav-link scrollto " role="button">Odjava</a>
+          <?php endif; ?>
 
-      </div>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav>
+    </div>
+    </ul>
+    <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav>
 
     </div>
 
-   
-      
-    </header>
 
-  
+
+  </header>
+
+
   <main id="main">
 
 
@@ -267,7 +267,7 @@ $pathToLogout="account/logout.php";
                   <a data-bs-toggle="collapse" class="collapse" data-bs-target="#accordion-list-1"><span>01</span> Registrirajte se i napravite korisnički račun <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-1" class="collapse show" data-bs-parent=".accordion-list">
                     <p>
-                     Registraciju možete obaviti klikom na gumb "Registracija" u gornjem desnom kutu. Nakon što se registrirate, možete se prijaviti te na svom računu možete vidjeti tipku <strong>postani instruktor</strong>.
+                      Registraciju možete obaviti klikom na gumb "Registracija" u gornjem desnom kutu. Nakon što se registrirate, možete se prijaviti te na svom računu možete vidjeti tipku <strong>postani instruktor</strong>.
                     </p>
                   </div>
                 </li>
@@ -276,7 +276,7 @@ $pathToLogout="account/logout.php";
                   <a data-bs-toggle="collapse" data-bs-target="#accordion-list-2" class="collapsed"><span>02</span> Što kod zahtjeva? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-2" class="collapse" data-bs-parent=".accordion-list">
                     <p>
-                     Nakon pritiska na tipku postani instruktor morate ispuniti obrazac sa svim potrebnim informacijama. Nakon što se prijavite, administratori će pregledati vaš zahtjev i odobriti ga ili odbiti ovisno o vašim kvalifikacijama.
+                      Nakon pritiska na tipku postani instruktor morate ispuniti obrazac sa svim potrebnim informacijama. Nakon što se prijavite, administratori će pregledati vaš zahtjev i odobriti ga ili odbiti ovisno o vašim kvalifikacijama.
                     </p>
                   </div>
                 </li>
@@ -463,19 +463,21 @@ $pathToLogout="account/logout.php";
       <div class="container">
 
         <div class="section-title">
-          <h2>Our Team</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <h2>Naš tim</h2>
+          <p>Naš tim sastoji se od dva inovativna i poduzetna učenika koji su odlučuli olakšati jedan problem svakodnevice, a tako i u isto vrijeme napraviti učenje zabavnijim!</p>
         </div>
 
-        <div class="row">
+        <div class="row justify-content-center">
 
           <div class="col-xl-3 col-lg-4 col-md-6">
             <div class="member">
-              <img src="assets/img/team/team-1.jpg" class="img-fluid" alt="">
+              <div style="width: 306px; height: 306px; overflow: hidden;">
+                <img src="assets/img/noa.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="">
+              </div>
               <div class="member-info">
                 <div class="member-info-content">
-                  <h4>Walter White</h4>
-                  <span>Chief Executive Officer</span>
+                  <h4>Noa Turk</h4>
+                  <span>Učenik</span>
                 </div>
                 <div class="social">
                   <a href=""><i class="bi bi-twitter"></i></a>
@@ -487,13 +489,15 @@ $pathToLogout="account/logout.php";
             </div>
           </div>
 
-          <div class="col-xl-3 col-lg-4 col-md-6" data-wow-delay="0.1s">
+          <div class="col-xl-3 col-lg-4 col-md-6">
             <div class="member">
-              <img src="assets/img/team/team-2.jpg" class="img-fluid" alt="">
+              <div style="width: 306px; height: 306px; overflow: hidden;">
+                <img src="assets/img/antonio.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="">
+              </div>
               <div class="member-info">
                 <div class="member-info-content">
-                  <h4>Sarah Jhonson</h4>
-                  <span>Product Manager</span>
+                  <h4>Antonio Ivanović</h4>
+                  <span>Učenik</span>
                 </div>
                 <div class="social">
                   <a href=""><i class="bi bi-twitter"></i></a>
@@ -505,41 +509,6 @@ $pathToLogout="account/logout.php";
             </div>
           </div>
 
-          <div class="col-xl-3 col-lg-4 col-md-6" data-wow-delay="0.2s">
-            <div class="member">
-              <img src="assets/img/team/team-3.jpg" class="img-fluid" alt="">
-              <div class="member-info">
-                <div class="member-info-content">
-                  <h4>William Anderson</h4>
-                  <span>CTO</span>
-                </div>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-xl-3 col-lg-4 col-md-6" data-wow-delay="0.3s">
-            <div class="member">
-              <img src="assets/img/team/team-4.jpg" class="img-fluid" alt="">
-              <div class="member-info">
-                <div class="member-info-content">
-                  <h4>Amanda Jepson</h4>
-                  <span>Accountant</span>
-                </div>
-                <div class="social">
-                  <a href=""><i class="bi bi-twitter"></i></a>
-                  <a href=""><i class="bi bi-facebook"></i></a>
-                  <a href=""><i class="bi bi-instagram"></i></a>
-                  <a href=""><i class="bi bi-linkedin"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
 
         </div>
 
@@ -551,61 +520,34 @@ $pathToLogout="account/logout.php";
 
       <div class="container">
         <div class="section-title">
-          <h2>Contact Us</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <h2>Kontaktirajte nas</h2>
+          <p>Ako imate bilo kakvih pitanja ili nedoumica slobodno nas kontaktirajte preko sljedećeg obrasca.</p>
         </div>
       </div>
 
       <div class="container-fluid">
 
-        <div class="row">
+        <div class="row justify-content-center">
 
-          <div class="col-lg-6 d-flex align-items-stretch infos">
-
-            <div class="row">
-
-              <div class="col-lg-6 info d-flex flex-column align-items-stretch">
-                <i class="bx bx-map"></i>
-                <h4>Address</h4>
-                <p>A108 Adam Street,<br>New York, NY 535022</p>
-              </div>
-              <div class="col-lg-6 info info-bg d-flex flex-column align-items-stretch">
-                <i class="bx bx-phone"></i>
-                <h4>Call Us</h4>
-                <p>+1 5589 55488 55<br>+1 5589 22548 64</p>
-              </div>
-              <div class="col-lg-6 info info-bg d-flex flex-column align-items-stretch">
-                <i class="bx bx-envelope"></i>
-                <h4>Email Us</h4>
-                <p>contact@example.com<br>info@example.com</p>
-              </div>
-              <div class="col-lg-6 info d-flex flex-column align-items-stretch">
-                <i class="bx bx-time-five"></i>
-                <h4>Working Hours</h4>
-                <p>Mon - Fri: 9AM to 5PM<br>Sunday: 9AM to 1PM</p>
-              </div>
-            </div>
-
-          </div>
 
           <div class="col-lg-6 d-flex align-items-stretch contact-form-wrap">
             <form action="forms/contact.php" method="post" role="form" class="php-email-form">
               <div class="row">
                 <div class="col-md-6 form-group">
-                  <label for="name">Your Name</label>
+                  <label for="name">Vaše ime</label>
                   <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
                 </div>
                 <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <label for="email">Your Email</label>
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                  <label for="email">Vaša e-pošta</label>
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Vaša e-pošta" required>
                 </div>
               </div>
               <div class="form-group mt-3">
-                <label for="subject">Subject</label>
-                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+                <label for="subject">Tema</label>
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Tema" required>
               </div>
               <div class="form-group mt-3">
-                <label for="message">Message</label>
+                <label for="message">Poruka</label>
                 <textarea class="form-control" name="message" rows="8" required></textarea>
               </div>
               <div class="my-3">
@@ -613,7 +555,7 @@ $pathToLogout="account/logout.php";
                 <div class="error-message"></div>
                 <div class="sent-message">Your message has been sent. Thank you!</div>
               </div>
-              <div class="text-center"><button type="submit">Send Message</button></div>
+              <div class="text-center"><button type="submit">Pošalji poruku</button></div>
             </form>
           </div>
 
@@ -622,10 +564,10 @@ $pathToLogout="account/logout.php";
       </div>
     </section><!-- End Contact Us Section -->
 
-  </main><!-- End #main -->
+  </main>
 
   <!-- ======= Footer ======= -->
-<footer id="footer">
+  <footer id="footer">
     <div class="footer-top">
       <div class="container mx-auto">
         <div class="row justify-content-center">
@@ -698,7 +640,7 @@ $pathToLogout="account/logout.php";
   <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
   <script src="assets/vendor/php-email-form/validate.js"></script>
 
-  
+
   <script src="assets/js/main.js"></script>
 
 </body>
