@@ -19,7 +19,7 @@ $putanjaDoOdjave = "../racun/odjava.php";
 
 // Dohvaćanje svih predmeta iz baze podataka
 $sqlPredmeti = "SELECT * FROM predmeti";
-$resultPredmeti = $con->query($sqlPredmeti);
+$rezultatPredmeti = $con->query($sqlPredmeti);
 
 // Pretraživanje skripti
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -136,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                                     <div class="row mt-auto">
                                                         <div class="col">
-                                                            <a href="grupakartica.php?grupa_id=<?php echo $row["grupa_id"]; ?>" class="btn btn-primary">Pregledaj</a>
+                                                            <a href="grupa.php?grupa_id=<?php echo $row["grupa_id"]; ?>" class="btn btn-primary">Pregledaj</a>
                                                         </div>
                                                     </div>
 

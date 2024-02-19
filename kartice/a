@@ -259,14 +259,14 @@ if($result->num_rows > 0){
                     <div class="form-outline mb-4">
                         <label for="subject" class="form-label">Predmet:</label>
                         <?php
-                        $sql_subjects = "SELECT * FROM predmeti";
-                        $result_subjects = $con->query($sql_subjects);
+                        $sql_predmeti = "SELECT * FROM predmeti";
+                        $result_subjects = $con->query($sql_predmeti);
                         if ($result_subjects->num_rows > 0) {
                             echo '<select class="form-control" id="subject" name="subject" required>';
                             echo '<option value="">Odaberite predmet</option>';
-                            while ($row_subject = $result_subjects->fetch_assoc()) {
-                                $selected = ($row_subject['predmet_id'] == $subject_id) ? "selected" : ""; // Provjerava je li trenutni predmet jednak odabranom iz baze
-                                echo '<option value="' . $row_subject['predmet_id'] . '" ' . $selected . '>' . $row_subject['naziv_predmeta'] . '</option>';
+                            while ($red_predmet = $result_subjects->fetch_assoc()) {
+                                $selected = ($red_predmet['predmet_id'] == $subject_id) ? "selected" : ""; // Provjerava je li trenutni predmet jednak odabranom iz baze
+                                echo '<option value="' . $red_predmet['predmet_id'] . '" ' . $selected . '>' . $red_predmet['naziv_predmeta'] . '</option>';
                             }
                             echo '</select>';
                         } else {

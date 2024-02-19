@@ -16,7 +16,7 @@ $putanjaDoRacuna = "../nadzornaploca";
 $putanjaDoOdjave = "../racun/odjava.php";
 
 $sqlPredmeti = "SELECT * FROM predmeti";
-$resultPredmeti = $con->query($sqlPredmeti);
+$rezultatPredmeti = $con->query($sqlPredmeti);
 
 $user = provjeri_prijavu($con);
 if (!isset($_SESSION["user_id"])) {
@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <select class="form-control" id="predmet_id" name="predmet_id" required>
                                         <option value="">Odaberite predmet</option>
                                         <?php
-                                        while ($row = $resultPredmeti->fetch_assoc()) {
+                                        while ($row = $rezultatPredmeti->fetch_assoc()) {
                                             echo "<option value='" . $row['predmet_id'] . "'>" . $row['naziv_predmeta'] . "</option>";
                                         }
                                         ?>
