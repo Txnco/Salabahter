@@ -45,7 +45,6 @@ $pathToLogout="account/logout.php";
     <?php endif; ?>
 
 
-  <!-- ======= Hero Section ======= -->
   <section id="hero">
     <div class="hero-container">
       <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
@@ -108,16 +107,14 @@ $pathToLogout="account/logout.php";
 
       </div>
     </div>
-  </section><!-- End Hero -->
+  </section>
 
-  <!-- ======= Header ======= -->
+  
  <header id="header" class="d-flex align-items-center">
     <div class="container d-flex align-items-center justify-content-between">
 
       <div class="logo">
         <h1 class="text-light"><a href=""><span>Šalabahter</span></a></h1>
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <a href="index.html"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
 
       <nav id="navbar" class="navbar">
@@ -145,7 +142,7 @@ $pathToLogout="account/logout.php";
       </div>
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+      </nav>
 
     </div>
 
@@ -156,117 +153,61 @@ $pathToLogout="account/logout.php";
   
   <main id="main">
 
-   
 
-    <!-- ======= Counts Section ======= -->
-    <section class="counts section-bg">
-      <div class="container">
-
-        <div class="row no-gutters">
-
-          <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
-            <div class="count-box">
-              <i class="bi bi-emoji-smile"></i>
-              <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
-              <p><strong>Happy Clients</strong> consequuntur quae qui deca rode</p>
-              <a href="#">Find out more &raquo;</a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
-            <div class="count-box">
-              <i class="bi bi-journal-richtext"></i>
-              <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
-              <p><strong>Projects</strong> adipisci atque cum quia aut numquam delectus</p>
-              <a href="#">Find out more &raquo;</a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
-            <div class="count-box">
-              <i class="bi bi-headset"></i>
-              <span data-purecounter-start="0" data-purecounter-end="1463" data-purecounter-duration="1" class="purecounter"></span>
-              <p><strong>Hours Of Support</strong> aut commodi quaerat. Aliquam ratione</p>
-              <a href="#">Find out more &raquo;</a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch">
-            <div class="count-box">
-              <i class="bi bi-people"></i>
-              <span data-purecounter-start="0" data-purecounter-end="15" data-purecounter-duration="1" class="purecounter"></span>
-              <p><strong>Hard Workers</strong> rerum asperiores dolor molestiae doloribu</p>
-              <a href="#">Find out more &raquo;</a>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- End Counts Section -->
-
-    <!-- ======= Our Services Section ======= -->
+    <!-- ======= Naše usluge ======= -->
     <section id="services" class="services">
       <div class="container">
 
         <div class="section-title">
-          <h2>Our Services</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <h2>Naše usluge</h2>
+          <p>Tražite instruktora za neki predmet? Došli ste na pravu stranicu za Vas. Naša web stranica olakšava Vam da pronađete instruktora. Također na našoj web stranici možete pronaći i skripte za učenje iz raznih predemta i kartice za ponavljanje. </p>
         </div>
 
-        <div class="row">
+        <div class="row justify-content-center">
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box">
               <div class="icon"><i class="bx bxl-dribbble"></i></div>
-              <h4 class="title"><a href="">Lorem Ipsum</a></h4>
-              <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+              <h4 class="title"><a href="">Instruktori</a></h4>
+              <p class="description">Pronađite instruktora koji odgovara Vama za bilo koji ponuđeni predmet.</p>
             </div>
           </div>
 
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box">
               <div class="icon"><i class="bx bx-file"></i></div>
-              <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
-              <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
+              <h4 class="title"><a href="">Skripte</a></h4>
+              <p class="description">Dijenjenje je znanje. Možete učuti iz raznih skripta za pojedini predmet.</p>
             </div>
           </div>
 
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box">
               <div class="icon"><i class="bx bx-tachometer"></i></div>
-              <h4 class="title"><a href="">Magni Dolores</a></h4>
-              <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
-            </div>
-          </div>
-
-          <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
-            <div class="icon-box">
-              <div class="icon"><i class="bx bx-world"></i></div>
-              <h4 class="title"><a href="">Nemo Enim</a></h4>
-              <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
+              <h4 class="title"><a href="">Kartice za ponavljlanje</a></h4>
+              <p class="description">Kako bi ste sve to usvojili, možete učenje učiniti zabavnim preko rješavanja kartica za ponavljanje!</p>
             </div>
           </div>
 
         </div>
 
       </div>
-    </section><!-- End Our Services Section -->
+    </section>
 
-    <!-- ======= Cta Section ======= -->
+    <!-- ======= Poziv na radnju ======= -->
     <section class="cta">
       <div class="container">
 
         <div class="text-center">
-          <h3>Call To Action</h3>
-          <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-          <a class="cta-btn" href="#">Call To Action</a>
+          <h3>Prijavite se i postanite instruktor</h3>
+          <p> Imate dovoljno znanja iz nekog predmeta? Zašto ne podijeliti to znanje sa drugima. Prijavite se za instruktora te počnite pomagati drugima!</p>
+          <a class="cta-btn" href="#">Postani instruktor</a>
         </div>
 
       </div>
-    </section><!-- End Cta Section -->
+    </section>
 
-    <!-- ======= More Services Section ======= -->
-    <section class="more-services section-bg">
+    <!-- ======= Više usluga ======= -->
+    <!-- <section class="more-services section-bg">
       <div class="container">
 
         <div class="row">
@@ -303,9 +244,9 @@ $pathToLogout="account/logout.php";
         </div>
 
       </div>
-    </section><!-- End More Services Section -->
+    </section>End More Services Section -->
 
-    <!-- ======= Info Box Section ======= -->
+    <!-- ======= Informacije ======= -->
     <section class="info-box py-0">
       <div class="container-fluid">
 
@@ -314,37 +255,40 @@ $pathToLogout="account/logout.php";
           <div class="col-lg-7 d-flex flex-column justify-content-center align-items-stretch  order-2 order-lg-1">
 
             <div class="content">
-              <h3>Eum ipsam laborum deleniti <strong>velit pariatur architecto aut nihil</strong></h3>
+              <h3>Kako mogu postati <strong>instruktor?</strong></h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
+                Morate se prijaviti na našoj web stranici putem obrasca za prijavu. Nakon što se prijavite, možete postati instruktor i početi pomagati drugima.
               </p>
             </div>
 
             <div class="accordion-list">
               <ul>
                 <li>
-                  <a data-bs-toggle="collapse" class="collapse" data-bs-target="#accordion-list-1"><span>01</span> Non consectetur a erat nam at lectus urna duis? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-bs-toggle="collapse" class="collapse" data-bs-target="#accordion-list-1"><span>01</span> Registrirajte se i napravite korisnički račun <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-1" class="collapse show" data-bs-parent=".accordion-list">
                     <p>
-                      Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.
+                     Registraciju možete obaviti klikom na gumb "Registracija" u gornjem desnom kutu. Nakon što se registrirate, možete se prijaviti te na svom računu možete vidjeti tipku <strong>postani instruktor</strong>.
                     </p>
                   </div>
                 </li>
 
                 <li>
-                  <a data-bs-toggle="collapse" data-bs-target="#accordion-list-2" class="collapsed"><span>02</span> Feugiat scelerisque varius morbi enim nunc? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-bs-toggle="collapse" data-bs-target="#accordion-list-2" class="collapsed"><span>02</span> Što kod zahtjeva? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-2" class="collapse" data-bs-parent=".accordion-list">
                     <p>
-                      Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
+                     Nakon pritiska na tipku postani instruktor morate ispuniti obrazac sa svim potrebnim informacijama. Nakon što se prijavite, administratori će pregledati vaš zahtjev i odobriti ga ili odbiti ovisno o vašim kvalifikacijama.
                     </p>
                   </div>
                 </li>
 
                 <li>
-                  <a data-bs-toggle="collapse" data-bs-target="#accordion-list-3" class="collapsed"><span>03</span> Dolor sit amet consectetur adipiscing elit? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
+                  <a data-bs-toggle="collapse" data-bs-target="#accordion-list-3" class="collapsed"><span>03</span> Kako se kvalificirati za instruktora <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
                   <div id="accordion-list-3" class="collapse" data-bs-parent=".accordion-list">
                     <p>
-                      Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis
+                      Kako bi ste postali instruktori mi moramo biti sigurni da imate dovoljno znanja iz određenog predmeta. <br>
+                      Ako ste <strong>učenik</strong> morat ćete nam poslati potvrdu o ocjeni iz određenog predmeta. <br>
+                      Ako ste <strong>student</strong> morat ćete nam poslati potvrdu o ocjeni iz određenog predmeta te potvrdu o upisu na fakultet.<br>
+                      Ako ste <strong>profesor ili učitelj</strong> morat ćete nam poslati potvrdu o zaposlenju ili završenom studiju.
                     </p>
                   </div>
                 </li>
@@ -358,10 +302,11 @@ $pathToLogout="account/logout.php";
         </div>
 
       </div>
-    </section><!-- End Info Box Section -->
+    </section>
 
     <!-- ======= Our Portfolio Section ======= -->
-    <section id="portfolio" class="portfolio section-bg">
+
+    <!-- <section id="portfolio" class="portfolio section-bg">
       <div class="container">
 
         <div class="section-title">
@@ -511,7 +456,7 @@ $pathToLogout="account/logout.php";
         </div>
 
       </div>
-    </section><!-- End Our Portfolio Section -->
+    </section>End Our Portfolio Section -->
 
     <!-- ======= Our Team Section ======= -->
     <section id="team" class="team">
@@ -702,9 +647,9 @@ $pathToLogout="account/logout.php";
           <div class="col-lg-2 col-md-6 footer-links">
             <h4>Korisne poveznice</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">About us</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Services</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">Edutorij</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">e-Dnevnik</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="#">e-Sfera</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
               <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
             </ul>

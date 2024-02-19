@@ -64,8 +64,6 @@ if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
     $korisnikVecNapisaoRecenziju = false;
 }
 
-
-
 ?>
 
 <!DOCTYPE html>

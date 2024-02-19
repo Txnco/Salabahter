@@ -93,13 +93,15 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   }
 }
 
+if(isset($user)){
 
-$sqlAkojeKorisnikVecNapisaoRecenziju = "SELECT * FROM recenzije WHERE odKorisnika = {$_SESSION['user_id']} AND zaKorisnika = {$korisnikID}";
-$rezultatAkojeKorisnikVecNapisaoRecenziju = $con->query($sqlAkojeKorisnikVecNapisaoRecenziju);
-if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
-  $korisnikVecNapisaoRecenziju = true;
-} else {
-  $korisnikVecNapisaoRecenziju = false;
+  $sqlAkojeKorisnikVecNapisaoRecenziju = "SELECT * FROM recenzije WHERE odKorisnika = {$_SESSION['user_id']} AND zaKorisnika = {$korisnikID}";
+  $rezultatAkojeKorisnikVecNapisaoRecenziju = $con->query($sqlAkojeKorisnikVecNapisaoRecenziju);
+  if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
+    $korisnikVecNapisaoRecenziju = true;
+  } else {
+    $korisnikVecNapisaoRecenziju = false;
+  }
 }
 
 ?>
