@@ -53,7 +53,7 @@ if ($redGrupa = $rezultatGrupa->fetch_assoc()) {
     $predmetNaziv = $redPredmet['naziv_predmeta'];
     $predmetBoja = $redPredmet['predmet_boja'];
 }
-$sqlUpdatePregleda = "UPDATE grupekartica SET broj_pregleda = broj_pregleda + 1 WHERE grupa_id = $grupa_id"; 
+$sqlUpdatePregleda = "UPDATE grupekartica SET broj_pregleda = broj_pregleda + 1 WHERE grupa_id = $grupa_id";
 $resultUpdatePregleda = $con->query($sqlUpdatePregleda);
 
 $sqlBrojPregleda = "SELECT broj_pregleda FROM grupekartica WHERE grupa_id = $grupa_id";
@@ -63,13 +63,13 @@ $brojpregleda = $rowBrojPregleda['broj_pregleda'];
 function dohvatipodatkevlasnika($vlasnik_id)
 {
 
-$con = require "../ukljucivanje/connection/spajanje.php";
-$sqlKorisnik = "SELECT ime, prezime FROM korisnik WHERE korisnik_id = $vlasnik_id";
-$resultKorisnik = $con->query($sqlKorisnik);
-$rowKorisnik = $resultKorisnik->fetch_assoc();
-$ime = $rowKorisnik['ime'];
-$prezime = $rowKorisnik['prezime'];
-return $ime . " " . $prezime;
+    $con = require "../ukljucivanje/connection/spajanje.php";
+    $sqlKorisnik = "SELECT ime, prezime FROM korisnik WHERE korisnik_id = $vlasnik_id";
+    $resultKorisnik = $con->query($sqlKorisnik);
+    $rowKorisnik = $resultKorisnik->fetch_assoc();
+    $ime = $rowKorisnik['ime'];
+    $prezime = $rowKorisnik['prezime'];
+    return $ime . " " . $prezime;
 }
 
 ?>
@@ -87,7 +87,7 @@ return $ime . " " . $prezime;
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"> </script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -101,25 +101,31 @@ return $ime . " " . $prezime;
 
                         <form action="action.php" method="post" id="eventForm">
                             <div class="row mb-4">
-                            <h4 class="mt-3 mb-2 d-inline"><?php echo "$nazivGrupe"; ?></h4>
-                            
-                        <h6 class="card-info" style="font-family: Poppins; text-align: left;"> <a class="link"
-                            href="../profil?korisnik=<?php echo $vlasnikId ?>"> <?php echo $imePrezimeKorisnika; ?>
-                        </a>, <?php echo "$datumKreiranja"; ?>
-                        <?php  echo '<span class="badge" style="background-color: ' . $predmetBoja . ';">' . $predmetNaziv . '</span> '; ?>
-</div>
-                        <div class="row mb-4">
+                                <h4 class="mt-3 mb-2 d-inline">
+                                    <?php echo "$nazivGrupe"; ?>
+                                </h4>
+
+                                <h6 class="card-info" style="font-family: Poppins; text-align: left;"> <a class="link"
+                                        href="../profil?korisnik=<?php echo $vlasnikId ?>">
+                                        <?php echo $imePrezimeKorisnika; ?>
+                                    </a>,
+                                    <?php echo "$datumKreiranja"; ?>
+                                    <?php echo '<span class="badge" style="background-color: ' . $predmetBoja . ';">' . $predmetNaziv . '</span> '; ?>
+                            </div>
+                            <div class="row mb-4">
                                 <div class="col">
                                     <div class="form-outline">
                                         <label for="grupa_naziv" class="form-label">Naziv grupe:</label>
-                                        <input type="text" class="form-control" id="grupa_naziv" name="grupa_naziv" value="<?php echo "$nazivGrupe"; ?>" readonly>
+                                        <input type="text" class="form-control" id="grupa_naziv" name="grupa_naziv"
+                                            value="<?php echo "$nazivGrupe"; ?>" readonly>
                                     </div>
                                 </div>
 
                             </div>
                             <div class="form-outline mb-4">
                                 <label for="grupa_opis" class="form-label">Opis grupe:</label>
-                                <textarea class="form-control" id="grupa_opis" name="grupa_opis" rows="3" readonly><?php echo "$opisGrupe"; ?></textarea>
+                                <textarea class="form-control" id="grupa_opis" name="grupa_opis" rows="3"
+                                    readonly><?php echo "$opisGrupe"; ?></textarea>
                             </div>
 
                             <div class="form-outline mb-4">
@@ -151,93 +157,136 @@ return $ime . " " . $prezime;
                                     Privatno
                                 </label>
                             </div>
-                            <div class="mt-2"> 
-                            
+                            <div class="mt-2">
+
 
                             </div>
                             <input type="hidden" name="event_id" value="<?php echo $event_id; ?>">
                             <input type="hidden" name="update_event_submit" value="1">
-                            <button id="saveButton" type="submit" class="btn btn-success" style="display:none;">Spremi</button>
+                            <button id="saveButton" type="submit" class="btn btn-success"
+                                style="display:none;">Spremi</button>
                         </form>
-                        <button type="submit" class="btn btn-success">Započni</button> 
-                            <a href="#" id="editEvent"  class="btn btn-secondary">uredi</a>
-                        <form action='akcije.php' method='GET'> 
-                            <input type='hidden' name='grupa_id' value=<?php echo "$grupa_id";?>/> 
-                            <input type='hidden' name='action' value='brisi_grupu'/> 
-                            <input type='submit' class='btn btn-danger mt-2'name='Submit' value='Briši'/>
+
+                        <button type="submit" class="btn btn-success">Započni</button>
+                        <a href="#" id="uredigrupu" class="btn btn-secondary">uredi</a>
+                        <form action='akcije.php' method='GET'>
+                            <input type='hidden' name='grupa_id' value=<?php echo "$grupa_id"; ?> />
+                            <input type='hidden' name='action' value='brisi_grupu' />
+                            <input type='submit' class='btn btn-danger mt-2' name='Submit' value='Briši' />
                         </form>
                     </div>
-                    
+
                 </div>
             </div>
 
             <div class="col-md-8 mb-4">
-<!-- Gumb koji otvara modal -->
-<button type="button" class="btn btn-success mt-2" data-toggle="modal" data-target="#novaKarticaModal">Dodaj novu karticu</button>
+                <button type="button" class="btn btn-success mt-2" data-toggle="modal"
+                    data-target="#novaKarticaModal">Dodaj novu karticu</button>
 
-<!-- Modal -->
-<div class="modal fade" id="novaKarticaModal" tabindex="-1" aria-labelledby="novaKarticaModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="novaKarticaModalLabel">Dodaj novu karticu</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Forma unutar modala -->
-        <form action="akcije.php" method="GET">
-          <input type="hidden" name="action" value="dodaj_karticu" />
-          <label for="pitanje">Pitanje:</label>
-          <input type="text" name="pitanje" id="pitanje" class="form-control" required><br>
-          <label for="odgovor">Odgovor:</label>
-          <textarea name="odgovor" id="odgovor" class="form-control" required></textarea><br>
-          <input type='hidden' name='grupa_id' value="<?php echo $grupa_id; ?>"/> 
-          <button type="submit" class="btn btn-primary">Dodaj karticu</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+                <div class="modal fade" id="novaKarticaModal" tabindex="-1" aria-labelledby="novaKarticaModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="novaKarticaModalLabel">Dodaj novu karticu</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
 
-
-                <div class="mb-3 mt-2 overflow-auto" style="max-height: 70vh;">
-    <?php
-    $sql = "SELECT * FROM kartice WHERE grupa_id = $grupa_id";
-    $result = mysqli_query($con, $sql);
-
-    if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)) {
-    ?>
-            <div class="card mb-4">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="heading<?php echo $row['kartica_id']; ?>">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $row['kartica_id']; ?>" aria-expanded="false" aria-controls="collapse<?php echo $row['kartica_id']; ?>">
-                            <?php echo $row['pitanje']; ?>
-                        </button>
-                    </h2>
-                    <div id="collapse<?php echo $row['kartica_id']; ?>" class="accordion-collapse collapse" aria-labelledby="heading<?php echo $row['kartica_id']; ?>" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            <p><?php echo $row['odgovor']; ?></p>
-
-                            <form action='akcije.php' method='GET'> 
-                                <input type='hidden' name='kartica_id' value=<?php echo "'{$row['kartica_id']}'";?>/> 
-                                <input type='hidden' name='action' value='brisi_karticu'/> 
-                                <input type='submit' class='btn btn-danger mt-2'name='Submit' value='Briši'/>
-                            </form>
-
+                                <form action="akcije.php" method="GET">
+                                    <input type="hidden" name="action" value="dodaj_karticu" />
+                                    <label for="pitanje">Pitanje:</label>
+                                    <input type="text" name="pitanje" id="pitanje" class="form-control" required><br>
+                                    <label for="odgovor">Odgovor:</label>
+                                    <textarea name="odgovor" id="odgovor" class="form-control" required></textarea><br>
+                                    <input type='hidden' name='grupa_id' value="<?php echo $grupa_id; ?>" />
+                                    <button type="submit" class="btn btn-primary">Dodaj karticu</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-    <?php
-        }
-    } else {
-        echo "Nema kartica";
-    }
-    ?>
-</div>
+
+
+                <div class="mb-3 mt-2 overflow-auto" style="max-height: 70vh;">
+                    <?php
+                    $sql = "SELECT * FROM kartice WHERE grupa_id = $grupa_id";
+                    $result = mysqli_query($con, $sql);
+
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            ?>
+                            <div class="card mb-4">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="heading<?php echo $row['kartica_id']; ?>">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse<?php echo $row['kartica_id']; ?>" aria-expanded="false"
+                                            aria-controls="collapse<?php echo $row['kartica_id']; ?>">
+                                            <?php echo $row['pitanje']; ?>
+                                        </button>
+                                    </h2>
+                                    <div id="collapse<?php echo $row['kartica_id']; ?>" class="accordion-collapse collapse"
+                                        aria-labelledby="heading<?php echo $row['kartica_id']; ?>"
+                                        data-bs-parent="#accordionExample">
+                                        <div class="accordion-body">
+                                            <p>
+                                                <?php echo $row['odgovor']; ?>
+                                            </p>
+
+                                            <form action='akcije.php' method='GET'>
+                                                <input type='hidden' name='kartica_id' value=<?php echo "'{$row['kartica_id']}'"; ?> />
+                                                <input type='hidden' name='action' value='brisi_karticu' />
+                                                <input type='submit' class='btn btn-danger mt-2' name='Submit' value='Briši' />
+                                            </form>
+                                            <button type="button" class="btn btn-secondary mt-2" data-toggle="modal"
+                                                data-target="#urediKarticuModal">Uredi</button>
+                                            <div class="modal fade" id="urediKarticuModal" tabindex="-1"
+                                                aria-labelledby="urediKarticuModal" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="urediKarticuModalLabel">Dodaj novu
+                                                                karticu</h5>
+                                                            <button type="button" class="close" data-dismiss="modal"
+                                                                aria-label="Close">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form action="akcije.php" method="GET">
+                                                                <input type="hidden" name="action" value="uredi_karticu" />
+                                                                <label for="pitanje">Pitanje:</label>
+                                                                <input type="text" name="pitanje" id="pitanje"
+                                                                    class="form-control" value="<?php echo $row['pitanje']; ?>"
+                                                                    required><br>
+                                                                <label for="odgovor">Odgovor:</label>
+                                                                <textarea name="odgovor" id="odgovor" class="form-control"
+                                                                    required><?php echo $row['odgovor']; ?></textarea><br>
+                                                                <input type='hidden' name='grupa_id'
+                                                                    value="<?php echo $grupa_id; ?>" />
+                                                                <input type='hidden' name='kartica_id'
+                                                                    value="<?php echo "{$row['kartica_id']}"; ?>" />
+                                                                <button type="submit" class="btn btn-primary">Uredi
+                                                                    karticu</button>
+                                                            </form>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                    } else {
+                        echo "Nema kartica";
+                    }
+                    ?>
+                </div>
 
             </div>
 
@@ -245,7 +294,7 @@ return $ime . " " . $prezime;
 
 
     </div>
-    
+
 </body>
 
 </html>

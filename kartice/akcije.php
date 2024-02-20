@@ -38,7 +38,33 @@ if (isset($_GET['action']) && $_GET['action'] === 'dodaj_karticu') {
         $stmt->close();
         header("Location: grupa.php?grupa_id=$grupa_id");
     } 
+
+        if (isset($_GET['action']) && $_GET['action'] === 'uredi_karticu') {
+            
+            if (isset($_GET['kartica_id'], $_GET['grupa_id'], $_GET['pitanje'], $_GET['odgovor'])) {
+                
+                $kartica_id = $_GET['kartica_id'];
+                $grupa_id = $_GET['grupa_id'];
+                $pitanje = $_GET['pitanje'];
+                $odgovor = $_GET['odgovor'];
     
+                $sql = "UPDATE kartice SET pitanje = ?, odgovor = ? WHERE kartica_id = ?";
+    
+                $stmt = $con->prepare($sql);
+                $stmt->bind_param("ssi", $pitanje, $odgovor, $kartica_id);
+    
+                if ($stmt->execute()) {
+                    echo "Kartica je uspješno ažurirana.";
+                    header("Location: grupa.php?grupa_id=$grupa_id");
+                } else {
+                    echo "Došlo je do greške prilikom ažuriranja kartice: " . $stmt->error;
+                }
+    
+                $stmt->close();
+            } else {
+                echo "Nisu postavljene sve potrebne varijable.";
+            }
+        } 
 
 if (isset($_GET["action"]) && $_GET["action"] == "brisi_grupu") {
     if (!mysqli_connect_errno()) {

@@ -78,18 +78,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="hero-section text-center" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)), url(../assets/img/about.jpg);">
             <div class="container ">
                 <div class="row">
-                    <div class="col-lg-6 mx-auto mt-5">
+                    <div class="col-lg-6 mx-auto mt-2">
                         <h1 class="display-4 " style="color: #FFFFFF;">Vaše kartice za ponavljanje</h1>
-                    </div>
-                </div>
-
-                <div class="row d-flex justify-content-center align-items-center m-2">
-                    <div class="col-sm-8 ">
-                        <div class="card mb-3">
-                            <div class="card-body m-2">
-                               
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
