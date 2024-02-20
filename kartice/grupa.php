@@ -84,7 +84,9 @@ function dohvatipodatkevlasnika($vlasnik_id)
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Izradi nove kartice za ponavljanje</title>
+    <title>
+        <?php echo "$nazivGrupe"; ?>
+    </title>
 
     <?php include '../assets/css/stiliranjeSporedno.php'; ?>
     <script src="../assets/js/main.js"></script>
@@ -102,17 +104,45 @@ function dohvatipodatkevlasnika($vlasnik_id)
             <div class="col-md-4 mb-4">
                 <div class="card mb-4">
                     <div class="card-body">
-                    <?php if ($admin){ ?>
+                        <?php if ($admin) { ?>
+                            <form id="deleteForm" action='akcije.php' method='GET'>
+                                <input type='hidden' name='grupa_id' value='<?php echo $grupa_id; ?>' />
+                                <input type='hidden' name='action' value='brisi_grupu' />
+                            </form>
                             <div style="text-align: right;">
-                                <form action='akcije.php' method='GET'>
-                                    <input type='hidden' name='grupa_id' value='<?php echo $grupa_id; ?>' />
-                                    <input type='hidden' name='action' value='brisi_grupu' />
-                                    <input type='submit' class='btn btn-link text-danger' name='Submit' value='Briši' />
-                                </form>
+                                <button class='btn btn-link text-danger' data-toggle="modal"
+                                    data-target="#deleteModal">Briši</button>
                             </div>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog"
+                                aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel">Jeste li sigurni da želite
+                                                obrisati ovu grupu kartica?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-dismiss="modal">Odustani</button>
+                                            <button type="button" class="btn btn-danger" id="confirmDelete">Obriši</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <script>
+                                document.getElementById("confirmDelete").addEventListener("click", function () {
+                                    document.getElementById("deleteForm").submit();
+                                });
+                            </script>
                         <?php } ?>
                         <form action="akcije.php" method="GET" id="fromagrupa">
-                        
+
                             <div class="row mb-4">
                                 <h4 class="mb-2 d-inline">
                                     <?php echo "$nazivGrupe"; ?>
@@ -142,13 +172,14 @@ function dohvatipodatkevlasnika($vlasnik_id)
                                 <label for="predmet" class="form-label">Predmet:</label>
                                 <?php
                                 if ($rezultatPredmeti->num_rows > 0) {
-                                    echo '<select class="form-control" id="predmet" name="predmet" required disabled>';
-                                    echo '<option value="">Odaberite predmet</option>';
-                                    while ($red_predmet = $rezultatPredmeti->fetch_assoc()) {
-                                        $selected = ($red_predmet['predmet_id'] == $predmetId) ? "selected" : "";
-                                        echo '<option value="' . $red_predmet['predmet_id'] . '" ' . $selected . '>' . $red_predmet['naziv_predmeta'] . '</option>';
-                                    }
-                                    echo '</select>';
+                                    ?> <select class="form-control" id="predmet" name="predmet" required disabled>
+                                        <?php
+                                        echo '<option value="">Odaberite predmet</option>';
+                                        while ($red_predmet = $rezultatPredmeti->fetch_assoc()) {
+                                            $selected = ($red_predmet['predmet_id'] == $predmetId) ? "selected" : "";
+                                            echo '<option value="' . $red_predmet['predmet_id'] . '" ' . $selected . '>' . $red_predmet['naziv_predmeta'] . '</option>';
+                                        }
+                                        echo '</select>';
                                 } else {
                                     echo 'Nema dostupnih predmeta.';
                                 }
@@ -173,9 +204,9 @@ function dohvatipodatkevlasnika($vlasnik_id)
                                 style="display:none;">Spremi</button>
                         </form>
                         <div class="mt-2">
-                            <button type="submit" class="btn btn-primary">Započni</button>
-                            <?php if ($admin){ ?>
-                            <button type="submit" class="btn btn-secondary" id="uredigrupu">uredi</button>
+                            <a href="proba.php?grupa_id=<?php echo $grupa_id; ?> " class="btn btn-primary">Započni</a>
+                            <?php if ($admin) { ?>
+                                <button type="submit" class="btn btn-secondary" id="uredigrupu">uredi</button>
                             <?php } ?>
                         </div>
                     </div>
@@ -185,9 +216,9 @@ function dohvatipodatkevlasnika($vlasnik_id)
 
 
             <div class="col-md-8 mb-4">
-                <?php if ($admin){ ?>
-                <button type="button" class="btn btn-success mt-2" data-toggle="modal"
-                    data-target="#novaKarticaModal">Dodaj novu karticu</button>
+                <?php if ($admin) { ?>
+                    <button type="button" class="btn btn-success mt-2" data-toggle="modal"
+                        data-target="#novaKarticaModal">Dodaj novu karticu</button>
                 <?php } ?>
 
                 <div class="modal fade" id="novaKarticaModal" tabindex="-1" aria-labelledby="novaKarticaModalLabel"
@@ -308,6 +339,7 @@ function dohvatipodatkevlasnika($vlasnik_id)
         $("#uredigrupu").click(function () {
             $("#grupa_naziv").prop('readonly', false);
             $("#grupa_opis").prop('readonly', false);
+            $("#predmet").prop('disabled', false);
             $("#javno").prop('readonly', false);
             $("#javno").prop('disabled', false);
             $("#privatno").prop('disabled', false);
