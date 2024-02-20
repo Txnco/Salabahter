@@ -42,6 +42,11 @@ if ($redGrupa = $rezultatGrupa->fetch_assoc()) {
     $nazivGrupe = $redGrupa['grupa_naziv'];
     $opisGrupe = $redGrupa['grupa_opis'];
     $vlasnikId = $redGrupa['vlasnik_id'];
+    if ($vlasnikId == $korisnikId) {
+        $admin = true;
+    } else {
+        $admin = false;
+    }
     $javno = $redGrupa['javno'];
     $predmetId = $redGrupa['predmet_id'];
     $datumKreiranja = date('d.m.Y', strtotime($redGrupa['datum_kreiranja']));
@@ -71,7 +76,6 @@ function dohvatipodatkevlasnika($vlasnik_id)
     $prezime = $rowKorisnik['prezime'];
     return $ime . " " . $prezime;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -98,13 +102,21 @@ function dohvatipodatkevlasnika($vlasnik_id)
             <div class="col-md-4 mb-4">
                 <div class="card mb-4">
                     <div class="card-body">
-
-                        <form action="action.php" method="post" id="eventForm">
+                    <?php if ($admin){ ?>
+                            <div style="text-align: right;">
+                                <form action='akcije.php' method='GET'>
+                                    <input type='hidden' name='grupa_id' value='<?php echo $grupa_id; ?>' />
+                                    <input type='hidden' name='action' value='brisi_grupu' />
+                                    <input type='submit' class='btn btn-link text-danger' name='Submit' value='Briši' />
+                                </form>
+                            </div>
+                        <?php } ?>
+                        <form action="akcije.php" method="GET" id="fromagrupa">
+                        
                             <div class="row mb-4">
-                                <h4 class="mt-3 mb-2 d-inline">
+                                <h4 class="mb-2 d-inline">
                                     <?php echo "$nazivGrupe"; ?>
                                 </h4>
-
                                 <h6 class="card-info" style="font-family: Poppins; text-align: left;"> <a class="link"
                                         href="../profil?korisnik=<?php echo $vlasnikId ?>">
                                         <?php echo $imePrezimeKorisnika; ?>
@@ -120,19 +132,17 @@ function dohvatipodatkevlasnika($vlasnik_id)
                                             value="<?php echo "$nazivGrupe"; ?>" readonly>
                                     </div>
                                 </div>
-
                             </div>
                             <div class="form-outline mb-4">
                                 <label for="grupa_opis" class="form-label">Opis grupe:</label>
                                 <textarea class="form-control" id="grupa_opis" name="grupa_opis" rows="3"
                                     readonly><?php echo "$opisGrupe"; ?></textarea>
                             </div>
-
                             <div class="form-outline mb-4">
-                                <label for="subject" class="form-label">Predmet:</label>
+                                <label for="predmet" class="form-label">Predmet:</label>
                                 <?php
                                 if ($rezultatPredmeti->num_rows > 0) {
-                                    echo '<select class="form-control" id="subject" name="subject" required disabled>';
+                                    echo '<select class="form-control" id="predmet" name="predmet" required disabled>';
                                     echo '<option value="">Odaberite predmet</option>';
                                     while ($red_predmet = $rezultatPredmeti->fetch_assoc()) {
                                         $selected = ($red_predmet['predmet_id'] == $predmetId) ? "selected" : "";
@@ -144,7 +154,6 @@ function dohvatipodatkevlasnika($vlasnik_id)
                                 }
                                 ?>
                             </div>
-
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="javno" name="javno" value="1" <?php echo ($javno == 1) ? 'checked disabled' : 'disabled'; ?>>
                                 <label class="form-check-label" for="javno">
@@ -157,31 +166,28 @@ function dohvatipodatkevlasnika($vlasnik_id)
                                     Privatno
                                 </label>
                             </div>
-                            <div class="mt-2">
-
-
-                            </div>
                             <input type="hidden" name="event_id" value="<?php echo $event_id; ?>">
-                            <input type="hidden" name="update_event_submit" value="1">
-                            <button id="saveButton" type="submit" class="btn btn-success"
+                            <input type="hidden" name="uredi_grupu" value="1">
+                            <button id="spremi" type="submit" class="btn btn-success"
                                 style="display:none;">Spremi</button>
                         </form>
-
-                        <button type="submit" class="btn btn-success">Započni</button>
-                        <a href="#" id="uredigrupu" class="btn btn-secondary">uredi</a>
-                        <form action='akcije.php' method='GET'>
-                            <input type='hidden' name='grupa_id' value=<?php echo "$grupa_id"; ?> />
-                            <input type='hidden' name='action' value='brisi_grupu' />
-                            <input type='submit' class='btn btn-danger mt-2' name='Submit' value='Briši' />
-                        </form>
+                        <div class="mt-2">
+                            <button type="submit" class="btn btn-primary">Započni</button>
+                            <?php if ($admin){ ?>
+                            <button type="submit" class="btn btn-secondary" id="uredigrupu">uredi</button>
+                            <?php } ?>
+                        </div>
                     </div>
-
                 </div>
             </div>
 
+
+
             <div class="col-md-8 mb-4">
+                <?php if ($admin){ ?>
                 <button type="button" class="btn btn-success mt-2" data-toggle="modal"
                     data-target="#novaKarticaModal">Dodaj novu karticu</button>
+                <?php } ?>
 
                 <div class="modal fade" id="novaKarticaModal" tabindex="-1" aria-labelledby="novaKarticaModalLabel"
                     aria-hidden="true">
@@ -296,5 +302,18 @@ function dohvatipodatkevlasnika($vlasnik_id)
     </div>
 
 </body>
+<script>
+    $(document).ready(function () {
+        $("#uredigrupu").click(function () {
+            $("#grupa_naziv").prop('readonly', false);
+            $("#grupa_opis").prop('readonly', false);
+            $("#javno").prop('readonly', false);
+            $("#javno").prop('disabled', false);
+            $("#privatno").prop('disabled', false);
+            $("#spremi").show();
+        });
+    });
+</script>
+
 
 </html>

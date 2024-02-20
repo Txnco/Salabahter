@@ -18,7 +18,31 @@ if(isset($_GET["action"]) && $_GET["action"]=="brisi_karticu") {
     }
     header("Location: grupa.php?grupa_id=$grupa_id");
 }
+if (isset($_GET['action']) && $_GET['action'] === 'uredi_grupu'){
+    if (isset($_GET['grupa_id'], $_GET['naziv_grupe'], $_GET['opis_grupe'], $_GET['javno'])) {
+        $grupa_id = $_GET['grupa_id'];
+        $naziv_grupe = $_GET['naziv_grupe'];
+        $opis_grupe = $_GET['opis_grupe'];
+        $javno = $_GET['javno'];
 
+        $sql = "UPDATE grupekartica SET grupa_naziv = ?, grupa_opis = ?, javno = ? WHERE grupa_id = ?";
+
+        $stmt = $con->prepare($sql);
+        $stmt->bind_param("sssi", $naziv_grupe, $opis_grupe, $javno, $grupa_id);
+
+        if ($stmt->execute()) {
+            echo "Grupa je uspješno ažurirana.";
+            header("Location: grupa.php?grupa_id=$grupa_id");
+        } else {
+            echo "Došlo je do greške prilikom ažuriranja grupe: " . $stmt->error;
+        }
+
+        $stmt->close();
+    } else {
+        echo "Nisu postavljene sve potrebne varijable.";
+    }
+
+}
 if (isset($_GET['action']) && $_GET['action'] === 'dodaj_karticu') {
         $grupa_id = $_GET['grupa_id'];
         $pitanje = $_GET['pitanje'];
