@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="container ">
                 <div class="row">
                     <div class="col-lg-6 mx-auto mt-5">
-                        <h1 class="display-4 " style="color: #FFFFFF;" >Pretraži Skripte</h1>
+                        <h1 class="display-4 " style="color: #FFFFFF;">Pretraži skripte</h1>
                         <p class="lead" style="color: #FFFFFF;">Pretražite skripte koje su objavili naši korisnici i uživajte u besplatnim </br> pogodnostima platforme Šalabahter, ili <a href="nova_skripta.phps">objavite skriptu samostalno</a> i pomognite ostalima.</p>
                     </div>
                 </div>
@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <input class="form-control mt-2 mb-2" type="search" placeholder="Pretraži skripte" name="searchTerm">
                                         </div>
                                         <div class="col-sm">
-                                            <a href="#postavkeTrazilice"  data-toggle="collapse" aria-expanded="false" aria-controls="postavkeTrazilice" id="filtrirajTipka">Filtriraj
+                                            <a href="#postavkeTrazilice" data-toggle="collapse" aria-expanded="false" aria-controls="postavkeTrazilice" id="filtrirajTipka">Filtriraj
                                                 <svg class="arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="display: none;">
                                                     <path d="M3.22 10.53a.749.749 0 0 1 0-1.06l4.25-4.25a.749.749 0 0 1 1.06 0l4.25 4.25a.749.749 0 1 1-1.06 1.06L8 6.811 4.28 10.53a.749.749 0 0 1-1.06 0Z"></path>
                                                 </svg>
@@ -99,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                     <path d="M12.78 5.22a.749.749 0 0 1 0 1.06l-4.25 4.25a.749.749 0 0 1-1.06 0L3.22 6.28a.749.749 0 1 1 1.06-1.06L8 8.939l3.72-3.719a.749.749 0 0 1 1.06 0Z"></path>
                                                 </svg>
                                             </a>
-                                            
+
                                         </div>
 
 
@@ -124,11 +124,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             </div>
 
                                             <div class="row mt-2 d-flex align-items-center justify-content-center">
-                                                    <div class="col" id="trazilica">
-                                                        <a href="../skripte/" class="btn btn-outline-danger mt-2 ml-2 mr-2" id="izbrisi">Izbriši filter</a>
-                                                        <button class="btn btn-success mt-2 ml-2 mr-2" id="pretrazi" type="submit">Pretraži</button>
-                                                    </div>
+                                                <div class="col" id="trazilica">
+                                                    <a href="../skripte/" class="btn btn-outline-danger mt-2 ml-2 mr-2" id="izbrisi">Izbriši filter</a>
+                                                    <button class="btn btn-success mt-2 ml-2 mr-2" id="pretrazi" type="submit">Pretraži</button>
                                                 </div>
+                                            </div>
 
 
 
@@ -145,10 +145,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
 
         <div class="container">
-            <div class="main-body mt-3">
+            <div class="main-body p-0">
 
                 <?php if (isset($_SESSION['user_id'])) : ?>
-                    <div class="col-sm p-1">
+                    <div class="col-sm p-0 mb-2">
                         <a class="btn btn-success" href="nova_skripta.php" type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="white">
                                 <path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path>
                             </svg> Dodaj skriptu</a>
@@ -162,22 +162,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <?php
                             // Prikaz rezultata
                             if (isset($result) > 0) :
-                                while ($row = $result->fetch_assoc()) :
-                                    $predmet_id = $row['predmet_id'];
-                                    $predmetGrupe = "SELECT  naziv_predmeta, predmet_boja FROM  predmeti WHERE predmet_id = $predmet_id";
+                                while ($red = $result->fetch_assoc()) :
+                                    $predmet_id = $red['predmet_id'];
+                                    $predmetGrupe = "SELECT * FROM  predmeti WHERE predmet_id = $predmet_id";
                                     $rezultatPredmeta = $con->query($predmetGrupe);
                             ?>
                                     <div class="col-sm-3 mb-3 ">
-                                        <div class="card" style="height: 270px;">
+                                        <div class="card">
+
+                                            <?php
+                                            while ($red2 = $rezultatPredmeta->fetch_assoc()) :
+                                                if ($red2['slika_predmeta'] != null) : ?>
+                                                    <img src="<?php echo '../assets/img/predmeti/' . $red2["slika_predmeta"]; ?>" alt="Slika za <?php echo $red2["naziv_predmeta"]; ?>" style="width: 100%; height: 150px; object-fit: cover;">
+                                            <?php else :
+                                                    echo  '<img src="../assets/img/predmeti/novipredmet.jpg" style="width: 100%; height: 150px; object-fit: cover;">';
+                                                endif;
+                                            endwhile;
+                                            ?>
                                             <div class="card-body d-flex flex-column justify-content-between">
                                                 <div class="d-flex flex-column align-items-center text-center" style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
-                                                    <div class="mt-3">
-
-                                                        <h5 class="card-title">
-                                                            <?php echo (strlen($row["naziv_skripte"]) > 40) ? substr($row["naziv_skripte"], 0, 40) . '...' : $row["naziv_skripte"]; ?>
-                                                        </h5>
+                                                    <div>
 
                                                         <?php
+                                                        $rezultatPredmeta->data_seek(0);
                                                         if ($rezultatPredmeta->num_rows > 0) :
                                                             while ($predmetRed = $rezultatPredmeta->fetch_assoc()) :
                                                                 $naziv_predmeta = $predmetRed['naziv_predmeta'];
@@ -188,15 +195,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                             endwhile;
                                                         endif;
                                                         ?>
-                                                        <p class="card-text">
-                                                            <?php echo (strlen($row["opis_skripte"]) > 120) ? substr($row["opis_skripte"], 0, 120) . '...' : $row["opis_skripte"]; ?>
-                                                        </p>
+
+                                                        <h5 class="card-title">
+                                                            <?php echo (strlen($red["naziv_skripte"]) > 20) ? substr($red["naziv_skripte"], 0, 20) . '...' : $red["naziv_skripte"]; ?>
+                                                        </h5>
+                                                        
                                                     </div>
 
                                                     <div class="row mt-auto">
                                                         <div class="col">
-                                                            <a href="skripta.php?skripta_id=<?php echo $row["skripta_id"]; ?>" class="btn btn-primary">Pregledaj</a>
-                                                            <a href="<?php echo $row["skripta_putanja"]; ?>" class="btn btn-primary" download>Preuzmi PDF</a>
+                                                            <a href="skripta.php?skripta_id=<?php echo $red["skripta_id"]; ?>" class="btn btn-primary mr-2">Pregledaj</a>
+                                                            <a href="<?php echo $red["skripta_putanja"]; ?>" class="text-success" download><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-download" viewBox="0 0 16 16">
+                                                                    <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5" />
+                                                                    <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708z" />
+                                                                </svg></a>
                                                         </div>
                                                     </div>
 

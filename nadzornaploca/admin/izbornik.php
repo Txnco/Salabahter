@@ -32,7 +32,10 @@
                 <a href="svikorisnici.php" class="nav-link nadlink <?php echo $trenutnaStranica2 == "Korisnici" ? 'aktivno' : '' ?>">Svi
                     korisnici</a>
             </li>
-            
+            <li class="nav-item">
+                <a href="dodavanjePredmeta.php" class="nav-link nadlink <?php echo $trenutnaStranica2 == "Predmeti" ? 'aktivno' : '' ?>">Dodaj predmet</a>
+            </li>
+
         </ul>
     </div>
 
@@ -81,7 +84,10 @@
                 <a href="svikorisnici.php" class="nav-link nadlink <?php echo $trenutnaStranica2 == "Korisnici" ? 'aktivno' : '' ?>">Svi
                     korisnici</a>
             </li>
-           
+
+            <li class="nav-item">
+                <a href="dodavanjePredmeta.php" class="nav-link nadlink <?php echo $trenutnaStranica2 == "Predmeti" ? 'aktivno' : '' ?>">Dodaj predmet</a>
+            </li>
 
         </ul>
     </div>
@@ -118,7 +124,7 @@
                 $('#padajuciIzbornik').slideToggle();
             });
         });
-       
+
 
     });
 </script>

@@ -40,7 +40,11 @@ while ($result = $rezultatZahtjeva->fetch_assoc()) {
   $brojZahtjeva = $rezultatZahtjeva->num_rows;
 }
 
-
+$sqlPrijaveRecenzija = "SELECT * FROM prijavarecenzije";
+$rezultatPrijaveRecenzija = $con->query($sqlPrijaveRecenzija);
+while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
+  $brojPrijavaRecenzija = $rezultatPrijaveRecenzija->num_rows;
+}
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
@@ -97,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
       $rezultatProfilnaSlika = $con->query($sqlDohvatiProfilnuSliku);
       $profilnaSlika = $rezultatProfilnaSlika->fetch_assoc();
       if ($profilnaSlika['slika_korisnika'] != null) {
-        unlink("../" .$profilnaSlika['slika_korisnika']); // Obriši staru sliku
+        unlink("../" . $profilnaSlika['slika_korisnika']); // Obriši staru sliku
       }
 
       $sqlUpisSlike = "UPDATE korisnik SET slika_korisnika =  '{$putanjaSlike}' WHERE korisnik_id = {$_SESSION['user_id']}";
@@ -157,11 +161,7 @@ if ($rezultatPoslanZahtjev) {
   }
 }
 
-$sqlPrijaveRecenzija = "SELECT * FROM prijavarecenzije";
-$rezultatPrijaveRecenzija = $con->query($sqlPrijaveRecenzija);
-while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
-  $brojPrijavaRecenzija = $rezultatPrijaveRecenzija->num_rows;
-}
+
 
 
 ?>
@@ -227,7 +227,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
 
 
                   if ($profilnaSlika['slika_korisnika'] != null) {
-                    $profilnaSlika['slika_korisnika'] = "../" . $profilnaSlika['slika_korisnika']; 
+                    $profilnaSlika['slika_korisnika'] = "../" . $profilnaSlika['slika_korisnika'];
 
                     echo "<div  style='width: 150px; height: 150px; overflow: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center;'>
                     <img src='{$profilnaSlika['slika_korisnika']}' alt='Profilna slika' style='width: 100%; height: 100%; object-fit: cover;' />
@@ -295,28 +295,10 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
             </div>
           </div>
 
-
-
-          <?php if ($isAdmin == 1) : ?> <!-- Ako je korisnik Admin onda može dodati predmet -->
-            <div class="card mt-3">
-              <form method="POST">
-                <p class="text-muted font-size-sm m-2"><i>Dodavanje predmeta</i></p>
-
-                <div class="col-sm-9 text-secondary mb-3 mt-3">
-                  <label for="upisPredmetaL">Naziv predmeta</label>
-                  <input type="text" class="form-control" name="upisPredmeta" id="upisPredmeta">
-                </div>
-                <div class="col-sm-12 mb-4">
-                  <button class="btn btn-racun" name="upisPredmet" type="submit">Upisi predmet</button>
-                </div>
-                <form>
-            </div>
-          <?php endif; ?>
-
         </div>
         <div class="col-sm-6">
           <div class="card mb-3">
-            <div class="card-body" >
+            <div class="card-body">
               <form method="post">
                 <div class="row">
                   <div class="col-sm-3 align-self-center">
@@ -417,7 +399,7 @@ while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
 
                             <div class="card-body">
                               <small>
-                                <?php echo $row['naziv_skripte']; ?>
+                                <?php echo (strlen($row["naziv_skripte"]) > 20) ? substr($row["naziv_skripte"], 0, 20) . '...' : $row["naziv_skripte"]; ?>
                               </small>
                               <div class="progress mb-3" style="height: 5px">
                                 <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>

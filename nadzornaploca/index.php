@@ -262,13 +262,13 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
 
 
           <?php if ($imaRecenzije) : ?>
-          <div class="card mt-3">
-            <div class="card-body ">
-              <div class="row">
-                <div class="col-12 ">
-                  <div class="content text-center">
+            <div class="card mt-3">
+              <div class="card-body ">
+                <div class="row">
+                  <div class="col-12 ">
+                    <div class="content text-center">
 
-                    <div class="ratings">
+                      <div class="ratings">
                         <?php
 
                         $sqlDohvatiOcjene = "SELECT ROUND(AVG(ocjena),1) as prosjek, COUNT(ocjena) as brojOcjena FROM recenzije WHERE zaKorisnika = {$_SESSION['user_id']} ";
@@ -313,16 +313,16 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                           ?>
                         </div>
 
-                        
-                        
-                        
+
+
+
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <?php endif; ?>
+          <?php endif; ?>
 
         </div>
 
@@ -427,7 +427,7 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
                           while ($row = $resultSkripteKorisnika->fetch_assoc()) : ?>
 
                             <div class="card-body">
-                              <small><?php echo $row['naziv_skripte']; ?></small>
+                              <small><?php echo (strlen($row["naziv_skripte"]) > 20) ? substr($row["naziv_skripte"], 0, 20) . '...' : $row["naziv_skripte"]; ?></small>
                               <div class="progress mb-3" style="height: 5px">
                                 <div class="progress-bar progress" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
                               </div>
