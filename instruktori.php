@@ -104,6 +104,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <input class="form-control mt-2 mb-2" type="search" placeholder="Pretraži instruktore" aria-label="Search" name="pretraga">
                                         </div>
                                         <div class="col-sm">
+                                            <button class="btn btn-success mt-2 mr-2 mb-2" id="pretrazi" type="submit">Pretraži</button>
+
                                             <a href="#postavkeTrazilice" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="postavkeTrazilice" id="filtrirajTipka">Filtriraj
                                                 <svg class="arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="display: none;">
                                                     <path d="M3.22 10.53a.749.749 0 0 1 0-1.06l4.25-4.25a.749.749 0 0 1 1.06 0l4.25 4.25a.749.749 0 1 1-1.06 1.06L8 6.811 4.28 10.53a.749.749 0 0 1-1.06 0Z"></path>
@@ -116,24 +118,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                         </div>
                                     </div>
 
-
                                     <div class="collapse animate__animated animate__slideinDown" id="postavkeTrazilice">
                                         <div class="row justify-content-sm-center mt-3">
+
                                             <div class="col-sm">
-                                                <span class="text-muted">Predmet</span>
-                                                <select class="form-control" name="predmet">
-                                                    <option value="">Odaberi predmet</option>
+                                                <span class="text-muted">Županija</span>
+                                                <select class="form-control" name="zupanija">
+                                                    <option value="">Odaberi županiju</option>
                                                     <?php
-                                                    $rezultatPredmeti = $con->query("SELECT * FROM predmeti");
-                                                    while ($red = $rezultatPredmeti->fetch_assoc()) {
-                                                        $selected = isset($_POST['predmet']) && $_POST['predmet'] == $red['predmet_id'] ? 'selected' : '';
-                                                        echo '<option value="' . $red['predmet_id'] . '" ' . $selected . '>' . $red['naziv_predmeta'] . '</option>';
+                                                    $rezultatZupanije = $con->query("SELECT naziv_zupanije,zupanija.zupanija_id FROM zupanija");
+                                                    while ($red = $rezultatZupanije->fetch_assoc()) {
+                                                        $selected = isset($_POST['zupanija']) && $_POST['zupanija'] == $red['zupanija_id'] ? 'selected' : '';
+                                                        echo '<option value="' . $red['zupanija_id'] . '" ' . $selected . '>' . $red['naziv_zupanije'] . '</option>';
                                                     }
                                                     ?>
                                                 </select>
                                             </div>
-
-
 
                                             <div class="col-sm">
                                                 <span class="text-muted">Grad</span>
@@ -149,32 +149,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 </select>
                                             </div>
 
-
-
                                             <div class="col-sm">
-                                                <span class="text-muted">Županija</span>
-                                                <select class="form-control" name="zupanija">
-                                                    <option value="">Odaberi županiju</option>
+                                                <span class="text-muted">Predmet</span>
+                                                <select class="form-control" name="predmet">
+                                                    <option value="">Odaberi predmet</option>
                                                     <?php
-                                                    $rezultatZupanije = $con->query("SELECT naziv_zupanije,zupanija.zupanija_id FROM zupanija");
-                                                    while ($red = $rezultatZupanije->fetch_assoc()) {
-                                                        $selected = isset($_POST['zupanija']) && $_POST['zupanija'] == $red['zupanija_id'] ? 'selected' : '';
-                                                        echo '<option value="' . $red['zupanija_id'] . '" ' . $selected . '>' . $red['naziv_zupanije'] . '</option>';
+                                                    $rezultatPredmeti = $con->query("SELECT * FROM predmeti");
+                                                    while ($red = $rezultatPredmeti->fetch_assoc()) {
+                                                        $selected = isset($_POST['predmet']) && $_POST['predmet'] == $red['predmet_id'] ? 'selected' : '';
+                                                        echo '<option value="' . $red['predmet_id'] . '" ' . $selected . '>' . $red['naziv_predmeta'] . '</option>';
                                                     }
                                                     ?>
                                                 </select>
-
-
                                             </div>
-
 
                                             <div class="row mt-2 d-flex align-items-center justify-content-center">
                                                 <div class="col" id="trazilica">
                                                     <a href="instruktori.php" class="btn btn-outline-danger mt-2 ml-2 mr-2" id="izbrisi">Izbriši filter</a>
-                                                    <button class="btn btn-success mt-2 ml-2 mr-2" id="pretrazi" type="submit">Pretraži</button>
+
                                                 </div>
                                             </div>
-
 
                                         </div>
 
@@ -206,7 +200,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                     $profilnaSlika = $rezultatProfilnaSlika->fetch_assoc();
 
                                                     if ($profilnaSlika['slika_korisnika'] != null) {
-                                                        $profilnaSlika['slika_korisnika'] =  "nadzornaploca/". $profilnaSlika['slika_korisnika'];
+                                                        $profilnaSlika['slika_korisnika'] =  "nadzornaploca/" . $profilnaSlika['slika_korisnika'];
 
                                                         echo "<div class='ml-3' style='width: 100px; height: 100px; overflow: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center;'>
                                                             <img src='{$profilnaSlika['slika_korisnika']}' alt='Profilna slika' style='width: 100%; height: 100%; object-fit: cover;' />
@@ -285,13 +279,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $('.arrow-up').show();
             });
 
-
-
             $('#postavkeTrazilice').on('hide.bs.collapse', function() {
                 $('.arrow-down').show();
                 $('.arrow-up').hide();
             });
-
 
             <?php if ($_SERVER['REQUEST_METHOD'] == 'POST') : ?>
                 $('#postavkeTrazilice').collapse('show');

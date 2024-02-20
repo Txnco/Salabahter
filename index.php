@@ -59,7 +59,8 @@ $pathToLogout = "account/logout.php";
               <div class="carousel-content">
                 <h2 class="animate__animated animate__fadeInDown">Dobrodošli na <span>Šalabahter</span></h2>
                 <p class="animate__animated animate__fadeInUp">Ovo je platforma koja promovira i spaja učeničke probleme i rješenja,učenici i studenti mogu pronaći instruktore koji odgovaraju njihovim potrebama i učiti od vršnjaka koji su već prošli kroz iste izazove i prepreke.</p>
-                <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Započni</a>
+                <a href="/racun/registracija.php" class="btn-get-started animate__animated animate__fadeInUp scrollto">Registriraj se!</a>
+                <a href="/racun/prijava.php" class="btn-get-started animate__animated animate__fadeInUp scrollto">Prijavi se!</a>
               </div>
             </div>
           </div>
@@ -70,7 +71,7 @@ $pathToLogout = "account/logout.php";
               <div class="carousel-content">
                 <h2 class="animate__animated animate__fadeInDown">Razvoj komunikacijskih vještina</h2>
                 <p class="animate__animated animate__fadeInUp">Postavljanjem u ulogu instruktora, učenici i studenti razvijaju vještine komunikacije, poučavanja i suosjećanja, što im koristi ne samo u akademskom okruženju već i u životu općenito.</p>
-                <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Započni</a>
+                <a href="#usluge" class="btn-get-started animate__animated animate__fadeInUp scrollto">Započni</a>
               </div>
             </div>
           </div>
@@ -80,7 +81,7 @@ $pathToLogout = "account/logout.php";
               <div class="carousel-content">
                 <h2 class="animate__animated animate__fadeInDown">Transparentnost podrške</h2>
                 <p class="animate__animated animate__fadeInUp">Platforma omogućuje korisnicima da jasno vide kako su drugi učenici i instruktori pružili pomoć i podršku, potičući atmosferu uzajamnog povjerenja i podrške.</p>
-                <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Započni</a>
+                <a href="#instruktor" class="btn-get-started animate__animated animate__fadeInUp scrollto">Započni</a>
               </div>
             </div>
           </div>
@@ -90,7 +91,7 @@ $pathToLogout = "account/logout.php";
               <div class="carousel-content">
                 <h2 class="animate__animated animate__fadeInDown">Samostalno učenje</h2>
                 <p class="animate__animated animate__fadeInUp">Učenici mogu dijeliti PDF skripte za učenje međusobno, stvarajući tako dinamičnu razmjenu resursa i povratnih informacija unutar zajednice.</p>
-                <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Započni</a>
+                <a href="skripte/" class="btn-get-started animate__animated animate__fadeInUp scrollto">Odvedi me na skripte</a>
               </div>
             </div>
           </div>
@@ -155,7 +156,7 @@ $pathToLogout = "account/logout.php";
 
 
     <!-- ======= Naše usluge ======= -->
-    <section id="services" class="services">
+    <section id="usluge" class="services">
       <div class="container">
 
         <div class="section-title">
@@ -247,7 +248,7 @@ $pathToLogout = "account/logout.php";
     </section>End More Services Section -->
 
     <!-- ======= Informacije ======= -->
-    <section class="info-box py-0">
+    <section id="instruktor" class="info-box py-0">
       <div class="container-fluid">
 
         <div class="row">
