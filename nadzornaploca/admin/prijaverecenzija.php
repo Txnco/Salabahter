@@ -225,7 +225,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                         <!-- Svaki zahtjev ima svoj ID,  svaki ID prijave mora imati petlju da se prihvati/odbaci samo onaj koji je pritisnut, a ne svi koji su u formu -->
 
                                         <div class="col-sm-2 text-center my-auto">
-                                            <button class="btn btn-secondary m-2" name="izbrisiZahtjev" type="submit">Izbriši zahtjev</button>
+                                            <button class="btn btn-secondary m-2" name="izbrisiZahtjev" type="submit">Odbij zahtjev</button>
 
                                             <button class="btn btn-danger m-2" name="izbrisiRecenziju" type="submit">Izbriši recenziju</button>
 

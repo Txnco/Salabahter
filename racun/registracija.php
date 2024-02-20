@@ -61,6 +61,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 if (!empty($email) && !empty($password)) {
                     $provjeraEmail = provjera_email($email, $con);
 
+                    $sqlProvjera = "SELECT * FROM neverificiranikorisnici WHERE email = '$email'";
+                    $rezultat = $con->query($sqlProvjera);
+                    if($rezultat->num_rows > 0){
+                        $sqlObrisi = "DELETE FROM neverificiranikorisnici WHERE email = '$email'";
+                        $con->query($sqlObrisi);
+                    }
+
                     if ($provjeraEmail == 0) {
                         $upis = "INSERT INTO neverificiranikorisnici (ime,prezime,email,lozinka,adresa,prebivaliste,mjesto,status_korisnika,verifikacijski_kod) VALUES (?,?,?,?,?,?,?,?,?)";
 
