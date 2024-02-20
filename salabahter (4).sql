@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 19, 2024 at 05:00 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Generation Time: Feb 20, 2024 at 06:00 PM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -189,9 +189,10 @@ CREATE TABLE `grupekartica` (
 --
 
 INSERT INTO `grupekartica` (`grupa_id`, `grupa_naziv`, `grupa_opis`, `datum_kreiranja`, `vlasnik_id`, `predmet_id`, `javno`, `broj_pregleda`) VALUES
-(2, 'TEST', 'TEST', '2024-02-18 22:46:46', 22, 13, 1, 4),
-(5, 'Ajde ako ovo delam idem spat', 'sikak pem spat', '2024-02-18 22:50:14', 22, 9, 1, 2),
-(6, 'Zbrajanje i oduzimanje', 'Ucenje jednostavnih operacija zbrajanja i oduzimanja!', '2024-02-19 10:55:01', 13, 8, 1, 7);
+(2, 'TEST', 'TEST', '2024-02-18 22:46:46', 22, 13, 1, 6),
+(5, 'Ajde ako ovo delam idem spat', 'sikak pem spat', '2024-02-18 22:50:14', 22, 9, 1, 4),
+(6, 'Zbrajanje i oduzimanje', 'Ucenje jednostavnih operacija zbrajanja i oduzimanja!', '2024-02-19 10:55:01', 13, 8, 1, 8),
+(7, 'Zbrajanje i oduzimanje', 'wdw', '2024-02-20 11:23:57', 13, 8, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -282,7 +283,9 @@ INSERT INTO `kartice` (`kartica_id`, `pitanje`, `odgovor`, `datum_kreiranja`, `g
 (1, 'idk', 'dela', '2024-02-18 22:50:24', 5),
 (2, '2+2=?', '4', '2024-02-19 10:55:15', 6),
 (3, '4-2=?', '2', '2024-02-19 10:55:35', 6),
-(4, '5+3=?', '8', '2024-02-19 10:55:43', 6);
+(4, '5+3=?', '8', '2024-02-19 10:55:43', 6),
+(5, 'awd', 'adwd', '2024-02-20 11:24:01', 7),
+(6, 'awd', 'awd', '2024-02-20 11:24:04', 7);
 
 -- --------------------------------------------------------
 
@@ -328,7 +331,8 @@ INSERT INTO `korisnik` (`korisnik_id`, `ime`, `prezime`, `email`, `lozinka`, `ad
 (819, 'asd', 'Ivanovic', 'salabahter.learning@gmail.com', '$2y$10$SE6o4c48Pe.G6BtqImS0BuKDsnWZ37HGL31GakurRqL0MdsjSYYMq', 'Gradska ulica 3', 'Goričan', 380, NULL, 2, 0),
 (820, 'Antonio', 'Ivanovic', 'toncooffical@gmail.com', '$2y$10$SBmOJVihKbMXFp.x.bhkruFFr4T7iWHbwUe/.8KXJVDEOZh5S1DD6', 'Skolska 2', 'Goričan', 300, NULL, 2, 0),
 (821, 'Lucija', 'Banožić', 'lucy.banozic@gmail.com', '$2y$10$bY.kqGdAjIPuzurVEr.07O7BFEdi4oV0TcrKExtH1nAILBIxJvLke', 'Prvomajska 1', 'Mihovljan', 300, NULL, 2, 0),
-(822, 'Ivano', 'Cajic', 'ivano.cajic@gmail.com', '$2y$10$hSkMScnisAw.xvSc8YstTuy.21ay1H3lGocUz/4wfFGeLRCAtN7F2', 'Ljudevita Gaja 9', 'Cakovec', 300, NULL, 2, 0);
+(822, 'Ivano', 'Cajic', 'ivano.cajic@gmail.com', '$2y$10$hSkMScnisAw.xvSc8YstTuy.21ay1H3lGocUz/4wfFGeLRCAtN7F2', 'Ljudevita Gaja 9', 'Cakovec', 300, NULL, 2, 0),
+(823, 'Tonco', 'Tonco', 'toncoivanovic@gmail.com', '$2y$10$bwQfgn8iyump.RiVoVubQu9gbQs11BjbOHXbgmmkhNs6y0Pbaoupe', 'Školska', 'Goričan', 301, NULL, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -365,20 +369,21 @@ INSERT INTO `neverificiranikorisnici` (`korisnik_id`, `ime`, `prezime`, `email`,
 CREATE TABLE `predmeti` (
   `predmet_id` int(11) NOT NULL,
   `naziv_predmeta` varchar(255) DEFAULT NULL,
-  `predmet_boja` varchar(255) NOT NULL
+  `predmet_boja` varchar(255) NOT NULL,
+  `slika_predmeta` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `predmeti`
 --
 
-INSERT INTO `predmeti` (`predmet_id`, `naziv_predmeta`, `predmet_boja`) VALUES
-(8, 'Matematika', '#A3CB38'),
-(9, 'Kemija', '#10ac84'),
-(10, 'Fizika', '#feca57'),
-(11, 'Hrvatski jezik', '#0abde3'),
-(12, 'Biologija', '#ff9ff3'),
-(13, 'Informatika', '#01a3a4');
+INSERT INTO `predmeti` (`predmet_id`, `naziv_predmeta`, `predmet_boja`, `slika_predmeta`) VALUES
+(8, 'Matematika', '#82e74b', 'matematika.jpg'),
+(9, 'Kemija', '#10ac84', 'kemija.jpg'),
+(10, 'Fizika', '#feca57', ''),
+(11, 'Hrvatski jezik', '#0abde3', ''),
+(12, 'Biologija', '#ff9ff3', 'biologija.jpg'),
+(13, 'Informatika', '#01a3a4', '');
 
 -- --------------------------------------------------------
 
@@ -399,7 +404,9 @@ CREATE TABLE `predmetizahtjeva` (
 INSERT INTO `predmetizahtjeva` (`predmetiZahtjeva_id`, `zahtjev_id`, `predmet_id`) VALUES
 (57, 56, 8),
 (58, 56, 10),
-(59, 56, 11);
+(59, 56, 11),
+(66, 61, 8),
+(67, 61, 10);
 
 -- --------------------------------------------------------
 
@@ -420,6 +427,27 @@ CREATE TABLE `prijavarecenzije` (
 
 INSERT INTO `prijavarecenzije` (`prijava_id`, `prijavljenaRecenzija`, `prijavioKorisnik`, `opisPrijave`) VALUES
 (29, 18, 13, 'sdfsfd');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `prijavaskripte`
+--
+
+CREATE TABLE `prijavaskripte` (
+  `prijava_id` int(11) NOT NULL,
+  `skripta_id` int(11) DEFAULT NULL,
+  `prijavioKorisnik` int(11) DEFAULT NULL,
+  `opisPrijave` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `prijavaskripte`
+--
+
+INSERT INTO `prijavaskripte` (`prijava_id`, `skripta_id`, `prijavioKorisnik`, `opisPrijave`) VALUES
+(6, 30, 13, 'dfdf'),
+(7, 34, 13, 'Ne dela ti to bato');
 
 -- --------------------------------------------------------
 
@@ -475,12 +503,11 @@ CREATE TABLE `skripte` (
 --
 
 INSERT INTO `skripte` (`skripta_id`, `predmet_id`, `naziv_skripte`, `opis_skripte`, `broj_pregleda`, `datum_kreiranja`, `skripta_putanja`, `korisnik_id`) VALUES
-(26, 8, ' ZBIRKA ZADATAKA IZ MATEMATIKE', 'Neki opis skripe', 27, '2024-02-09', 'skripte/65c694c526225_Matematika B.pdf', 22),
-(27, 10, 'Nesto novo', 'Opet neka skripcia', 25, '2024-02-09', 'skripte/65c694ead94c7_Sigurnost Crypto Walleta.pdf', 22),
-(28, 12, 'Opet neka skripta tako to znas bratko', 'Evo napokon se dela nadajmo se da bude', 7, '2024-02-09', 'skripte/65c69542e7fa3_savjeti_prezentacije_n3.pdf', 22),
-(29, 9, ' ZBIRKA ZADATAKA IZ MATEMATIKE', 'aasd', 7, '2024-02-13', 'skripte/65cbd15f51776_progit.pdf', 13),
-(30, 10, 'asd', 'asdasda', 4, '2024-02-13', 'skripte/65cbd16d953f7_Uspjesna_prezentacija_izlaganje.pdf', 13),
-(31, 8, 'Zbrajanje brojeva', '2+2=4', 3, '2024-02-15', 'skripte/65cdf0b3a7da9_HŽ Putnički prijevoz.pdf', 13);
+(28, 12, 'Opet neka skripta tako to znas bratko', 'Evo napokon se dela nadajmo se da bude', 27, '2024-02-09', 'skripte/65c69542e7fa3_savjeti_prezentacije_n3.pdf', 22),
+(29, 9, ' ZBIRKA ZADATAKA IZ MATEMATIKE', 'aasd', 8, '2024-02-13', 'skripte/65cbd15f51776_progit.pdf', 13),
+(30, 10, 'asd', 'asdasda', 11, '2024-02-13', 'skripte/65cbd16d953f7_Uspjesna_prezentacija_izlaganje.pdf', 13),
+(31, 8, 'Zbrajanje brojeva', '2+2=4', 7, '2024-02-15', 'skripte/65cdf0b3a7da9_HŽ Putnički prijevoz.pdf', 13),
+(34, 8, ' ZBIRKAdgdgd', 'asd', 11, '2024-02-20', 'skripte/65d4d59fc577f_2.pdf', 13);
 
 -- --------------------------------------------------------
 
@@ -523,7 +550,8 @@ CREATE TABLE `zahtjevzainstruktora` (
 --
 
 INSERT INTO `zahtjevzainstruktora` (`zahtjev_id`, `korisnik_id`, `status_id`, `motivacija`, `opisInstruktora`, `autentikacija`) VALUES
-(56, 809, 2, 'JER SAM GAZDA', 'Profesor iz matematike studirao na FERu ', 'autentikacija/65cd350e78481_Hacknite_dokument-v1.pdf');
+(56, 809, 2, 'JER SAM GAZDA', 'Profesor iz matematike studirao na FERu ', 'autentikacija/65cd350e78481_Hacknite_dokument-v1.pdf'),
+(61, 823, 2, 'Afafafa', 'Svsvsvsvs', 'autentikacija/65d44d8e9ba88_MAT T B.pdf');
 
 -- --------------------------------------------------------
 
@@ -653,6 +681,14 @@ ALTER TABLE `prijavarecenzije`
   ADD KEY `FK_prijavioKorisnik` (`prijavioKorisnik`);
 
 --
+-- Indexes for table `prijavaskripte`
+--
+ALTER TABLE `prijavaskripte`
+  ADD PRIMARY KEY (`prijava_id`),
+  ADD KEY `skripta_id` (`skripta_id`),
+  ADD KEY `prijavioKorisnik` (`prijavioKorisnik`);
+
+--
 -- Indexes for table `recenzije`
 --
 ALTER TABLE `recenzije`
@@ -704,7 +740,7 @@ ALTER TABLE `gradovi`
 -- AUTO_INCREMENT for table `grupekartica`
 --
 ALTER TABLE `grupekartica`
-  MODIFY `grupa_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `grupa_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `instruktori`
@@ -722,37 +758,43 @@ ALTER TABLE `instruktorovipredmeti`
 -- AUTO_INCREMENT for table `kartice`
 --
 ALTER TABLE `kartice`
-  MODIFY `kartica_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `kartica_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `korisnik`
 --
 ALTER TABLE `korisnik`
-  MODIFY `korisnik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=823;
+  MODIFY `korisnik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=824;
 
 --
 -- AUTO_INCREMENT for table `neverificiranikorisnici`
 --
 ALTER TABLE `neverificiranikorisnici`
-  MODIFY `korisnik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `korisnik_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `predmeti`
 --
 ALTER TABLE `predmeti`
-  MODIFY `predmet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `predmet_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `predmetizahtjeva`
 --
 ALTER TABLE `predmetizahtjeva`
-  MODIFY `predmetiZahtjeva_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `predmetiZahtjeva_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
 
 --
 -- AUTO_INCREMENT for table `prijavarecenzije`
 --
 ALTER TABLE `prijavarecenzije`
   MODIFY `prijava_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+
+--
+-- AUTO_INCREMENT for table `prijavaskripte`
+--
+ALTER TABLE `prijavaskripte`
+  MODIFY `prijava_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `recenzije`
@@ -764,13 +806,13 @@ ALTER TABLE `recenzije`
 -- AUTO_INCREMENT for table `skripte`
 --
 ALTER TABLE `skripte`
-  MODIFY `skripta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `skripta_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `zahtjevzainstruktora`
 --
 ALTER TABLE `zahtjevzainstruktora`
-  MODIFY `zahtjev_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+  MODIFY `zahtjev_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `zupanija`
@@ -841,6 +883,13 @@ ALTER TABLE `predmetizahtjeva`
 ALTER TABLE `prijavarecenzije`
   ADD CONSTRAINT `FK_prijavioKorisnik` FOREIGN KEY (`prijavioKorisnik`) REFERENCES `korisnik` (`korisnik_id`),
   ADD CONSTRAINT `FK_recenzije` FOREIGN KEY (`prijavljenaRecenzija`) REFERENCES `recenzije` (`recenzija_id`);
+
+--
+-- Constraints for table `prijavaskripte`
+--
+ALTER TABLE `prijavaskripte`
+  ADD CONSTRAINT `prijavaskripte_ibfk_1` FOREIGN KEY (`skripta_id`) REFERENCES `skripte` (`skripta_id`),
+  ADD CONSTRAINT `prijavaskripte_ibfk_2` FOREIGN KEY (`prijavioKorisnik`) REFERENCES `korisnik` (`korisnik_id`);
 
 --
 -- Constraints for table `recenzije`
