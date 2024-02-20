@@ -33,13 +33,18 @@ $grupa_id = $_GET['grupa_id'];
 $sqlGrupa = "SELECT * FROM grupekartica WHERE grupa_id = $grupa_id";
 $rezultatGrupa = $con->query($sqlGrupa);
 
+if ($rezultatGrupa->num_rows == 0) {
+    header("Location: index.php");
+    exit;
+}
+
 if ($redGrupa = $rezultatGrupa->fetch_assoc()) {
     $nazivGrupe = $redGrupa['grupa_naziv'];
     $opisGrupe = $redGrupa['grupa_opis'];
     $vlasnikId = $redGrupa['vlasnik_id'];
     $javno = $redGrupa['javno'];
     $predmetId = $redGrupa['predmet_id'];
-    $datumKreiranja = $redGrupa['datum_kreiranja'];
+    $datumKreiranja = date('d.m.Y', strtotime($redGrupa['datum_kreiranja']));
     $imePrezimeKorisnika = dohvatipodatkevlasnika($vlasnikId);
 
     $sqlPredmet = "SELECT naziv_predmeta, predmet_boja FROM predmeti WHERE predmet_id =  $predmetId";
@@ -91,20 +96,18 @@ return $ime . " " . $prezime;
         <div class="row">
             <div class="col-md-4 mb-4">
                 <div class="card mb-4">
-                    <div class="card-header py-3">
-                        <h4 class="mt-3 mb-2 d-inline"><?php echo "$nazivGrupe"; ?></h4>
-                        <h6 class="card-info" style="font-family: Poppins; text-align: center;"> <a class="link"
-                            href="../profil?korisnik=<?php echo $vlasnikId ?>"> <?php echo $imePrezimeKorisnika; ?>
-                        </a>, <?php echo "$datumKreiranja"; ?>
-                        <?php  echo '<span class="badge" style="background-color: ' . $predmetBoja . ';">' . $predmetNaziv . '</span> '; ?>
-                    </h6>
-                        <a href="#" id="editEvent">uredi</a>
-                    </div>
-
                     <div class="card-body">
 
                         <form action="action.php" method="post" id="eventForm">
                             <div class="row mb-4">
+                            <h4 class="mt-3 mb-2 d-inline"><?php echo "$nazivGrupe"; ?></h4>
+                            
+                        <h6 class="card-info" style="font-family: Poppins; text-align: left;"> <a class="link"
+                            href="../profil?korisnik=<?php echo $vlasnikId ?>"> <?php echo $imePrezimeKorisnika; ?>
+                        </a>, <?php echo "$datumKreiranja"; ?>
+                        <?php  echo '<span class="badge" style="background-color: ' . $predmetBoja . ';">' . $predmetNaziv . '</span> '; ?>
+</div>
+                        <div class="row mb-4">
                                 <div class="col">
                                     <div class="form-outline">
                                         <label for="grupa_naziv" class="form-label">Naziv grupe:</label>
@@ -152,8 +155,9 @@ return $ime . " " . $prezime;
                             <input type="hidden" name="update_event_submit" value="1">
                             <button id="saveButton" type="submit" class="btn btn-success" style="display:none;">Spremi</button>
                         </form>
-
+                        
                     </div>
+                    <a href="#" id="editEvent">uredi</a>
                 </div>
             </div>
 
@@ -182,13 +186,11 @@ return $ime . " " . $prezime;
                         <div class="accordion-body">
                             <p><?php echo $row['odgovor']; ?></p>
 
-                            <form action="akcije.php" method="POST">
-                                <input type="hidden" name="action" value="obrisi_karticu" />
-                                <input type="hidden" name="grupa_id" value="<?php echo $grupa_id; ?>" />
-                                <input type="hidden" name="kartica_id" value="<?php echo $row['kartica_id']; ?>" />
-                                <button type="submit" class="btn btn-danger mt-2">Izbriši</button>
-                            </form>
-                            <?php echo "<form action='akcije.php' method='GET'> <input type='hidden' name='kartica_id' value='{$row['kartica_id']}'/> <input type='hidden' name='action' value='brisi_auto_iz_baze'/> <input type='submit' name='Submit' value='Briši'/></form>"?>
+                            <form action='akcije.php' method='GET'>
+                                 <input type='hidden' name='kartica_id' value=<?php echo "'{$row['kartica_id']}'";?>/> 
+                                 <input type='hidden' name='action' value='brisi_auto_iz_baze'/> 
+                                 <input type='submit' class='btn btn-danger mt-2'name='Submit' value='Briši'/>
+                                </form>
 
                         </div>
                     </div>

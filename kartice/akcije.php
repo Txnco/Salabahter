@@ -3,36 +3,63 @@ session_start();
 $con = require "../ukljucivanje/connection/spajanje.php";
 include("../ukljucivanje/functions/funkcije.php");
 
-if (isset($_POST['action']) && $_POST['action'] === 'obrisi_karticu') {
-    if (isset($_POST['grupa_id']) && isset($_POST['kartica_id'])) {
-        $grupa_id = $_POST['grupa_id'];
-        $kartica_id = $_POST['kartica_id'];
+if(isset($_GET["action"]) && $_GET["action"]=="brisi_karticu") {
+    if(!mysqli_connect_errno()) {
+        $kartica_id = $_GET['kartica_id'];
+        $sql = "SELECT grupa_id FROM kartice WHERE kartica_id=$kartica_id";
+        $result = mysqli_query($con, $sql);
+        $row = mysqli_fetch_assoc($result);
+        $grupa_id = $row['grupa_id'];
 
-        // Prepare and execute the SQL query to delete the card
-        $sql = "DELETE FROM kartice WHERE grupa_id = ? AND kartica_id = ?";
+        $sql = "DELETE FROM kartice WHERE kartica_id=$kartica_id";
+        $results = mysqli_query($con, $sql);
+    } else {
+        $poruka = "Greška kod spajanja na bazu! " . mysqli_connect_error();
+    }
+    header("Location: grupa.php?grupa_id=$grupa_id");
+}
+
+if (isset($_GET['action']) && $_GET['action'] === 'dodaj_karticu') {
+        $grupa_id = $_GET['grupa_id'];
+        $pitanje = $_GET['pitanje'];
+        $odgovor = $_GET['odgovor'];
+
+        // Prepare and execute the SQL query to insert new card
+        $sql = "INSERT INTO kartice (grupa_id, pitanje, odgovor) VALUES (?, ?, ?)";
         $stmt = $con->prepare($sql);
-        $stmt->bind_param("ii", $grupa_id, $kartica_id);
+        $stmt->bind_param("iss", $grupa_id, $pitanje, $odgovor);
 
         if ($stmt->execute()) {
-            echo "Kartica je uspješno obrisana.";
+            echo "Nova kartica je uspješno dodana.";
         } else {
-            echo "Došlo je do greške prilikom brisanja kartice: " . $stmt->error;
+            echo "Došlo je do greške prilikom dodavanja nove kartice: " . $stmt->error;
         }
 
         $stmt->close();
+        header("Location: grupa.php?grupa_id=$grupa_id");
+    } 
+    
+
+if (isset($_GET["action"]) && $_GET["action"] == "brisi_grupu") {
+    if (!mysqli_connect_errno()) {
+        $grupa_id = $_GET['grupa_id'];
+        $sql = "DELETE FROM grupekartica WHERE grupa_id = ?";
+        
+        if ($stmt = mysqli_prepare($con, $sql)) {
+            mysqli_stmt_bind_param($stmt, "i", $grupa_id);
+            
+            if (mysqli_stmt_execute($stmt)) {
+            } else {
+                echo "Greška: " . mysqli_error($con);
+            }
+            mysqli_stmt_close($stmt);
+        } else {
+            echo "Greška: " . mysqli_error($con);
+        }
     } else {
-        echo "Nisu poslani potrebni podaci za brisanje kartice.";
+        $poruka = "Greška kod spajanja na bazu! " . mysqli_connect_error();
     }
-} 
-   if(isset($_GET["action"]) && $_GET["action"]=="brisi_auto_iz_baze") {
- 
-      if(!mysqli_connect_errno()) {
-           $sql = "DELETE FROM kartice WHERE kartica_id={$_GET['kartica_id']}";
-           print($sql);
-           $results = mysqli_query($con, $sql);
-      } else {
-          $poruka = "Greška kod spajanja na bazu! " . mysqli_connect_error();
-      }
-      header("Location: index.php?poruka=".rawurlencode($poruka));                                                 
-  }
+    header("Location: mojekartice.php");
+}
+
 ?>
