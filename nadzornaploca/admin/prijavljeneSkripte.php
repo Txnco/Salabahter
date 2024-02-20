@@ -1,7 +1,7 @@
 <?php
 
 $trenutnaStranica = "račun";
-$trenutnaStranica2 = "Recenzije";
+$trenutnaStranica2 = "Skripte";
 
 $putanjaDoPocetne = "../../";
 $putanjaDoInstruktora = "../../instruktori.php";
@@ -48,31 +48,38 @@ $rezultatPrijaveSkripte = $con->query($sqlPrijavljeneSkripte);  // Izvršavanje 
 
 $brojPrijavaSkripte = $rezultatPrijaveSkripte->num_rows;
 
-
-
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (isset($_POST['izbrisiZahtjev'])) {
 
-        $prijaveljnaRecenzija = $_POST['prijavljenaRecenzija'];
+        $prijaveljnaSkripta = $_POST['skripta_id'];
 
-        $sqlIzbrisiZahtjev = "DELETE FROM prijavarecenzije WHERE prijavljenaRecenzija = {$prijaveljnaRecenzija}";
+        $sqlIzbrisiZahtjev = "DELETE FROM prijavaskripte WHERE skripta_id = {$prijaveljnaSkripta}";
         $con->query($sqlIzbrisiZahtjev);  // Izvršavanje upita
+
         if ($con->affected_rows > 0) {
             header("Location: prijaverecenzija.php");
         }
-    } elseif (isset($_POST['izbrisiRecenziju'])) {
+    } elseif (isset($_POST['izbrisiSkriptu'])) {
 
-        $prijaveljnaRecenzija = $_POST['prijavljenaRecenzija'];
+        $prijaveljnaSkripta = $_POST['skripta_id'];
 
-        $sqlIzbrisiZahtjev = "DELETE FROM prijavarecenzije WHERE prijavljenaRecenzija = {$prijaveljnaRecenzija}";
+        $sqlIzbrisiZahtjev = "DELETE FROM prijavaskripte WHERE skripta_id = {$prijaveljnaSkripta}";
         $con->query($sqlIzbrisiZahtjev);  // Izvršavanje upita
 
+        $sqlPutanjaSkripte = "SELECT skripta_putanja FROM skripte WHERE skripta_id = {$prijaveljnaSkripta}";
+        $rezultatPutanjeSkripte = $con->query($sqlPutanjaSkripte);
+        $putanjaSkripte = $rezultatPutanjeSkripte->fetch_assoc();
 
-        $sqlIzbrisiRecenziju = "DELETE FROM recenzije WHERE recenzija_id = {$prijaveljnaRecenzija}";
-        $con->query($sqlIzbrisiRecenziju);  // Izvršavanje upita
+        $putanja = $putanjaSkripte['skripta_putanja'];
+        $cijelaPutanja = "../../skripte/" . $putanja;
+        unlink($cijelaPutanja);
+
+
+        $izbrisiSkriptu = "DELETE FROM skripte WHERE skripta_id = {$prijaveljnaSkripta}";
+        $con->query($izbrisiSkriptu);  // Izvršavanje upita
         if ($con->affected_rows > 0) {
-            header("Location: prijaverecenzija.php");
+            header("Location: prijavljeneSkripte.php");
         }
     }
 }
@@ -132,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 <div class="col-sm-9">
                     <div class="card ">
                         <div class="card-body p-0">
-                            <h2 class="text-center mt-3">Prijave recenzija</h2>
+                            <h2 class="text-center mt-3">Prijave skripta</h2>
                             <br>
                             <div class="row m-2 mx-auto">
                                 <div class="col-sm-2 text-center my-auto d-none d-sm-block">
@@ -140,11 +147,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                 </div>
 
                                 <div class="col-sm-2 text-center my-auto d-none d-sm-block">
-                                    <span style="font-size: 1em;">Komentar</span>
+                                    <span style="font-size: 1em;">Naslov skripte</span>
                                 </div>
 
                                 <div class="col-sm-2 text-center my-auto d-none d-sm-block">
-                                    <span style="font-size: 1em;">Ocjena</span>
+                                    <span style="font-size: 1em;">Opis skripte</span>
                                 </div>
 
                                 <div class="col-sm-2 text-center my-auto d-none d-sm-block">
@@ -159,24 +166,24 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         </div>
 
 
-                        <?php if (isset($rezultatPrijava) && $rezultatPrijava->num_rows > 0) :
-                            while ($red = $rezultatPrijava->fetch_assoc()) : // Prikaz svih prijava recenzija
+                        <?php if (isset($rezultatPrijaveSkripte) && $rezultatPrijaveSkripte->num_rows > 0) :
+                            while ($red = $rezultatPrijaveSkripte->fetch_assoc()) : // Prikaz svih prijava recenzija
 
-                                $sqlSveRecenzije = "SELECT * FROM recenzije WHERE recenzija_id = {$red['prijavljenaRecenzija']}"; // Dohvaćanje svih recenzija
-                                $rezultatRecenzija = $con->query($sqlSveRecenzije);  // Izvršavanje upita
+                                $sqlSveSkripte = "SELECT * FROM skripte WHERE skripta_id = {$red['skripta_id']}"; // Dohvaćanje svih skripti
+                                $rezultatSkripte = $con->query($sqlSveSkripte);  // Izvršavanje upita
 
-                                $recenzija = $rezultatRecenzija->fetch_assoc();
+                                $skripta = $rezultatSkripte->fetch_assoc();
 
-                                $sqlKorisnik = "SELECT korisnik_id, korisnik.ime, korisnik.prezime, recenzije.ocjena, recenzije.komentar 
-                        FROM korisnik 
-                        JOIN recenzije ON korisnik.korisnik_id = recenzije.odKorisnika 
-                        WHERE recenzije.recenzija_id = {$red['prijavljenaRecenzija']}";
-                                $rezultatKorisnik = $con->query($sqlKorisnik);
-                                $korisnik = $rezultatKorisnik->fetch_assoc();
+                                $sqlAutorSkripte = "SELECT korisnik.korisnik_id, korisnik.ime, korisnik.prezime, skripte.naziv_skripte, skripte.opis_skripte, skripte.predmet_id, skripte.skripta_id, predmeti.naziv_predmeta FROM korisnik,skripte,predmeti WHERE korisnik.korisnik_id = skripte.korisnik_id AND skripte.predmet_id = predmeti.predmet_id AND skripte.skripta_id = {$red['skripta_id']}";
+                                $rezultatAutorSkripte = $con->query($sqlAutorSkripte);
+                                $autorSkripte = $rezultatAutorSkripte->fetch_assoc();
+                                $sqlPrijavioKorisnik = "SELECT korisnik.korisnik_id, korisnik.ime, korisnik.prezime, prijavaskripte.opisPrijave, skripte.naziv_skripte AS naziv_skripte,skripte.opis_skripte AS opis_skripte
+                                FROM korisnik JOIN prijavaskripte ON korisnik.korisnik_id = prijavaskripte.prijavioKorisnik
+                                JOIN skripte ON prijavaskripte.skripta_id = skripte.skripta_id
+                                WHERE korisnik.korisnik_id = {$red['prijavioKorisnik']} AND skripte.skripta_id = {$red['skripta_id']}";
+                                $rezultatPrijavioKorisnik = $con->query($sqlPrijavioKorisnik);
+                                $prijavioKorisnik = $rezultatPrijavioKorisnik->fetch_assoc();
 
-                                $sqlKorisnikPrijavio = "SELECT korisnik_id, korisnik.ime, korisnik.prezime FROM korisnik WHERE korisnik_id = {$red['prijavioKorisnik']}";
-                                $rezultatKorisnikPrijavio = $con->query($sqlKorisnikPrijavio);
-                                $korisnikPrijavio = $rezultatKorisnikPrijavio->fetch_assoc();
                         ?>
                                 <form method="POST">
                                     <div class="row m-2 mx-auto">
@@ -184,31 +191,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
                                         <div class="col-sm-2 text-center my-auto">
-                                            <h6><a class="link" href="../../profil/?korisnik=<?php echo $korisnik['korisnik_id'] ?>"><?php echo $korisnik['ime'] . " " . $korisnik['prezime'] ?></a></h6>
+                                            <h6><a class="link" href="../../profil/?korisnik=<?php echo $autorSkripte['korisnik_id'] ?>"><?php echo $autorSkripte['ime'] . " " . $autorSkripte['prezime'] ?></a></h6>
 
                                         </div>
 
                                         <div class="col-sm-2 text-center my-auto">
-                                            <p><?php echo $korisnik['komentar'] ?></p>
+                                            <p><?php echo $autorSkripte['naziv_skripte'] ?></p>
 
                                         </div>
 
                                         <div class="col-sm-2 text-center my-auto">
-                                            <?php
-                                            for ($i = 1; $i <= 5; $i++) {
-                                                if ($i <= $korisnik['ocjena']) {
-                                                    echo '<i class="fa fa-star" style="color:gold;"></i>';
-                                                } else {
-                                                    echo '<i class="fa fa-star-o"></i>';
-                                                }
-                                            }
-                                            ?>
+                                            <p><?php echo $autorSkripte['opis_skripte'] ?></p>
 
                                         </div>
 
                                         <div class="col-sm-2 text-center my-auto">
                                             <h6>
-                                                <a class="link" href="../../profil/?korisnik=<?php echo $korisnikPrijavio['korisnik_id'] ?>"><?php echo $korisnikPrijavio['ime'] . " " . $korisnikPrijavio['prezime']; ?></a>
+                                                <a class="link" href="../../profil/?korisnik=<?php echo $prijavioKorisnik['korisnik_id'] ?>"><?php echo $prijavioKorisnik['ime'] . " " . $prijavioKorisnik['prezime']; ?></a>
                                             </h6>
 
                                         </div>
@@ -217,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                                         <div class="col-sm-2 text-center my-auto">
                                             <p>
-                                                <?php echo $red['opisPrijave']; ?>
+                                                <?php echo $prijavioKorisnik['opisPrijave']; ?>
                                             </p>
 
                                         </div>
@@ -227,9 +226,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                         <div class="col-sm-2 text-center my-auto">
                                             <button class="btn btn-secondary m-2" name="izbrisiZahtjev" type="submit">Izbriši zahtjev</button>
 
-                                            <button class="btn btn-danger m-2" name="izbrisiRecenziju" type="submit">Izbriši recenziju</button>
+                                            <button class="btn btn-danger m-2" name="izbrisiSkriptu" type="submit">Izbriši skriptu</button>
 
-                                            <input type="hidden" name="prijavljenaRecenzija" value="<?php echo $red['prijavljenaRecenzija']; ?>">
+                                            <input type="hidden" name="skripta_id" value="<?php echo $red['skripta_id']; ?>">
 
 
                                         </div>
@@ -270,9 +269,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         }
     </script>
 
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" ></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" ></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
     <script src="../../assets/js/main.js"></script>

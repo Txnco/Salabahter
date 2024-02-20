@@ -46,6 +46,11 @@ $rezultatPrijava = $con->query($sqlPrijavljeneRecenzije);  // Izvršavanje upita
 
 $brojPrijavaRecenzija = $rezultatPrijava->num_rows;
 
+$sqlPrijavljeneSkripte = "SELECT * FROM prijavaskripte"; // Dohvaćanje svih prijavljenih skripti
+$rezultatPrijaveSkripte = $con->query($sqlPrijavljeneSkripte);  // Izvršavanje upita
+
+$brojPrijavaSkripte = $rezultatPrijaveSkripte->num_rows;
+
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 

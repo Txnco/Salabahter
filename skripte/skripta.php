@@ -76,6 +76,29 @@ function dohvatipodatkevlasnika($kreator_id)
     return $ime . " " . $prezime;
 }
 
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+
+    if (isset($_POST['prijavi'])) {
+
+        $razlogPrijave = $_POST['razlogPrijave'];
+        $prijavljenaSkripta = $_POST['prijavljenaSkripta'];
+        $prijavioKorisnik = $_SESSION['user_id'];
+
+        $sqlPrijaviSkriptu = "INSERT INTO prijavaskripte (skripta_id, prijavioKorisnik, opisPrijave) VALUES (?, ?, ?)";
+        $stmt = $con->prepare($sqlPrijaviSkriptu);
+        $stmt->bind_param("iis",  $prijavljenaSkripta, $prijavioKorisnik, $razlogPrijave);
+
+        $stmt->execute();
+
+
+        if ($stmt->error) {
+            echo "Error: " . $stmt->error;
+        }
+        header("Location: skripta.php?skripta_id=" . $prijavljenaSkripta);
+        die;
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -166,7 +189,60 @@ function dohvatipodatkevlasnika($kreator_id)
                                         </p>
                                     </div>
                                     <div class="col text-right">
-                                        <a href="../dashboard/report.php?skripta_id=<?php echo $skripta_id; ?>" class="btn btn-danger" style="font-size: 0.9rem;">Prijavi skriptu!</a>
+
+                                        <?php
+                                        $sqlPrijavljenaSkripta = "SELECT * FROM prijavaskripte WHERE skripta_id = $skripta_id";
+                                        $rezultatPrijavljenaSkripta = $con->query($sqlPrijavljenaSkripta);
+                                        if ($rezultatPrijavljenaSkripta->num_rows > 0) {
+                                            $prijavljenaSkripta = false;
+                                        } else {
+                                            $prijavljenaSkripta = true;
+                                        }
+
+                                        if (isset($_SESSION['user_id']) && $prijavljenaSkripta) : ?>
+                                            <div class="row">
+                                                <div class="col d-flex justify-content-end">
+                                                    <a type="button" id="otvoriPrijavu" class="text text-danger" style="font-size: 0.9rem;" data-toggle="modal" data-target="#prijavaSkripte<?php echo $skripta_id ?>">Prijavi skriptu!</a>
+
+                                                    <!-- Modal za prijavu skripte -->
+                                                    <div class="modal fade" id="prijavaSkripte<?php echo $skripta_id ?>" tabindex="-1" role="dialog" aria-labelledby="prijavaSkripte<?php echo $skripta_id ?>" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title">Prijavi skriptu</h5>
+                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+
+                                                                <div class="modal-body">
+                                                                    <form method="POST">
+                                                                        <div class="form-group">
+                                                                            <label for="razlogPrijave" class="col-form-label">Razlog prijave:</label>
+                                                                            <textarea class="form-control" id="razlogPrijave" name="razlogPrijave"></textarea>
+                                                                            <input name="prijavljenaSkripta" value="<?php echo $skripta_id; ?>" hidden>
+                                                                        </div>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
+                                                                    <button type="submit" class="btn btn-danger" name="prijavi">Prijavi</button>
+                                                                </div>
+
+
+                                                                </form>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php elseif (isset($_SESSION['user_id']) && !$prijavljenaSkripta) : ?>
+                                            <div class="row">
+                                                <div class="col d-flex justify-content-end">
+                                                    <a class="text text-success" style="font-size: 0.9rem;">Skripta prijavljena!</a>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
 
                                     </div>
                                 </div>
@@ -194,6 +270,7 @@ function dohvatipodatkevlasnika($kreator_id)
                         $sqlSlicneSkripte = "SELECT * FROM skripte WHERE predmet_id = $predmet_id AND skripta_id != $skripta_id ORDER BY RAND() LIMIT 3";
                         $resultSlicneSkripte = $con->query($sqlSlicneSkripte);
                         while ($rowSlicneSkripte = $resultSlicneSkripte->fetch_assoc()) :
+
                             $nazivSlicneSkripte = $rowSlicneSkripte['naziv_skripte'];
                             $skripta_putanja = $rowSlicneSkripte['skripta_putanja'];
                             $opisSlicneSkripte = $rowSlicneSkripte['opis_skripte'];
@@ -204,6 +281,21 @@ function dohvatipodatkevlasnika($kreator_id)
                         ?>
                             <div class="col-md-4">
                                 <div class="card mb-2">
+
+                                    <?php
+                                    $predmet_id = $rowSlicneSkripte['predmet_id'];
+                                    $predmetGrupe = "SELECT * FROM  predmeti WHERE predmet_id = $predmet_id";
+                                    $rezultatPredmeta = $con->query($predmetGrupe);
+
+                                    while ($red2 = $rezultatPredmeta->fetch_assoc()) :
+                                        if ($red2['slika_predmeta'] != null) : ?>
+                                            <img src="<?php echo '../assets/img/predmeti/' . $red2["slika_predmeta"]; ?>" alt="Slika za <?php echo $red2["naziv_predmeta"]; ?>" style="width: 100%; height: 150px; object-fit: cover;">
+                                    <?php else :
+                                            echo  '<img src="../assets/img/predmeti/novipredmet.jpg" style="width: 100%; height: 150px; object-fit: cover;">';
+                                        endif;
+                                    endwhile;
+                                    ?>
+
                                     <div class="card-body" style="height: 250px;">
                                         <h5 class="card-title"><?php echo ((strlen($nazivSlicneSkripte) > 40) ? substr($nazivSlicneSkripte, 0, 40) . '...' : $nazivSlicneSkripte); ?></h5>
                                         <?php
@@ -240,6 +332,9 @@ function dohvatipodatkevlasnika($kreator_id)
     </div>
 
 
+
+
+    <!-- Modal za QR Kod -->
     <div class="modal fade" id="qrKodModal" tabindex="-1" role="dialog" aria-labelledby="qrKodModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">

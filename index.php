@@ -176,7 +176,7 @@ $pathToLogout = "account/logout.php";
             <div class="icon-box">
               <div class="icon"><i class="bx bx-file"></i></div>
               <h4 class="title"><a href="">Skripte</a></h4>
-              <p class="description">Dijeljenje je znanje. Možete učuti iz raznih skripta za pojedini predmet.</p>
+              <p class="description">Dijeljenje je znanje. Možete učiti iz raznih skripta za pojedini predmet.</p>
             </div>
           </div>
 
@@ -464,7 +464,7 @@ $pathToLogout = "account/logout.php";
 
         <div class="section-title">
           <h2>Naš tim</h2>
-          <p>Naš tim sastoji se od dva inovativna i poduzetna učenika koji su odlučuli olakšati jedan problem svakodnevice, a tako i u isto vrijeme napraviti učenje zabavnijim!</p>
+          <p>Naš tim sastoji se od dva inovativna i poduzetna učenika koji su odlučili olakšati jedan problem svakodnevice, a tako i u isto vrijeme napraviti učenje zabavnijim!</p>
         </div>
 
         <div class="row justify-content-center">

@@ -38,12 +38,15 @@ $rezultatZahtjeva = $con->query($zahtjevZaInstruktora);
 
 $brojZahtjeva = $rezultatZahtjeva->num_rows;
 
-$sqlPrijaveRecenzija = "SELECT * FROM prijavarecenzije";
-$rezultatPrijaveRecenzija = $con->query($sqlPrijaveRecenzija);
-while ($result = $rezultatPrijaveRecenzija->fetch_assoc()) {
-    $brojPrijavaRecenzija = $rezultatPrijaveRecenzija->num_rows;
-}
+$sqlPrijavljeneRecenzije = "SELECT * FROM prijavarecenzije"; // Dohvaćanje svih prijavljenih recenzija
+$rezultatPrijava = $con->query($sqlPrijavljeneRecenzije);  // Izvršavanje upita
 
+$brojPrijavaRecenzija = $rezultatPrijava->num_rows;
+
+$sqlPrijavljeneSkripte = "SELECT * FROM prijavaskripte"; // Dohvaćanje svih prijavljenih skripti
+$rezultatPrijaveSkripte = $con->query($sqlPrijavljeneSkripte);  // Izvršavanje upita
+
+$brojPrijavaSkripte = $rezultatPrijaveSkripte->num_rows;
 
 
 if ($_SERVER['REQUEST_METHOD'] === "POST") {

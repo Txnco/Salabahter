@@ -29,6 +29,14 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a href="prijavljeneSkripte.php" class="nav-link nadlink <?php echo $trenutnaStranica2 == "Skripte" ? 'aktivno' : '' ?>">
+                    Prijave skripta
+                    <span class="badge bg-danger float-end">
+                        <?php echo isset($brojPrijavaSkripte) && $brojPrijavaSkripte > 0 ? $brojPrijavaSkripte : '0'; ?>
+                    </span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a href="svikorisnici.php" class="nav-link nadlink <?php echo $trenutnaStranica2 == "Korisnici" ? 'aktivno' : '' ?>">Svi
                     korisnici</a>
             </li>
@@ -80,6 +88,16 @@
                     </span>
                 </a>
             </li>
+
+            <li class="nav-item">
+                <a href="prijavljeneSkripte.php" class="nav-link nadlink <?php echo $trenutnaStranica2 == "Skripte" ? 'aktivno' : '' ?>">
+                    Prijave skripta
+                    <span class="badge bg-danger float-end">
+                        <?php echo isset($brojPrijavaSkripte) && $brojPrijavaSkripte > 0 ? $brojPrijavaSkripte : '0'; ?>
+                    </span>
+                </a>
+            </li>
+
             <li class="nav-item">
                 <a href="svikorisnici.php" class="nav-link nadlink <?php echo $trenutnaStranica2 == "Korisnici" ? 'aktivno' : '' ?>">Svi
                     korisnici</a>
