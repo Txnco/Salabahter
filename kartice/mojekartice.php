@@ -21,37 +21,19 @@ $putanjaDoOdjave = "../racun/odjava.php";
 $sqlPredmeti = "SELECT * FROM predmeti";
 $rezultatPredmeti = $con->query($sqlPredmeti);
 
-// Pretraživanje skripti
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the search term and selected subject from the POST request
-    $searchTerm = $_POST["searchTerm"];
-    $selectedSubject = $_POST["selectedSubject"];
 
-    // SQL query to search scripts
-    $sql = "SELECT * FROM grupekartica";
-
-    if (!empty($searchTerm)) {
-        $sql .= " WHERE (grupa_naziv LIKE '%$searchTerm%' OR grupa_opis LIKE '%$searchTerm%')";
-    }
-
-    if (!empty($selectedSubject)) {
-        if (strpos($sql, 'WHERE') !== false) {
-            
-            $sql .= " AND predmet_id = '$selectedSubject'";
-        } else {
-            
-            $sql .= " WHERE predmet_id = '$selectedSubject'";
-        }
-    }
-
-
-    // Execute the SQL query to search scripts
-    $result = $con->query($sql);
+$user = provjeri_prijavu($con);
+if (!isset($_SESSION["user_id"])) {
+    header("Location: ../racun/prijava.php");
+    exit;
 } else {
-    // SQL upit za dohvaćanje svih skripti
-    $sql = "SELECT * FROM grupekartica";
-    $result = $con->query($sql);
+    $korisnikId = $_SESSION["user_id"];
 }
+    // SQL upit za dohvaćanje svih skripti
+    $sql = "SELECT * FROM grupekartica WHERE vlasnik_id = " . $korisnikId . " ORDER BY grupa_id DESC;";
+    $result = $con->query($sql);
+    
+
 
 
 ?>
@@ -62,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pretraži grupe kartica za ponavljanje</title>
+    <title>Kartice za ponavljanje</title>
 
     <?php include '../assets/css/stiliranjeSporedno.php'; ?> <!-- Sve poveznice za stil web stranice -->
 
@@ -78,25 +60,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="hero-section text-center" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)), url(../assets/img/about.jpg);">
             <div class="container ">
                 <div class="row">
-                    <div class="col-lg-6 mx-auto mt-5">
+                    <div class="col-lg-6 mx-auto mt-2">
                         <h1 class="display-4 " style="color: #FFFFFF;">Vaše kartice za ponavljanje</h1>
-                    </div>
-                </div>
-
-                <div class="row d-flex justify-content-center align-items-center m-2">
-                    <div class="col-sm-8 ">
-                        <div class="card mb-3">
-                            <div class="card-body m-2">
-                               
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
+     
         <div class="container">
             <div class="main-body mt-3">
+            <?php if (isset($_SESSION['user_id'])) : ?>
+                    <div class="col-sm p-0 mb-2">
+                        <a class="btn btn-success" href="nova_grupa.php" type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="white">
+                                <path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path>
+                            </svg> Izradi kartice</a>
+
+                    </div>
+                <?php endif; ?>
                 <div class="row">
                     <div class="col">
                         <div class="row">
@@ -150,6 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             else :
                                 echo "<p class='col'>Nema rezultata.</p>";
                             endif;
+                            
                             ?>
                         </div>
                     </div>
@@ -158,7 +139,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
-    <?php include '../ukljucivanje/footer.php'; ?>
+    <?php
+   
+    include '../ukljucivanje/footer.php'; ?>
 
 
     <script src="../ukljucivanje/javascript/skripte.js"></script>
