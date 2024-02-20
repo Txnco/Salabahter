@@ -166,8 +166,9 @@ function dohvatipodatkevlasnika($vlasnik_id)
                                     Privatno
                                 </label>
                             </div>
-                            <input type="hidden" name="event_id" value="<?php echo $event_id; ?>">
+                            <input type="hidden" name="grupa_id" value="<?php echo $grupa_id; ?>">
                             <input type="hidden" name="uredi_grupu" value="1">
+                            <input type='hidden' name='action' value='uredi_grupu' />
                             <button id="spremi" type="submit" class="btn btn-success"
                                 style="display:none;">Spremi</button>
                         </form>
