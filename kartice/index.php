@@ -158,11 +158,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     $rezultatPredmeta = $con->query($predmetGrupe);
                             ?>
                                     <div class="col-sm-3 mb-3 ">
-                                        <div class="card klik-za-kartice" style="height: 280px;" data-href="grupa.php?grupa_id=<?php echo $row['grupa_id']; ?>">
+                                        <div class="card klik-za-kartice" style="height: 280px;" >
 
 
                                             <?php
-                                            echo  '<img src="../assets/img/predmeti/novipredmet.jpg" style="width: 100%; height: 112px; object-fit: cover;">';
+                                            echo  '<a href="grupa.php?grupa_id=' . $row['grupa_id']  . '"><img src="../assets/img/predmeti/novipredmet.jpg" style="width: 100%; height: 112px; object-fit: cover;"></a>';
                                             ?>
 
                                             <div class="card-body d-flex flex-column justify-content-between p-0 ">
@@ -251,14 +251,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
     <script src="../assets/js/main.js"></script>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.klik-za-kartice').on('click', function() {
-                window.location.href = $(this).data('href');
-            });
-        });
-    </script>
+
 
 </body>
 
