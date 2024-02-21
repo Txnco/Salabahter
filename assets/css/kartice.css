@@ -1,0 +1,228 @@
+.poppins-light {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    font-size: 1rem;
+}
+
+body {
+    color: #1a202c;
+    text-align: left;
+    background-color: #eeeeee;
+    font-family: 'Poppins', sans-serif;
+}
+
+.main-body {
+    padding: 15px;
+}
+
+.card {
+    box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .3), 0 1px 8px 0 rgba(0, 0, 0, .06);
+}
+
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0, 0, 0, .125);
+    border-radius: .5rem;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1rem;
+}
+
+.gutters-sm {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+.gutters-sm>.col,
+.gutters-sm>[class*=col-] {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+
+.mb-3,
+.my-3 {
+    margin-bottom: 1rem !important;
+}
+
+.bg-gray-300 {
+    background-color: #e2e8f0;
+}
+
+.h-100 {
+    height: 100% !important;
+}
+
+.shadow-none {
+    box-shadow: none !important;
+}
+
+.form-control {
+    background-color: #ffffff;
+}
+
+.nav-item {
+    margin-top: 0.3rem;
+    margin-bottom: 0.3rem;
+}
+
+.nadlink {
+    color: #653fc6;
+    border-radius: 0.4rem;
+}
+
+.nadlink:hover {
+    background-color: #8e70da;
+    color: #FFFFFF;
+    border-radius: 0.4rem;
+}
+
+
+.aktivno {
+    background-color: #6746b9;
+    color: #FFFFFF;
+    border-radius: 0.4rem;
+}
+
+.btn-racun {
+    background-color: #956bff;
+    color: #FFFFFF;
+    border-radius: 0.4rem;
+}
+
+.btn-racun:hover {
+    background-color: #8e70da;
+    color: #FFFFFF;
+    border-radius: 0.4rem;
+}
+
+.btn-close-white::before,
+.btn-close-white::after {
+    background-color: red;
+}
+
+.izbornik {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0, 0, 0, .125);
+    border-radius: .25rem;
+}
+
+@media (max-width: 992px) {
+    .row.gutters-sm {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .izbornik {
+        display: block;
+        width: 100%;
+        order: 1;
+        margin-bottom: 2rem;
+
+    }
+
+    .col-sm-3,
+    .col-sm-6 {
+        width: 100%;
+    }
+}
+
+
+@media (min-width: 992px) {
+    #izbornikMobitel {
+        display: none;
+    }
+
+    #izbornikWeb {
+        display: block;
+
+    }
+}
+
+@media (max-width: 992px) {
+    #izbornikMobitel {
+        display: block;
+        flex-direction: column;
+
+    }
+
+    #izbornikWeb {
+
+        display: none;
+    }
+}
+
+.progress {
+    background-color: #744bda;
+    border-radius: 0.4rem;
+}
+
+#otvoriPrijenosSlike {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: none;
+    border: none;
+    font-size: 2em;
+    color: #008CBA;
+    opacity: 0;
+    transition: .5s ease;
+    border-radius: 50%; /* Clip to the profile picture radius */
+}
+
+.profile-pic-container:hover #otvoriPrijenosSlike {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.5); /* Add a white overlay */
+    border: none; /* Remove the border */
+}
+
+.profile-pic-container {
+    position: relative;
+    display: inline-block;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: transparent;
+}
+
+.profile-pic-container:hover .overlay {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+#change-pic {
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+

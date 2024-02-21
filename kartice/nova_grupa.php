@@ -48,7 +48,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($stmt->affected_rows > 0) {
                 $grupaId = $stmt->insert_id;
                 header("Location: grupa.php?grupa_id=$grupaId");
-
             } else {
                 echo "Došlo je do greške pri unosu informacija o grupi kartica.";
             }
@@ -78,66 +77,91 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php include '../ukljucivanje/header.php'; ?>
 
+    
+    <div class="row d-flex justify-content-center">
+        <div class="col" style="background: linear-gradient(to right, #687EFF, #98E4FF); padding: 20px;">
+            <h1 class="text-center" style="color: white;">Kreiraj grupu kartica</h1>
+        </div>
+    </div>
+
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-8 mt-3">
 
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="text-center">Izrada nove grupe kartica za ponavljanje</h2>
+            <div class="col-md-4 mb-4">
 
-                    </div>
-
+                <div class="card mt-2 mb-5">
+                    <?php
+                    echo  '<img src="../assets/img/predmeti/novipredmet.jpg" style="width: 100%; height: 150px; object-fit: cover;">';
+                    ?>
                     <div class="card-body">
-                        <form method="post" class="needs-validation" enctype="multipart/form-data">
-                            <div class="form-group">
-                                <label for="naziv_grupe">Naziv Grupe Kartica</label>
-                                <input type="text" class="form-control" id="naziv_grupe" name="naziv_grupe" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="opis_grupe">Opis Grupe Kartica</label>
-                                <textarea class="form-control" id="opis_grupe" name="opis_grupe" rows="3"
-                                    required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="predmet_id">Predmet</label>
-                                <select class="form-control" id="predmet_id" name="predmet_id" required>
-                                    <option value="">Odaberite predmet</option>
-                                    <?php
-                                    // Dohvat svih predmeta iz baze podataka
-                                    $sqlPredmeti = "SELECT * FROM predmeti";
-                                    $rezultatPredmeti = $con->query($sqlPredmeti);
 
-                                    // Iteracija kroz rezultat i prikaz opcija u select elementu
-                                    while ($row = $rezultatPredmeti->fetch_assoc()) {
-                                        echo "<option value='" . $row['predmet_id'] . "'>" . $row['naziv_predmeta'] . "</option>";
+                        <form action="akcije.php" method="GET" id="fromagrupa">
+
+                            <div class="col">
+
+                                <div class="d-flex flex-column align-items-start ml-2 mt-2 mb-4 mr-4">
+
+                                    <h6 class="mt-2" style="font-size: 1.125rem;"> <strong>Naziv grupe kartica</strong></h6>
+                                    <input type="text" class="form-control" style="font-size: 16px;" id="grupa_naziv" name="grupa_naziv" maxlength="40" placeholder="Upiši naziv grupe">
+
+                                    <h6 class="mt-2" style="font-size: 1.125rem;"><strong>Opis kartica</strong></h6>
+
+
+                                    <textarea type="text" class="form-control" style="font-size: 16px; width: 334px; height:75px;" maxlength="255" id="grupa_opis" name="grupa_opis" placeholder="Upiši opis grupe"></textarea>
+
+                                    <h6 class="mt-2" style="font-size: 1.125rem;"><strong>Predmet</strong></h6>
+
+                                    <?php
+                                    if ($rezultatPredmeti->num_rows > 0) {
+                                    ?> <select class="form-control" id="predmet" name="predmet" required>
+                                        <?php
+                                        echo '<option value="">Odaberite predmet</option>';
+                                        while ($red_predmet = $rezultatPredmeti->fetch_assoc()) {
+                                            $selected = ($red_predmet['predmet_id'] == $predmetId) ? "selected" : "";
+                                            echo '<option value="' . $red_predmet['predmet_id'] . '" ' . $selected . '>' . $red_predmet['naziv_predmeta'] . '</option>';
+                                        }
+                                        echo '</select>';
+                                    } else {
+                                        echo 'Nema dostupnih predmeta.';
                                     }
-                                    ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="javno" name="javno" value="1"
-                                        checked>
-                                    <label class="form-check-label" for="javno">
-                                        Javno dostupno
-                                    </label>
+                                        ?>
+
+
+                                        <div class="d-flex justify-content-center mt-3">
+                                            <div class="form-check mr-3">
+                                                <input class="form-check-input" type="radio" id="javno" name="javno" value="1">
+                                                <label class="form-check-label" for="javno">
+                                                    Javno
+                                                </label>
+                                            </div>
+
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="radio" id="privatno" name="javno" value="0">
+                                                <label class="form-check-label" for="privatno">
+                                                    Privatno
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex justify-content-center mt-3">
+                                            <button type="submit" name="kreiraj_grupu" class="btn btn-primary">Kreiraj grupu kartica</button>
+                                        </div>
+
+
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" id="privatno" name="javno" value="0">
-                                    <label class="form-check-label" for="privatno">
-                                        Privatno
-                                    </label>
-                                </div>
+
+
                             </div>
-                            <button type="submit" name="kreiraj_grupu" class="btn btn-primary">Kreiraj grupu
-                                kartica</button>
+
                         </form>
+
                     </div>
                 </div>
-            </div>
-        </div>
 
+            </div>
+
+        </div>
+    </div>
 
 </body>
 
