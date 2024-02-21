@@ -23,7 +23,6 @@ if (isset($_GET['action']) && $_GET['action'] === 'dodaj_karticu') {
     header("Location: grupa.php?grupa_id=$grupa_id");
 }
 
-
 if (isset($_GET['action']) && $_GET['action'] === 'uredi_grupu') {
     $grupa_id = $_GET['grupa_id'];
     $naziv_grupe = $_GET['grupa_naziv'];

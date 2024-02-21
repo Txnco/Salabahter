@@ -30,8 +30,8 @@ $korisnikId = $_SESSION["user_id"];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['kreiraj_grupu'])) {
 
-        $nazivGrupe = $_POST["naziv_grupe"];
-        $opisGrupe = $_POST["opis_grupe"];
+        $nazivGrupe = $_POST["grupa_naziv"];
+        $opisGrupe = $_POST["grupa_opis"];
         $vlasnikId = $korisnikId;
         $javno = $_POST["javno"];
 
@@ -95,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     ?>
                     <div class="card-body">
 
-                        <form action="akcije.php" method="GET" id="fromagrupa">
+                    <form method="post" class="needs-validation" enctype="multipart/form-data">
 
                             <div class="col">
 
@@ -113,7 +113,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                     <?php
                                     if ($rezultatPredmeti->num_rows > 0) {
-                                    ?> <select class="form-control" id="predmet" name="predmet" required>
+                                    ?> <select class="form-control" id="predmet_id" name="predmet_id" required>
                                         <?php
                                         echo '<option value="">Odaberite predmet</option>';
                                         while ($red_predmet = $rezultatPredmeti->fetch_assoc()) {
