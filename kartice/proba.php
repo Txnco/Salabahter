@@ -295,9 +295,25 @@ if ($rezultatKartice->num_rows > 0) {
 
         document.getElementById("tocno").onclick = function() {
             listaPodataka[trenutniIndeks].tocno = 1;
+            if (trenutniIndeks < listaPodataka.length - 1) {
+                trenutniIndeks++;
+                prikaziPitanje();
+                prikaziTrenutnoPitanje();
+            } else {
+                zavrsiTajmer(); 
+                prikaziStatistiku();
+            }
         };
         document.getElementById("netocno").onclick = function() {
             listaPodataka[trenutniIndeks].tocno = 0;
+            if (trenutniIndeks < listaPodataka.length - 1) {
+                trenutniIndeks++;
+                prikaziPitanje();
+                prikaziTrenutnoPitanje(); 
+            } else {
+                zavrsiTajmer(); 
+                prikaziStatistiku();
+            }
         };
 
         function prikaziStatistiku() {
