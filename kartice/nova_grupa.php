@@ -77,25 +77,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php include '../ukljucivanje/header.php'; ?>
 
-    
+
+
     <div class="row d-flex justify-content-center">
         <div class="col" style="background: linear-gradient(to right, #687EFF, #98E4FF); padding: 20px;">
             <h1 class="text-center" style="color: white;">Kreiraj grupu kartica</h1>
         </div>
     </div>
 
+
     <div class="container">
         <div class="row justify-content-center">
 
             <div class="col-md-4 mb-4">
 
+
+                <div class="row">
+                    <div class="col d-flex justify-content-start align-items-center">
+
+                        <a class="btn text" href="index"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="mr-2">
+                                <path d="M10.78 19.03a.75.75 0 0 1-1.06 0l-6.25-6.25a.75.75 0 0 1 0-1.06l6.25-6.25a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L5.81 11.5h14.44a.75.75 0 0 1 0 1.5H5.81l4.97 4.97a.75.75 0 0 1 0 1.06Z"></path>
+                            </svg>Vrati se na grupe kartica</a>
+                    </div>
+                </div>
                 <div class="card mt-2 mb-5">
                     <?php
                     echo  '<img src="../assets/img/predmeti/novipredmet.jpg" style="width: 100%; height: 150px; object-fit: cover;">';
                     ?>
                     <div class="card-body">
 
-                    <form method="post" class="needs-validation" enctype="multipart/form-data">
+                        <form method="post" class="needs-validation" enctype="multipart/form-data">
 
                             <div class="col">
 

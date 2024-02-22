@@ -129,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <div class="row mt-2 d-flex align-items-center justify-content-center">
                                                 <div class="col" id="trazilica">
                                                     <a href="../skripte/" class="btn btn-outline-danger mt-2 ml-2 mr-2" id="izbrisi">Izbriši filter</a>
-                                                    
+
                                                 </div>
                                             </div>
 
@@ -147,18 +147,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
 
-        <div class="container">
-            <div class="main-body p-0">
 
-                <?php if (isset($_SESSION['user_id'])) : ?>
-                    <div class="col-sm p-0 mb-2">
-                        <a class="btn btn-success" href="nova_skripta.php" type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="white">
-                                <path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path>
-                            </svg> Dodaj skriptu</a>
+        <div class="container pt-2">
 
-                    </div>
-                <?php endif; ?>
-
+            <?php if (isset($_SESSION['user_id'])) : ?>
+                <div class="col-sm mb-1">
+                    <a class="btn btn-success" href="nova_skripta.php" type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="white">
+                            <path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path>
+                        </svg> Dodaj skriptu</a>
+                </div>
+            <?php endif; ?>
+            <div class="main-body">
                 <div class="row">
                     <div class="col">
                         <div class="row">
