@@ -98,7 +98,7 @@
                                         <input type="password" class="form-control" name="passwordInput" id="passwordInput" required>
                                     </div>
                                     <button type="submit" class="btn btn-theme">Prijavi se</button>
-                                    <a href="#l" class="forgot-link float-right text-primary">Zaboravili ste lozinku?</a>
+                                    <a href="zaboravljena-lozinka.php" class="forgot-link float-right text-primary">Zaboravili ste lozinku?</a>
                                 </form>
                             </div>
                         </div>

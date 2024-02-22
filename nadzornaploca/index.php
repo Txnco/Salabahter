@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") { // Provjeri da li je korisnik posla
 
     $result = $con->query($sql);
 
-    header("Location: /nadzornaploca");
+    header("Location: index");
     die;
   }
   if (isset($_POST['postavljanjeSlike'])) {

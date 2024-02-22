@@ -29,10 +29,10 @@ if (!isset($_SESSION["user_id"])) {
 } else {
     $korisnikId = $_SESSION["user_id"];
 }
-    // SQL upit za dohvaćanje svih skripti
-    $sql = "SELECT * FROM grupekartica WHERE vlasnik_id = " . $korisnikId . " ORDER BY grupa_id DESC;";
-    $result = $con->query($sql);
-    
+// SQL upit za dohvaćanje svih skripti
+$sql = "SELECT * FROM grupekartica WHERE vlasnik_id = " . $korisnikId . " ORDER BY grupa_id DESC;";
+$result = $con->query($sql);
+
 
 
 
@@ -52,7 +52,7 @@ if (!isset($_SESSION["user_id"])) {
 
 <body>
 
-    <?php include '../ukljucivanje/header.php'; 
+    <?php include '../ukljucivanje/header.php';
     ?>
 
     <div class="justify-content-md-center mb-4">
@@ -66,10 +66,10 @@ if (!isset($_SESSION["user_id"])) {
                 </div>
             </div>
         </div>
-     
+
         <div class="container">
             <div class="main-body mt-3">
-            <?php if (isset($_SESSION['user_id'])) : ?>
+                <?php if (isset($_SESSION['user_id'])) : ?>
                     <div class="col-sm p-0 mb-2">
                         <a class="btn btn-success" href="nova_grupa.php" type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="white">
                                 <path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path>
@@ -81,7 +81,7 @@ if (!isset($_SESSION["user_id"])) {
                     <div class="col">
                         <div class="row">
                             <?php
-                            
+
                             if (isset($result) > 0) :
                                 while ($row = $result->fetch_assoc()) :
                                     $predmet_id = $row['predmet_id'];
@@ -89,39 +89,46 @@ if (!isset($_SESSION["user_id"])) {
                                     $rezultatPredmeta = $con->query($predmetGrupe);
                             ?>
                                     <div class="col-sm-3 mb-3 ">
-                                        <div class="card" style="height: 270px;">
-                                            <div class="card-body d-flex flex-column justify-content-between">
-                                                <div class="d-flex flex-column align-items-center text-center" style="height: 100%; display: flex; flex-direction: column; justify-content: space-between;">
-                                                    <div class="mt-3">
+                                        <div class="card klik-za-kartice" style="height: 280px;">
 
-                                                        <h5 class="card-title">
-                                                            <?php echo (strlen($row["grupa_naziv"]) > 40) ? substr($row["grupa_naziv"], 0, 40) . '...' : $row["grupa_naziv"]; ?>
-                                                        </h5>
 
-                                                        <?php
-                                                        if ($rezultatPredmeta->num_rows > 0) :
-                                                            while ($predmetRed = $rezultatPredmeta->fetch_assoc()) :
-                                                                $naziv_predmeta = $predmetRed['naziv_predmeta'];
-                                                                $predmetBoja = $predmetRed['predmet_boja'];
-                                                        ?>
-                                                                <p class="badge " style="background-color: <?php echo $predmetBoja; ?>;"><?php echo $naziv_predmeta; ?></p>
-                                                        <?php
-                                                            endwhile;
-                                                        endif;
-                                                        ?>
-                                                        <p class="card-text">
-                                                            <?php echo (strlen($row["grupa_opis"]) > 120) ? substr($row["grupa_opis"], 0, 120) . '...' : $row["grupa_opis"]; ?>
-                                                        </p>
-                                                    </div>
+                                            <?php
+                                            echo  '<a href="grupa.php?grupa_id=' . $row['grupa_id']  . '"><img src="../assets/img/predmeti/novipredmet.jpg" style="width: 100%; height: 112px; object-fit: cover;"></a>';
+                                            ?>
 
-                                                    <div class="row mt-auto">
-                                                        <div class="col">
-                                                            <a href="grupa.php?grupa_id=<?php echo $row["grupa_id"]; ?>" class="btn btn-primary">Pregledaj</a>
-                                                        </div>
-                                                    </div>
+                                            <div class="card-body d-flex flex-column justify-content-between p-0 ">
+                                                <div class="d-flex flex-column align-items-center text-center ml-2 mr-2" style="height: 100%; display: flex; flex-direction: column; ">
+
+
+                                                    <h5 class="card-title pt-2">
+                                                        <?php echo (strlen($row["grupa_naziv"]) > 40) ? substr($row["grupa_naziv"], 0, 40) . '...' : $row["grupa_naziv"]; ?>
+                                                    </h5>
+
+                                                    <?php
+                                                    if ($rezultatPredmeta->num_rows > 0) :
+                                                        while ($predmetRed = $rezultatPredmeta->fetch_assoc()) :
+                                                            $naziv_predmeta = $predmetRed['naziv_predmeta'];
+                                                            $predmetBoja = $predmetRed['predmet_boja'];
+                                                    ?>
+                                                            <p class="badge mb-2" style="background-color: <?php echo $predmetBoja; ?>;"><?php echo $naziv_predmeta; ?></p>
+                                                    <?php
+                                                        endwhile;
+                                                    endif;
+                                                    ?>
+
+                                                    <p class="card-text poppins-light mb-0">
+                                                        <?php echo (strlen($row["grupa_opis"]) > 75) ? substr($row["grupa_opis"], 0, 75) . '...' : $row["grupa_opis"]; ?>
+                                                    </p>
+
+                                                    <?php if ($row['javno'] == 0) : ?>
+                                                        <p class="badge " style="background-color: #687EFF; border-radius: 1.25rem; font-size: 0.7rem;">Privatno</p>
+                                                    <?php endif; ?>
 
                                                 </div>
+
                                             </div>
+
+
                                         </div>
                                     </div>
 
@@ -130,7 +137,7 @@ if (!isset($_SESSION["user_id"])) {
                             else :
                                 echo "<p class='col'>Nema rezultata.</p>";
                             endif;
-                            
+
                             ?>
                         </div>
                     </div>
@@ -140,7 +147,7 @@ if (!isset($_SESSION["user_id"])) {
     </div>
 
     <?php
-   
+
     include '../ukljucivanje/footer.php'; ?>
 
 
@@ -168,8 +175,8 @@ if (!isset($_SESSION["user_id"])) {
         });
     </script>
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-<script src="../assets/js/main.js"></script>
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    <script src="../assets/js/main.js"></script>
 
 </body>
 

@@ -201,8 +201,12 @@ function dohvatipodatkevlasnika($vlasnik_id)
 
                                     <?php echo '<span class="badge" style="background-color: ' . $predmetBoja . ';">' . $predmetNaziv . '</span> '; ?>
 
+                                    <?php if ($javno == 0) : ?>
+                                        <p class="badge mt-2 mb-1" style="background-color: #687EFF; border-radius: 1.25rem; font-size: 0.7rem;">Privatno</p>
+                                    <?php endif; ?>
+
                                 </div>
-                                <div class="d-flex flex-column align-items-start ml-2 mt-4 mb-4 mr-4">
+                                <div class="d-flex flex-column align-items-start ml-2 mt-3 mb-4 mr-4">
                                     <h6 class="m-0" style="font-size: 1.125rem;"><strong>Opis kartica</strong></h6>
 
                                     <div id="opisTekst" class=" pt-1">
@@ -229,6 +233,8 @@ function dohvatipodatkevlasnika($vlasnik_id)
                                             echo 'Nema dostupnih predmeta.';
                                         }
                                             ?>
+
+
 
 
                                             <div class="d-flex justify-content-center mt-3">

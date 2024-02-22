@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $mail = new PHPMailer(true);
 
                 try {
-                    $body = file_get_contents('../assets/css/izgledeposte.html');
+                    $body = file_get_contents('../assets/css/izgledeposteKodRegistracije.html');
                     $body = str_replace('{KOD}', $verifikacijski_kod, $body);
 
                     //Server settings
