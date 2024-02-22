@@ -28,18 +28,17 @@ function check_privilegeUser($con){ //Funkcija za provjeru je li korisnik prijav
             if($user['status_korisnika']==3678){
                 $_SESSION["isAdmin"] = true;
             }
+            else {
+                $_SESSION["isAdmin"] = false;
+            }
             
             return $user;
         }
-        else {
-            $_SESSION["isAdmin"] = false;
-        }
+        
         
       }
 
-    // //Prebaci korisnika na stranicu prijave
-    // header("Location: ../account/login.php");
-    // die;
+
 }
 
 

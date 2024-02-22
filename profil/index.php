@@ -30,6 +30,13 @@ if ($user) { // Ako je korisnik prijavljen provjeri da li gleda svoj profil, ako
   }
 }
 
+check_privilegeUser($con); // Provjeri da li je korisnik administrator
+if(isset($_SESSION["isAdmin"])){
+
+  $administartor = $_SESSION["isAdmin"];
+}
+
+
 // Dohvati korisnika po ID-u 
 $sqlOdabraniKorisnik = "SELECT korisnik.korisnik_id,  ime,prezime,email,adresa,prebivaliste,naziv_grada, grad_id, status_naziv FROM korisnik, statuskorisnika, gradovi WHERE korisnik.korisnik_id={$korisnikID} AND  korisnik.status_korisnika=statuskorisnika.status_id AND korisnik.mjesto=gradovi.grad_id";
 $rezultatOdabraniKorisnik = $con->query($sqlOdabraniKorisnik);
@@ -48,7 +55,7 @@ if ($rezultatInstruktor->num_rows > 0) { // Ako je korisnik instruktor onda se p
 if ($korisnikJeInstruktor) { // Ako je korisnik instruktor onda se dohvaćaju predmeti koje predaje i njegove skripte
 
   // Dohvati predmete koje predaje instruktor
-  $sqlInstruktoroviPredmeti = "SELECT naziv_predmeta FROM instruktorovipredmeti,predmeti WHERE instruktorovipredmeti.predmet_id=predmeti.predmet_id AND instruktorovipredmeti.instruktor_id = {$instruktor['instruktor_id']}";
+  $sqlInstruktoroviPredmeti = "SELECT naziv_predmeta, predmeti.predmet_id FROM instruktorovipredmeti,predmeti WHERE instruktorovipredmeti.predmet_id=predmeti.predmet_id AND instruktorovipredmeti.instruktor_id = {$instruktor['instruktor_id']}";
   $rezultatInstruktoroviPredmeti = $con->query($sqlInstruktoroviPredmeti);
 
   // Dohvati skripte instruktora
@@ -69,7 +76,16 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
   $imaRecenzije = false;
 }
 
+if (isset($user)) {
 
+  $sqlAkojeKorisnikVecNapisaoRecenziju = "SELECT * FROM recenzije WHERE odKorisnika = {$_SESSION['user_id']} AND zaKorisnika = {$korisnikID}";
+  $rezultatAkojeKorisnikVecNapisaoRecenziju = $con->query($sqlAkojeKorisnikVecNapisaoRecenziju);
+  if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
+    $korisnikVecNapisaoRecenziju = true;
+  } else {
+    $korisnikVecNapisaoRecenziju = false;
+  }
+}
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
   if (isset($_POST['prijavaRecenzije'])) {
@@ -91,18 +107,29 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
     $stmt->close();
   }
-}
+  if (isset($_POST['obrisiPredmet'])) {
 
-if(isset($user)){
+    $predmetId = $_POST['predmetId'];
 
-  $sqlAkojeKorisnikVecNapisaoRecenziju = "SELECT * FROM recenzije WHERE odKorisnika = {$_SESSION['user_id']} AND zaKorisnika = {$korisnikID}";
-  $rezultatAkojeKorisnikVecNapisaoRecenziju = $con->query($sqlAkojeKorisnikVecNapisaoRecenziju);
-  if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
-    $korisnikVecNapisaoRecenziju = true;
-  } else {
-    $korisnikVecNapisaoRecenziju = false;
+
+    $stmt = $con->prepare("DELETE FROM instruktorovipredmeti WHERE predmet_id = ? AND instruktor_id = {$instruktor['instruktor_id']}");
+    $stmt->bind_param("i", $predmetId);
+    $stmt->execute();
+
+
+    header("Location: index.php?korisnik=" . $korisnikID);
+    die;
+  }
+  if (isset($_POST['upisPromjena'])) {
+    $emailPromjena = $_POST['emailPromjena'];
+    $sqlPromjenaEmail = "UPDATE korisnik SET email = '{$emailPromjena}' WHERE korisnik_id = {$korisnikID}";
+    $con->query($sqlPromjenaEmail);
+    header("Location: index.php?korisnik=" . $korisnikID);
+    die;
   }
 }
+
+
 
 ?>
 
@@ -123,7 +150,7 @@ if(isset($user)){
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> <!-- Ikone -->
 
   <link href="../assets/css/recenzije.css" rel="stylesheet">
-  
+
   <link href="../assets/css/nadzornaploca.css" rel="stylesheet">
 
 
@@ -135,7 +162,7 @@ if(isset($user)){
 
 
 
-  <div class="container" >
+  <div class="container">
     <div class="main-body ">
 
 
@@ -288,24 +315,34 @@ if(isset($user)){
           <div class="card mb-3">
             <div class="card-body">
 
+              <form method="POST">
               <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Ime</h6>
-                </div>
-                <div class="col-sm-5 text-secondary">
-                  <label type="text"><?php echo $korisnik["ime"] . " " . $korisnik["prezime"] // Ipis kosinikova imena 
-                                      ?></label>
-                </div>
+
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Ime</h6>
+                  </div>
+                  <div class="col-sm-5 text-secondary">
+
+                    <label type="text"><?php echo $korisnik["ime"] . " " . $korisnik["prezime"] // Ipis kosinikova imena 
+                                        ?></label>
+                  </div>
               </div>
               <hr>
               <div class="row">
                 <div class="col-sm-3">
                   <h6 class="mb-0">Email</h6>
                 </div>
-                <div class="col-sm-9 text-secondary">
-                  <label type="text"><?php echo $korisnik["email"] // Ispis korisnikove elektroničke pošte
-                                      ?></label>
-                </div>
+
+                <?php if (isset($administartor)) : ?> <!-- Administrator može mijenjati email korisnicima -->
+                  <div class="col-sm-9 text-secondary">
+                    <input type="text" class="form-control" name="emailPromjena" id="emailPromjena" value="<?php echo $korisnik["email"] ?>">
+                  </div>
+                <?php else : ?>
+                  <div class="col-sm-9 text-secondary">
+                    <label type="text"><?php echo $korisnik["email"] ?></label>
+                  </div>
+                <?php endif; ?>
+
               </div>
 
               <hr>
@@ -329,6 +366,14 @@ if(isset($user)){
                 </div>
               </div>
 
+              <?php if(isset($administartor)):?>
+              <div class="row">
+                <div class="col-sm-12">
+                  <button class="btn btn-racun" name="upisPromjena" type="submit">Spremi promjene</button>
+                </div>
+              </div>
+              <?php endif;?>
+              </form>
             </div>
           </div>
 
@@ -340,11 +385,54 @@ if(isset($user)){
                 <div class="card h-100">
                   <div class="card-body">
                     <h6 class="d-flex align-items-center mb-3">Predmeti</h6> <!-- Ispis predmeta koje predaje instruktor -->
-                    <?php while ($row = $rezultatInstruktoroviPredmeti->fetch_assoc()) : ?>
-                      <small><?php echo $row['naziv_predmeta']; ?></small>
+                    <?php
+                    $brojReda = $rezultatInstruktoroviPredmeti->num_rows;
+                    $sakrijTipkuIzbrisi = $brojReda <= 1;
+
+                    while ($row = $rezultatInstruktoroviPredmeti->fetch_assoc()) : ?>
+
+                      <small>
+
+                        <?php
+
+                        if (isset($administartor) && !$sakrijTipkuIzbrisi) : ?>
+                          <button class='btn btn-link text-danger delete-button' data-id="<?php echo $row['predmet_id'] ?>" data-toggle="modal" data-target="#obrisiPredmetModal<?php echo $row['predmet_id'] ?>">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
+                              <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                            </svg>
+                          </button>
+
+                          <!-- Modal za brisanje predmeta -->
+                          <div class="modal fade" id="obrisiPredmetModal<?php echo $row['predmet_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="obrisiPredmetLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="obrisiPredmetLabel">Jeste li sigurni da želite obrisati ovaj instruktorov predmet?</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <form method="POST">
+                                  <input type="hidden" id="predmetId" name="predmetId" value="<?php echo $row['predmet_id'] ?>">
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                                    <button type="submit" class="btn btn-danger" name="obrisiPredmet">Obriši</button>
+                                  </div>
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+
+                        <?php endif; ?>
+
+                        <?php echo $row['naziv_predmeta']; ?>
+                      </small>
+
                       <div class="progress mb-3" style="height: 5px">
                         <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+
                       </div>
+
                     <?php endwhile; ?>
 
                   </div>
@@ -543,6 +631,8 @@ if(isset($user)){
     </div>
   </div>
 
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
