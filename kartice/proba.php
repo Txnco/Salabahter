@@ -120,7 +120,7 @@ if ($rezultatKartice->num_rows > 0) {
             <div class="col-lg-6">
 
 
-                <div class="card mt-2 mb-5 mt-5" id="GrupaKartica">
+                <div class="card mt-2 mb-5 mt-1" id="GrupaKartica">
                     <?php
                     echo  '<img src="../assets/img/predmeti/novipredmet.jpg" style="width: 100%; height: 150px; object-fit: cover;">';
                     ?>
@@ -168,7 +168,7 @@ if ($rezultatKartice->num_rows > 0) {
 
 
 
-                <div class="card mx-3 mb-2 mt-5" id="podrucjeakcije" style="display: none;">
+                <div class="card mx-3 mb-2 mt-1" id="podrucjeakcije" style="display: none;">
 
                     <div class="card-body">
                         <h2 class="text-center mt-3"><?php echo $nazivGrupe; ?></h2>
