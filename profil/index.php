@@ -16,7 +16,10 @@ $putanjaDoOdjave = "../racun/odjava.php";
 
 $con = require "../ukljucivanje/connection/spajanje.php";
 include("../ukljucivanje/functions/funkcije.php");
+require '../vendor/autoload.php';
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 
 $korisnikID = $_GET['korisnik']; // ID korisnika kojeg gledamo
 
@@ -31,7 +34,7 @@ if ($user) { // Ako je korisnik prijavljen provjeri da li gleda svoj profil, ako
 }
 
 check_privilegeUser($con); // Provjeri da li je korisnik administrator
-if(isset($_SESSION["isAdmin"])){
+if (isset($_SESSION["isAdmin"])) {
 
   $administartor = $_SESSION["isAdmin"];
 }
@@ -77,7 +80,6 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
 }
 
 if (isset($user)) {
-
   $sqlAkojeKorisnikVecNapisaoRecenziju = "SELECT * FROM recenzije WHERE odKorisnika = {$_SESSION['user_id']} AND zaKorisnika = {$korisnikID}";
   $rezultatAkojeKorisnikVecNapisaoRecenziju = $con->query($sqlAkojeKorisnikVecNapisaoRecenziju);
   if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
@@ -85,7 +87,17 @@ if (isset($user)) {
   } else {
     $korisnikVecNapisaoRecenziju = false;
   }
+
+  $sqlProvjeraZahtjevaZaInstrukcije = "SELECT * FROM zahtjevzainstrukcije WHERE poslaoKorisnik = {$_SESSION['user_id']} AND instruktor_id = {$instruktor['instruktor_id']}";
+  $rezultatProvjeraZahtjevaZaInstrukcije = $con->query($sqlProvjeraZahtjevaZaInstrukcije);
+  if ($rezultatProvjeraZahtjevaZaInstrukcije->num_rows > 0) {
+    $korisnikVecPoslaoZahtjevZaInstrukcije = true;
+  } else {
+    $korisnikVecPoslaoZahtjevZaInstrukcije = false;
+  }
 }
+
+
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
   if (isset($_POST['prijavaRecenzije'])) {
@@ -127,6 +139,81 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     header("Location: index.php?korisnik=" . $korisnikID);
     die;
   }
+  if (isset($_POST['zahtjevZaInstrukcije'])) {
+
+    $instruktorID = $_POST['instruktor'];
+    $poslaoKorisnik = $_POST['korisnik'];
+
+    $ime = $_POST['ime'];
+    $prezime = $_POST['prezime'];
+    $email = $_POST['email'];
+
+    list($predmet_id, $naziv_predmeta) = explode('|', $_POST['predmet']);
+    $opisZahtjeva = $_POST['opisZahtjeva'];
+    $datum = $_POST['datum'];
+
+
+    if (!empty($datum)) {
+      $format = DateTime::createFromFormat('d.m.Y H:i', $datum);
+      $formatiraniDatum = $format->format('Y-m-d H:i:s');
+    } else {
+      $formatiraniDatum = null; // or any default value
+    }
+
+    $sqlUpisiZahtjev = "INSERT INTO zahtjevzainstrukcije (poslaoKorisnik, instruktor_id, predmetInstruktora_id, opisZahtjeva, predlozeniDatum) VALUES ('$poslaoKorisnik', '$instruktorID', '$predmet_id', '$opisZahtjeva', '$formatiraniDatum')";
+    $con->query($sqlUpisiZahtjev);
+
+    
+
+    $mail = new PHPMailer(true);
+
+    try {
+      $body = file_get_contents('../assets/css/zahtjevZaInstrukcije.html');
+      $body = str_replace('{IME}', $ime, $body);
+      $body = str_replace('{PREZIME}', $prezime, $body);
+
+      $body = str_replace('{PREDMET}', $naziv_predmeta, $body);
+      $body = str_replace('{OPIS}', $opisZahtjeva, $body);
+      $body = str_replace('{DATUM}', $formatiraniDatum, $body);
+      $naziv_predmeta = strtolower($naziv_predmeta);
+      $body = str_replace('{PREDMETnaslov}', $naziv_predmeta, $body);
+
+      //Server settings
+      $mail->SMTPDebug = 0;
+      $mail->isSMTP();
+      $mail->Host       = 'smtp.zoho.eu';  // Specify main and backup SMTP servers
+      $mail->SMTPAuth   = true;                             // Enable SMTP authentication
+      $mail->Username   = 'instrukcije@salabahter.eu';              // SMTP username
+      $mail->Password   = 'Salabahter1!';                  // SMTP password
+      $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Use ::ENCRYPTION_STARTTLS for port 587
+      $mail->Port = 465; // Use 587 for TLS                           // TCP port to connect to
+
+      //Recipients
+      $mail->setFrom('instrukcije@salabahter.eu', 'Salabahter');
+      $mail->addAddress($email, $ime);     // Add a recipient
+
+      // Content
+      $mail->isHTML(true);                                  // Set email format to HTML
+      $mail->Subject = 'Novi zahtjev za instrukcije';
+      $mail->Body    = $body;
+      $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+
+      $mail->send();
+
+      $_SESSION['verifikacija'] = time();
+      $_SESSION['kodPoslan'] = true;
+
+
+      header('Location: index?korisnik=' . $korisnikID);
+      exit();
+    } catch (Exception $e) {
+      echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+    }
+
+
+    header("Location: index.php?korisnik=" . $korisnikID);
+    die;
+  }
 }
 
 
@@ -134,7 +221,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hr">
 
 <head>
 
@@ -210,6 +297,101 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                       echo $korisnik['prebivaliste']; ?>
                   </p>
 
+                  <?php if ($instruktor && !$korisnikVecPoslaoZahtjevZaInstrukcije) : ?>
+                    <button class="btn btn-racun" data-id="<?php echo $instruktor['instruktor_id'] ?>" data-toggle="modal" data-target="#posaljiZahtjevZaInstukcije<?php echo $instruktor['instruktor_id'] ?>">Pošalji zahtjev za instrukcije</button>
+
+                    <!-- Modal za slanje zahtjeva za instrukcije -->
+                    <div class="modal fade" id="posaljiZahtjevZaInstukcije<?php echo $instruktor['instruktor_id'] ?>" tabindex="-1" role="dialog" aria-labelledby="zahtjev" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="zahtjev">Pošaljite zahtjev za instrukcije</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <form method="POST">
+                            <div class="modal-body">
+                              <div class="row">
+                                <div class="col">
+
+                                  <div class="d-flex flex-column align-items-center text-center">
+
+
+                                    <?php
+
+                                    $sqlDohvatiProfilnuSliku = "SELECT slika_korisnika FROM korisnik WHERE korisnik_id = {$korisnikID}";
+                                    $rezultatProfilnaSlika = $con->query($sqlDohvatiProfilnuSliku);
+                                    $profilnaSlika = $rezultatProfilnaSlika->fetch_assoc();
+
+
+                                    if ($profilnaSlika['slika_korisnika'] != null) {
+                                      $profilnaSlika['slika_korisnika'] = "../nadzornaploca/" . $profilnaSlika['slika_korisnika'];
+
+                                      echo "<div  style='width: 75px; height: 75px; overflow: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center;'>
+<img src='{$profilnaSlika['slika_korisnika']}' alt='Profilna slika' style='width: 100%; height: 100%; object-fit: cover;' />
+</div>";
+                                    } else {
+                                      echo '<img id="profile-pic" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="75">';
+                                    }
+
+                                    ?>
+
+                                    <div class="mt-3">
+                                      <!-- Ispis podataka o korisniku -->
+
+                                      <h4> <?php echo $korisnik["ime"] . " " . $korisnik["prezime"] ?> </h4> <!-- Ispis korisnikova imena i prezimena -->
+
+
+                                      <p class="text-secondary mb-1">
+                                        <label class="text">Instruktor - </label> <?php echo $korisnik['status_naziv']; ?>
+                                      </p>
+                                    </div>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label for="predmet">Odaberi predmet za koji želite instrukcije</label>
+                                    <select class="form-control" id="predmet" name="predmet" required>
+                                      <?php
+                                      while ($row = $rezultatInstruktoroviPredmeti->fetch_assoc()) : ?>
+                                        <option value="<?php echo $row['predmet_id'] . '|' . $row['naziv_predmeta']; ?>"><?php echo $row['naziv_predmeta']; ?></option>
+                                      <?php endwhile; ?>
+                                    </select>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="opisZahtjeva">Opis potrebe za instrukcijama</label>
+                                    <textarea class="form-control" id="opisZahtjeva" maxlength="255" style="max-height: 100px;" name="opisZahtjeva" required></textarea>
+                                  </div>
+
+                                  <div class="form-group">
+                                    <label for="datum">Predložite datum i vrijeme instrukcija</label>
+                                    <input type="text" class="form-control" id="datum" name="datum" required readonly>
+                                  </div>
+
+                                </div>
+                              </div>
+                            </div>
+
+
+                            <input type="hidden" id="email" name="email" value="<?php echo $korisnik["email"] ?>">
+                            <input type="hidden" id="ime" name="ime" value="<?php echo $user["ime"] ?>">
+                            <input type="hidden" id="prezime" name="prezime" value="<?php echo $user["prezime"] ?>">
+                            <input type="hidden" id="instruktor" name="instruktor" value="<?php echo $instruktor['instruktor_id'] ?>">
+                            <input type="hidden" id="korisnik" name="korisnik" value="<?php echo $_SESSION['user_id'] ?>">
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
+                              <button type="submit" class="btn btn-success" name="zahtjevZaInstrukcije">Pošalji zahtjev</button>
+                            </div>
+
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+
+                  <?php
+                  else : echo "<button class='btn btn-success'>Zahtjev je poslan!</button>";
+                  endif; ?>
 
                 </div>
               </div>
@@ -316,7 +498,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             <div class="card-body">
 
               <form method="POST">
-              <div class="row">
+                <div class="row">
 
                   <div class="col-sm-3">
                     <h6 class="mb-0">Ime</h6>
@@ -326,53 +508,53 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <label type="text"><?php echo $korisnik["ime"] . " " . $korisnik["prezime"] // Ipis kosinikova imena 
                                         ?></label>
                   </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Email</h6>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Email</h6>
+                  </div>
+
+                  <?php if (isset($administartor)) : ?> <!-- Administrator može mijenjati email korisnicima -->
+                    <div class="col-sm-9 text-secondary">
+                      <input type="text" class="form-control" name="emailPromjena" id="emailPromjena" value="<?php echo $korisnik["email"] ?>">
+                    </div>
+                  <?php else : ?>
+                    <div class="col-sm-9 text-secondary">
+                      <label type="text"><?php echo $korisnik["email"] ?></label>
+                    </div>
+                  <?php endif; ?>
+
                 </div>
 
-                <?php if (isset($administartor)) : ?> <!-- Administrator može mijenjati email korisnicima -->
-                  <div class="col-sm-9 text-secondary">
-                    <input type="text" class="form-control" name="emailPromjena" id="emailPromjena" value="<?php echo $korisnik["email"] ?>">
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Adresa</h6>
                   </div>
-                <?php else : ?>
+                  <div class="col-sm-7 text-secondary">
+                    <label type="text"><?php echo $korisnik["adresa"] . ", " .  $korisnik["prebivaliste"] // Ispis koriskinove adrese stanovanja 
+                                        ?></label>
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Obližnji grad</h6>
+                  </div>
                   <div class="col-sm-9 text-secondary">
-                    <label type="text"><?php echo $korisnik["email"] ?></label>
+                    <label type="text"><?php echo $korisnik["naziv_grada"]; // Ispis grada iz kojeg je korisnik
+                                        ?></label>
+                  </div>
+                </div>
+
+                <?php if (isset($administartor)) : ?>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <button class="btn btn-racun" name="upisPromjena" type="submit">Spremi promjene</button>
+                    </div>
                   </div>
                 <?php endif; ?>
-
-              </div>
-
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Adresa</h6>
-                </div>
-                <div class="col-sm-7 text-secondary">
-                  <label type="text"><?php echo $korisnik["adresa"] . ", " .  $korisnik["prebivaliste"] // Ispis koriskinove adrese stanovanja 
-                                      ?></label>
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Obližnji grad</h6>
-                </div>
-                <div class="col-sm-9 text-secondary">
-                  <label type="text"><?php echo $korisnik["naziv_grada"]; // Ispis grada iz kojeg je korisnik
-                                      ?></label>
-                </div>
-              </div>
-
-              <?php if(isset($administartor)):?>
-              <div class="row">
-                <div class="col-sm-12">
-                  <button class="btn btn-racun" name="upisPromjena" type="submit">Spremi promjene</button>
-                </div>
-              </div>
-              <?php endif;?>
               </form>
             </div>
           </div>
@@ -386,6 +568,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                   <div class="card-body">
                     <h6 class="d-flex align-items-center mb-3">Predmeti</h6> <!-- Ispis predmeta koje predaje instruktor -->
                     <?php
+                    $rezultatInstruktoroviPredmeti->data_seek(0);
                     $brojReda = $rezultatInstruktoroviPredmeti->num_rows;
                     $sakrijTipkuIzbrisi = $brojReda <= 1;
 
@@ -396,7 +579,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         <?php
 
                         if (isset($administartor) && !$sakrijTipkuIzbrisi) : ?>
-                          <button class='btn btn-link text-danger delete-button' data-id="<?php echo $row['predmet_id'] ?>" data-toggle="modal" data-target="#obrisiPredmetModal<?php echo $row['predmet_id'] ?>">
+                          <button class='btn btn-link text-danger' data-id="<?php echo $row['predmet_id'] ?>" data-toggle="modal" data-target="#obrisiPredmetModal<?php echo $row['predmet_id'] ?>">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x" viewBox="0 0 16 16">
                               <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
                             </svg>
@@ -636,6 +819,28 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script> <!-- Birač za datum i vrijeme -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" />
+
+  <script>
+    // Birač za datum i vrijeme
+    $.datetimepicker.setLocale('hr');
+    $(document).ready(function() {
+      var now = new Date();
+      var formattedNow = moment(now).format('DD.MM.GGGG HH:mm');
+      $('#datum').attr('placeholder', formattedNow);
+
+      $('#datum').datetimepicker({
+        format: 'd.m.Y H:i',
+        dayOfWeekStart: 1,
+        step: 15,
+        hours12: false
+      });
+    });
+  </script>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
   <script src="../assets/js/main.js"></script>

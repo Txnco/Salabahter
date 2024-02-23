@@ -150,6 +150,10 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
 }
 
 
+$sqlDohvatiZahtjeveZaInstrukcije = "SELECT * FROM zahtjevzainstrukcije WHERE poslaoKorisnik = {$_SESSION['user_id']}";
+$rezultatZahtjevaZaInstrukcije = $con->query($sqlDohvatiZahtjeveZaInstrukcije);
+
+
 ?>
 
 <!DOCTYPE html>
@@ -260,6 +264,42 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
             </div>
           </div>
 
+
+          <?php if ($rezultatZahtjevaZaInstrukcije->num_rows > 0) : ?>
+            <div class="card mt-3">
+              <div class="card-body ">
+                <h4>Zahtjevi za instrukcije</h4>
+                <?php while ($red = $rezultatZahtjevaZaInstrukcije->fetch_assoc()) :
+                  $sqlDohvatiInstruktora = "SELECT korisnik.ime, korisnik.prezime, predmeti.naziv_predmeta, zahtjevzainstrukcije.predlozeniDatum 
+                                          FROM zahtjevzainstrukcije 
+                                          INNER JOIN instruktori ON zahtjevzainstrukcije.instruktor_id = instruktori.instruktor_id 
+                                          INNER JOIN korisnik ON instruktori.korisnik_id = korisnik.korisnik_id 
+                                          INNER JOIN instruktorovipredmeti ON zahtjevzainstrukcije.predmetInstruktora_id = instruktorovipredmeti.predmet_id 
+                                          INNER JOIN predmeti ON instruktorovipredmeti.predmet_id = predmeti.predmet_id 
+                                          WHERE zahtjevzainstrukcije.zahtjev_id = {$red['zahtjev_id']}";
+                  $rezultatInstruktor = $con->query($sqlDohvatiInstruktora);
+                  $instruktor = $rezultatInstruktor->fetch_assoc();
+                ?>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="content text-center">
+                        <div class="col">
+                          <?php echo $instruktor['ime'] . ' ' . $instruktor['prezime']; ?>
+                          <?php echo $instruktor['naziv_predmeta']; ?> <br>
+                          <?php echo $instruktor['predlozeniDatum']; ?>
+
+                          <form action="delete_request.php" method="post">
+                            <input type="hidden" name="request_id" value="<?php echo $red['zahtjev_id']; ?>">
+                            <button type="submit" class="btn btn-danger">X</button>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <?php endwhile; ?>
+              </div>
+            </div>
+          <?php endif; ?>
 
           <?php if ($imaRecenzije) : ?>
             <div class="card mt-3">
