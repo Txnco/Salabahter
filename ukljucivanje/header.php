@@ -35,10 +35,12 @@
 
       </div>
         </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
+        <div >
+        <i class="bi bi-list mobile-nav-toggle mr-4"></i>
+        </div>
       </nav><!-- .navbar -->
 
-    </div>
+ 
 
    
       

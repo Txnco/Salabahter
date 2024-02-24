@@ -87,15 +87,9 @@ if (isset($user)) {
   } else {
     $korisnikVecNapisaoRecenziju = false;
   }
-
-  $sqlProvjeraZahtjevaZaInstrukcije = "SELECT * FROM zahtjevzainstrukcije WHERE poslaoKorisnik = {$_SESSION['user_id']} AND instruktor_id = {$instruktor['instruktor_id']}";
-  $rezultatProvjeraZahtjevaZaInstrukcije = $con->query($sqlProvjeraZahtjevaZaInstrukcije);
-  if ($rezultatProvjeraZahtjevaZaInstrukcije->num_rows > 0) {
-    $korisnikVecPoslaoZahtjevZaInstrukcije = true;
-  } else {
-    $korisnikVecPoslaoZahtjevZaInstrukcije = false;
-  }
 }
+
+
 
 
 
@@ -163,7 +157,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $sqlUpisiZahtjev = "INSERT INTO zahtjevzainstrukcije (poslaoKorisnik, instruktor_id, predmetInstruktora_id, opisZahtjeva, predlozeniDatum) VALUES ('$poslaoKorisnik', '$instruktorID', '$predmet_id', '$opisZahtjeva', '$formatiraniDatum')";
     $con->query($sqlUpisiZahtjev);
 
-    
+
 
     $mail = new PHPMailer(true);
 
@@ -297,7 +291,24 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                                       echo $korisnik['prebivaliste']; ?>
                   </p>
 
-                  <?php if ($instruktor && !$korisnikVecPoslaoZahtjevZaInstrukcije) : ?>
+                  <?php
+
+                  if (isset($_SESSION['user_id'])) {
+                    if($instruktor){
+
+                      $sqlProvjeraZahtjevaZaInstrukcije = "SELECT * FROM zahtjevzainstrukcije WHERE poslaoKorisnik = {$_SESSION['user_id']} AND instruktor_id = {$instruktor['instruktor_id']}";
+                      $rezultatProvjeraZahtjevaZaInstrukcije = $con->query($sqlProvjeraZahtjevaZaInstrukcije);
+                      
+                      if ($rezultatProvjeraZahtjevaZaInstrukcije->num_rows > 0) {
+                        $korisnikVecPoslaoZahtjevZaInstrukcije = true;
+                      } else if ($rezultatProvjeraZahtjevaZaInstrukcije->num_rows == 0) {
+                        $korisnikVecPoslaoZahtjevZaInstrukcije = false;
+                      }
+                    }
+                  }
+                  if (isset($_SESSION['user_id']) && $instruktor && !$korisnikVecPoslaoZahtjevZaInstrukcije) {
+
+                  ?>
                     <button class="btn btn-racun" data-id="<?php echo $instruktor['instruktor_id'] ?>" data-toggle="modal" data-target="#posaljiZahtjevZaInstukcije<?php echo $instruktor['instruktor_id'] ?>">Pošalji zahtjev za instrukcije</button>
 
                     <!-- Modal za slanje zahtjeva za instrukcije -->
@@ -390,8 +401,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     </div>
 
                   <?php
-                  else : echo "<button class='btn btn-success'>Zahtjev je poslan!</button>";
-                  endif; ?>
+                  } else if (isset($_SESSION['user_id']) && $instruktor && $korisnikVecPoslaoZahtjevZaInstrukcije) {
+
+                    echo "<button class='btn btn-success'>Zahtjev je poslan!</button>";
+                  } ?>
 
                 </div>
               </div>

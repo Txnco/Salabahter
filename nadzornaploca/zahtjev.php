@@ -10,7 +10,6 @@ if (!$user) {
     die;
 }
 
-echo $user['korisnik_id'] . " " . $user['status_korisnika'] . " " . $user['ime'] . "<br>";
 
 // šalju se podaci u bazu
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {

@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $mail->Host       = 'smtp.zoho.eu';  // Specify main and backup SMTP servers
                     $mail->SMTPAuth   = true;                             // Enable SMTP authentication
                     $mail->Username   = 'info@salabahter.eu';              // SMTP username
-                    $mail->Password   = 'Salabahter1!';                  // SMTP password
+                    $mail->Password   = 'Salabahter3!';                  // SMTP password
                     $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Use ::ENCRYPTION_STARTTLS for port 587
                     $mail->Port = 465; // Use 587 for TLS                           // TCP port to connect to
 

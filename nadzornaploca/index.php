@@ -153,6 +153,14 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
 $sqlDohvatiZahtjeveZaInstrukcije = "SELECT * FROM zahtjevzainstrukcije WHERE poslaoKorisnik = {$_SESSION['user_id']}";
 $rezultatZahtjevaZaInstrukcije = $con->query($sqlDohvatiZahtjeveZaInstrukcije);
 
+if($instruktor){
+
+  $sqlDohvatiSveZahtjeveInstrukcijaZaInstruktora = "SELECT * FROM zahtjevzainstrukcije WHERE instruktor_id = {$instruktor['instruktor_id']}";
+  $rezultatSviZahtjeviInstrukcijaZaInstruktora = $con->query($sqlDohvatiSveZahtjeveInstrukcijaZaInstruktora);
+  
+  $brojZahtjevaZaInstrukcije = $rezultatSviZahtjeviInstrukcijaZaInstruktora->num_rows;
+}
+
 
 ?>
 
@@ -265,10 +273,34 @@ $rezultatZahtjevaZaInstrukcije = $con->query($sqlDohvatiZahtjeveZaInstrukcije);
           </div>
 
 
+          <?php if($instruktor){ if ($rezultatSviZahtjeviInstrukcijaZaInstruktora->num_rows > 0) { ?>
+            <div class="card mt-3">
+              <div class="card-body ">
+                <?php 
+                ?>
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="content text-center">
+                        <a href="zahtjevi-za-instrukcije.php" class="nav-link nadlink">
+                          Zahtjevi za instrukcije
+                          <span class="badge bg-danger float-end">
+                            <?php echo isset($brojZahtjevaZaInstrukcije) && $brojZahtjevaZaInstrukcije > 0 ? $brojZahtjevaZaInstrukcije : '0'; ?>
+                          </span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+           
+              </div>
+            </div>
+          <?php } } ?>
+
+
+
           <?php if ($rezultatZahtjevaZaInstrukcije->num_rows > 0) : ?>
             <div class="card mt-3">
               <div class="card-body ">
-                <h4>Zahtjevi za instrukcije</h4>
+                <h4>Poslani zahtjevi za instrukcije</h4>
                 <?php while ($red = $rezultatZahtjevaZaInstrukcije->fetch_assoc()) :
                   $sqlDohvatiInstruktora = "SELECT korisnik.ime, korisnik.prezime, predmeti.naziv_predmeta, zahtjevzainstrukcije.predlozeniDatum 
                                           FROM zahtjevzainstrukcije 
@@ -288,9 +320,9 @@ $rezultatZahtjevaZaInstrukcije = $con->query($sqlDohvatiZahtjeveZaInstrukcije);
                           <?php echo $instruktor['naziv_predmeta']; ?> <br>
                           <?php echo $instruktor['predlozeniDatum']; ?>
 
-                          <form action="delete_request.php" method="post">
+                          <form method="post">
                             <input type="hidden" name="request_id" value="<?php echo $red['zahtjev_id']; ?>">
-                            <button type="submit" class="btn btn-danger">X</button>
+                            <button type="submit" class="btn btn-danger" disabled>X</button>
                           </form>
                         </div>
                       </div>

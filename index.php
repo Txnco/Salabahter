@@ -45,18 +45,61 @@ $pathToLogout = "account/logout.php";
   <?php endif; ?>
 
 
-  <section id="hero">
-    <div class="hero-container">
-      <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
 
-        <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+
+
+  <header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <div class="logo">
+        <h1 class="text-light"><a href=""><span>Šalabahter</span></a></h1>
+      </div>
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="">Home</a></li>
+          <li><a class="nav-link scrollto " href="instruktori.php">Instruktori</a></li>
+          <li><a class="nav-link scrollto " href="skripte/">Skripte</a></li>
+          <li class="dropdown"><a class="nav-link scrollto" href="kartice/"><span>Kartice</span> <i class="bi bi-chevron-down"></i></a>
+            <ul>
+              <li><a class="nav-link scrollto " href="kartice/">Pretraži kartice</a></li>
+              <li><a class="nav-link scrollto " href="kartice/mojekartice.php">Moje kartice</a></li>
+              <li><a class="nav-link scrollto " href="kartice/nova_grupa.php">Napravi kartice</a></li>
+            </ul>
+          </li>
+          <li><a class="nav-link scrollto " href="onama.php">O nama</a></li>
+
+          <?php if (!isset($_SESSION["user_id"])) : ?>
+            <a href="racun/prijava.php" class="nav-link scrollto ml-3" role="button">Prijava</a>
+            <a href="racun/registracija.php" class="nav-link scrollto" role="button">Registracija</a>
+          <?php else : ?>
+            <a href="nadzornaploca/index.php" class="nav-link scrollto mr-2" role="button">Račun</a>
+            <a href="racun/odjava.php" id="logout" class="nav-link scrollto " role="button">Odjava</a>
+          <?php endif; ?>
+
+    </div>
+    </ul> 
+    <i class="bi bi-list mobile-nav-toggle mr-4"></i>
+    </nav>
+
+    </div>
+
+
+
+  </header>
+
+  <section id="hero" style="height: 650px;">
+    <div class="hero-container"  >
+      <div id="heroCarousel" class="carousel slide carousel-fade"  data-bs-ride="carousel" data-bs-interval="5000">
+
+        <ol class="carousel-indicators"  id="hero-carousel-indicators"></ol>
 
         <div class="carousel-inner" role="listbox">
 
 
           <div class="carousel-item active" style="background-image: url(assets/img/pocetna2.jpg);">
             <div class="carousel-container">
-              <div class="carousel-content">
+              <div class="carousel-content ">
                 <h2 class="animate__animated animate__fadeInDown">Dobrodošli na <span>Šalabahter</span></h2>
                 <p class="animate__animated animate__fadeInUp">Ovo je platforma koja promovira i spaja učeničke probleme i rješenja,učenici i studenti mogu pronaći instruktore koji odgovaraju njihovim potrebama i učiti od vršnjaka koji su već prošli kroz iste izazove i prepreke.</p>
                 <a href="/racun/registracija.php" class="btn-get-started animate__animated animate__fadeInUp scrollto">Registriraj se!</a>
@@ -109,48 +152,6 @@ $pathToLogout = "account/logout.php";
       </div>
     </div>
   </section>
-
-
-  <header id="header" class="d-flex align-items-center">
-    <div class="container d-flex align-items-center justify-content-between">
-
-      <div class="logo">
-        <h1 class="text-light"><a href=""><span>Šalabahter</span></a></h1>
-      </div>
-
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto active" href="">Home</a></li>
-          <li><a class="nav-link scrollto " href="instruktori.php">Instruktori</a></li>
-          <li><a class="nav-link scrollto " href="skripte/">Skripte</a></li>
-          <li class="dropdown"><a class="nav-link scrollto" href="kartice/"><span>Kartice</span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              <li><a class="nav-link scrollto " href="kartice/">Pretraži kartice</a></li>
-              <li><a class="nav-link scrollto " href="kartice/mojekartice.php">Moje kartice</a></li>
-              <li><a class="nav-link scrollto " href="kartice/nova_grupa.php">Napravi kartice</a></li>
-            </ul>
-          </li>
-          <li><a class="nav-link scrollto " href="onama.php">O nama</a></li>
-
-          <?php if (!isset($_SESSION["user_id"])) : ?>
-            <a href="racun/prijava.php" class="nav-link scrollto ml-3" role="button">Prijava</a>
-            <a href="racun/registracija.php" class="nav-link scrollto" role="button">Registracija</a>
-          <?php else : ?>
-            <a href="nadzornaploca/index.php" class="nav-link scrollto mr-2" role="button">Račun</a>
-            <a href="racun/odjava.php" id="logout" class="nav-link scrollto " role="button">Odjava</a>
-          <?php endif; ?>
-
-    </div>
-    </ul>
-    <i class="bi bi-list mobile-nav-toggle"></i>
-    </nav>
-
-    </div>
-
-
-
-  </header>
-
 
   <main id="main">
 
