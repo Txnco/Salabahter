@@ -12,7 +12,7 @@
 
       <nav id="navbar" class="navbar">
         <ul>
-          <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "index" ? 'active' : '' ?>" href="<?php echo $putanjaDoPocetne?>">Home</a></li>
+          <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "početna" ? 'active' : '' ?>" href="<?php echo $putanjaDoPocetne?>">Početna</a></li>
           <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "instruktori" ? 'active' : '' ?>" href="<?php echo $putanjaDoInstruktora?>">Instruktori</a></li>
           <li><a class="nav-link scrollto <?php echo $trenutnaStranica == "skripte" ? 'active' : '' ?>" href="<?php echo $putanjaDoSkripta?>">Skripte</a></li>
             <li class="dropdown"><a class="nav-link scrollto <?php if (($trenutnaStranica == "kartice") || ($trenutnaStranica == "kartice1")||(($trenutnaStranica == "kartice2") )) { echo 'active'; } ?>" href="<?php echo $putanjaDoKartica?>"><span>Kartice</span> <i class="bi bi-chevron-down"></i></a>

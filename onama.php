@@ -45,7 +45,7 @@ $putanjaDoOdjave = "racun/odjava.php";
                 <h2>O nama</h2>
                 <div class="row">
                     <div class="col-sm-8 mx-auto">
-                        <h4 class="lead">Šalabahter je web stranica koja je osmišljena kako bi pomogla učenicima i studentima u pronalaženju instruktora za željeni predmet. Znamo da pronalazak instruktora ponekad može postati pravi problem te smo sa ovim web rješenjem odlučili pomoći svima. </h4>
+                        <h4 class="lead">Šalabahter je web stranica koja je osmišljena kako bi pomogla učenicima i studentima u pronalaženju instruktora za željeni predmet. Znamo da pronalazak instruktora ponekad može postati pravi problem te smo s ovim web rješenjem odlučili pomoći svima. </h4>
                     </div>
                 </div>
             </div>
@@ -55,45 +55,14 @@ $putanjaDoOdjave = "racun/odjava.php";
                     <img src="assets/img/about.jpg" class="img-fluid" alt="">
                 </div>
                 <div class="col-lg-6 pt-4 pt-lg-0 content">
-                    <h3>Šalabahter Vam omogućuje <strong>lakši pronalazak instruktora</strong></h3>
+                    <h3>Šalabahter Vam omogućava <strong>lakši pronalazak instruktora</strong></h3>
                     <p class="fst-italic">
-                        Samo sa nekoliko klikova možete pronaći instruktora koji Vam odgovara.
+                        Samo s nekoliko klikova možete pronaći instruktora koji Vam odgovara.
                     </p>
                     <p>
-                        Web stranica dizajnirana je na način da korisnicima omogućuje jednostavno pretraživanje instruktora, pregled njihovih profila, te kontaktiranje istih. Sve to kako bi korisnici mogli pronaći instruktora koji im najbolje odgovara.
+                        Web stranica dizajnirana je na način da korisnicima omogućava jednostavno pretraživanje instruktora, pregled njihovih profila i kontaktiranje istih. Jednostavno rečeno - sve to kako bi korisnici mogli pronaći instruktora koji im najbolje odgovara.
                     </p>
 
-                    <!-- <div class="skills-content">
-
-                        <div class="progress">
-                            <span class="skill">HTML <i class="val">100%</i></span>
-                            <div class="progress-bar-wrap">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-
-                        <div class="progress">
-                            <span class="skill">CSS <i class="val">90%</i></span>
-                            <div class="progress-bar-wrap">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-
-                        <div class="progress">
-                            <span class="skill">JavaScript <i class="val">75%</i></span>
-                            <div class="progress-bar-wrap">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-
-                        <div class="progress">
-                            <span class="skill">Photoshop <i class="val">55%</i></span>
-                            <div class="progress-bar-wrap">
-                                <div class="progress-bar" role="progressbar" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-
-                    </div> -->
 
                 </div>
             </div>
@@ -102,7 +71,7 @@ $putanjaDoOdjave = "racun/odjava.php";
 
     </section>
 
-    <!-- ======= Counts Section ======= -->
+    <!--  Brojač  -->
     <section class="counts section-bg">
         <div class="container">
 
@@ -121,8 +90,8 @@ $putanjaDoOdjave = "racun/odjava.php";
                                                                                 $brojKorisnik = mysqli_num_rows($rezultat);
 
                                                                                 echo  $brojKorisnik; ?>" data-purecounter-duration="1" class="purecounter"></span>
-                        <p><strong>Korisnika</strong> korisni naše web rješenje</p>
-                        <a href="/racun/registracija.php">Postani i ti korisnik! &raquo;</a>
+                        <p><strong>Korisnika</strong> koristi naše web rješenje</p>
+                        <a href="/racun/registracija.php">Postanite i vi korisnik! &raquo;</a>
                     </div>
                 </div>
 
@@ -140,7 +109,7 @@ $putanjaDoOdjave = "racun/odjava.php";
 
                                                                                 echo $brojInstruktori; ?>" data-purecounter-duration="1" class="purecounter"></span>
                         <p ><strong>Instruktora</strong> koristi našu web stranicu kako bi pružali pomoć drugima</p>
-                        <a href="#">Postani instruktor &raquo;</a>
+                        <a href="#">Postanite instruktor &raquo;</a>
                     </div>
                 </div>
 
@@ -174,13 +143,13 @@ $putanjaDoOdjave = "racun/odjava.php";
             </div>
 
         </div>
-    </section><!-- End Counts Section -->
+    </section>
 
     <?php include 'ukljucivanje/footer.php'; ?>
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-    <!-- Vendor JS Files -->
+    <!-- Vendor JS  -->
     <script src="assets/vendor/purecounter/purecounter_vanilla.js"></script>
     <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>

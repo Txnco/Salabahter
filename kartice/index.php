@@ -76,8 +76,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="container ">
                 <div class="row">
                     <div class="col-lg-6 mx-auto mt-5">
-                        <h1 class="display-4 " style="color: #FFFFFF;">Pretraži kartice za ponavljanje</h1>
-                        <p class="lead" style="color: #FFFFFF;">Pretražite grupe kartica za ponavljanje iz nekog područja</br> koje su objavili naši korisnici, ili učite i <a href="nova_grupa.php">izradite kartice </a> samostalno.</p>
+                        <h1 class="display-4 " style="color: #FFFFFF;">Pretražite kartice za ponavljanje</h1>
+                        <p class="lead" style="color: #FFFFFF;">Pretražite grupe kartica za ponavljanje iz nekog područja</br> koje su objavili naši korisnici ili učite i <a href="nova_grupa.php">izradite kartice </a> samostalno.</p>
                     </div>
                 </div>
 
@@ -90,11 +90,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                     <div class="row d-flex justify-content-center align-items-center mb-2">
                                         <div class="col-sm-8">
-                                            <input class="form-control mt-2 mb-2" type="search" placeholder="Pretraži kartice" name="searchTerm">
+                                            <input class="form-control mt-2 mb-2" type="search" placeholder="Pretražite kartice" name="searchTerm">
                                         </div>
                                         <div class="col-sm">
-                                            <button class="btn btn-success mr-4" type="submit">Pretraži</button>
-                                            <a href="#postavkeTrazilice" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="postavkeTrazilice" id="filtrirajTipka">Filtriraj
+                                            <button class="btn btn-success mr-4" type="submit">Pretraživanje</button>
+                                            <a href="#postavkeTrazilice" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="postavkeTrazilice" id="filtrirajTipka">Filter
                                                 <svg class="arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="display: none;">
                                                     <path d="M3.22 10.53a.749.749 0 0 1 0-1.06l4.25-4.25a.749.749 0 0 1 1.06 0l4.25 4.25a.749.749 0 1 1-1.06 1.06L8 6.811 4.28 10.53a.749.749 0 0 1-1.06 0Z"></path>
                                                 </svg>
@@ -111,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <div class="col-sm">
                                                 <span class="text-muted">Predmet</span>
                                                 <select class="form-select" id="selectedSubject" name="selectedSubject">
-                                                    <option value="">Odaberi predmet</option>
+                                                    <option value="">Odaberite predmet</option>
                                                     <?php
 
                                                     while ($row = $rezultatPredmeti->fetch_assoc()) {
@@ -122,7 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             </div>
 
                                             <div class="col-sm d-flex justify-content-center align-self-end">
-                                                <a href="../kartice/" class="btn btn-outline-danger">Izbriši filter</a>
+                                                <a href="../kartice/" class="btn btn-outline-danger">Izbrišite filter</a>
                                             </div>
                                         </div>
                                     </div>
@@ -141,7 +141,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="col-sm mb-1 ">
                     <a class="btn btn-success" href="nova_grupa.php" type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="white">
                             <path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path>
-                        </svg> Izradi kartice</a>
+                        </svg> Izradite kartice</a>
 
                 </div>
             <?php endif; ?>

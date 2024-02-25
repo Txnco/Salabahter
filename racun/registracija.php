@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     $status = $_POST['unosStatusa'];
 
-    if (0 < $status && $status < 4) {
+    if (0 < $status && $status < 5) {
 
         $ime = $_POST['unosIme'];
         $prezime = $_POST['unosPrezime'];

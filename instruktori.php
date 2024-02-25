@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <div class="row">
                     <div class="col-lg-6 mx-auto mt-5">
                         <h1 class="display-4 " style="color: #FFFFFF;">Naši instruktori</h1>
-                        <p class="lead" style="color: #FFFFFF;">Naši instruktori su tu da vam pomognu da savladate gradivo i položite ispite.
+                        <p class="lead" style="color: #FFFFFF;">Naši instruktori su tu da vam pomognu da svladate gradivo i položite ispite.
                             Pronađite instruktora koji vam najviše odgovara.</p>
                     </div>
                 </div>
@@ -101,12 +101,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                                     <div class="row d-flex justify-content-center align-items-center mb-2">
                                         <div class="col-sm-8">
-                                            <input class="form-control mt-2 mb-2" type="search" placeholder="Pretraži instruktore" aria-label="Search" name="pretraga">
+                                            <input class="form-control mt-2 mb-2" type="search" placeholder="Pretražite instruktore" aria-label="Search" name="pretraga">
                                         </div>
                                         <div class="col-sm">
-                                            <button class="btn btn-success mt-2 mr-2 mb-2" id="pretrazi" type="submit">Pretraži</button>
+                                            <button class="btn btn-success mt-2 mr-2 mb-2" id="pretrazi" type="submit">Pretraživanje</button>
 
-                                            <a href="#postavkeTrazilice" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="postavkeTrazilice" id="filtrirajTipka">Filtriraj
+                                            <a href="#postavkeTrazilice" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="postavkeTrazilice" id="filtrirajTipka">Filter
                                                 <svg class="arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="display: none;">
                                                     <path d="M3.22 10.53a.749.749 0 0 1 0-1.06l4.25-4.25a.749.749 0 0 1 1.06 0l4.25 4.25a.749.749 0 1 1-1.06 1.06L8 6.811 4.28 10.53a.749.749 0 0 1-1.06 0Z"></path>
                                                 </svg>
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <div class="col-sm">
                                                 <span class="text-muted">Županija</span>
                                                 <select class="form-control" name="zupanija">
-                                                    <option value="">Odaberi županiju</option>
+                                                    <option value="">Odaberite županiju</option>
                                                     <?php
                                                     $rezultatZupanije = $con->query("SELECT naziv_zupanije,zupanija.zupanija_id FROM zupanija");
                                                     while ($red = $rezultatZupanije->fetch_assoc()) {
@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <div class="col-sm">
                                                 <span class="text-muted">Grad</span>
                                                 <select class="form-control" name="grad">
-                                                    <option value="">Odaberi grad</option>
+                                                    <option value="">Odaberite grad</option>
                                                     <?php
                                                     $rezultatGradovi = $con->query("SELECT * FROM gradovi");
                                                     while ($red = $rezultatGradovi->fetch_assoc()) {
@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <div class="col-sm">
                                                 <span class="text-muted">Predmet</span>
                                                 <select class="form-control" name="predmet">
-                                                    <option value="">Odaberi predmet</option>
+                                                    <option value="">Odaberite predmet</option>
                                                     <?php
                                                     $rezultatPredmeti = $con->query("SELECT * FROM predmeti");
                                                     while ($red = $rezultatPredmeti->fetch_assoc()) {
@@ -165,7 +165,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                                             <div class="row mt-2 d-flex align-items-center justify-content-center">
                                                 <div class="col" id="trazilica">
-                                                    <a href="instruktori.php" class="btn btn-outline-danger mt-2 ml-2 mr-2" id="izbrisi">Izbriši filter</a>
+                                                    <a href="instruktori.php" class="btn btn-outline-danger mt-2 ml-2 mr-2" id="izbrisi">Izbrišite filter</a>
 
                                                 </div>
                                             </div>
