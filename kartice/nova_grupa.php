@@ -70,21 +70,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Izradi nove kartice za ponavljanje</title>
 
     <?php include '../assets/css/stiliranjeSporedno.php'; ?>
-    <script src="../assets/js/main.js"></script>
+
 </head>
 
 <body>
 
     <?php include '../ukljucivanje/header.php'; ?>
 
+    <br>
+    <br>
+    <br>
 
-
-    <div class="row d-flex justify-content-center">
-        <div class="col" style="background: linear-gradient(to right, #687EFF, #98E4FF); padding: 20px;">
+    <div class="row d-flex justify-content-center m-0">
+        <div class="col" style="background: linear-gradient(to right, #DA0C81, #940B92); padding: 20px;">
             <h1 class="text-center" style="color: white;">Kreirajte grupu kartica</h1>
         </div>
     </div>
-
 
     <div class="container">
         <div class="row justify-content-center">
@@ -173,6 +174,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         </div>
     </div>
+
+
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"> </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 </body>
 

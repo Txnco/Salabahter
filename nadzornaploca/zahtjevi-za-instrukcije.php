@@ -92,15 +92,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $mail->send();
 
 
-           header('Location: zahtjevi-za-instrukcije.php');
-           exit();
+            header('Location: zahtjevi-za-instrukcije.php');
+            exit();
         } catch (Exception $e) {
             echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
     }
     if (isset($_POST['odbijZahtjev'])) {
         $odgovorTekst = $_POST['odgovorTekst'];
-     
+
         $zahtjev_id = $_POST['zahtjev_id'];
         $email = $_POST['email'];
 
@@ -166,24 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     <title>Zahtjevi za instrukcije</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
-
-    <!-- Favicons -->
-    <link href="../assets/img/writing.png" rel="icon">
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap">
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
-
-    <!-- Vendor CSS datoteke -->
-    <link href="../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-    <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="../assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="../assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="../assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-    <!-- Glavni prefložak za CSS  -->
-    <link href="../assets/css/style.css" rel="stylesheet">
+    <?php include '../assets/css/stiliranjeSporedno.php'; ?> <!-- Sve poveznice za stil web stranice -->
 
     <link href="../assets/css/nadzornaploca.css" rel="stylesheet">
 
@@ -307,7 +290,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
                                         <div class="col-6 col-sm-2 text-center my-auto">
                                             <div class="col-12 text-center p-1 my-auto">
-                                                <button class="btn btn-success" data-id="<?php echo $rezultat['korisnik_id'] ?>" data-toggle="modal" data-target="#posaljiOdgovor<?php echo $rezultat['korisnik_id'] ?>">Prihvati</button>
+                                                <button class="btn btn-racun" data-id="<?php echo $rezultat['korisnik_id'] ?>" data-toggle="modal" data-target="#posaljiOdgovor<?php echo $rezultat['korisnik_id'] ?>">Prihvati</button>
                                             </div>
 
                                             <div class="col-12 text-center p-1 my-auto">
@@ -352,7 +335,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                                                                 <input type="hidden" name="predmet" value="<?php echo $rezultat['naziv_predmeta']; ?>">
                                                                 <input type="hidden" name="zahtjev_id" value="<?php echo $rezultat['zahtjev_id']; ?>">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
-                                                                <button type="submit" class="btn btn-success" name="posaljiOdgovor">Pošalji odgovor</button>
+                                                                <button type="submit" class="btn btn-racun" name="posaljiOdgovor">Pošalji odgovor</button>
                                                             </div>
                                                         </form>
 
@@ -390,10 +373,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
                                                             <div class="modal-footer">
                                                                 <input type="hidden" name="email" value="<?php echo $rezultat['email']; ?>">
-                                                               
+
                                                                 <input type="hidden" name="zahtjev_id" value="<?php echo $rezultat['zahtjev_id']; ?>">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
-                                                                <button type="submit" class="btn btn-success" name="odbijZahtjev">Pošalji odgovor</button>
+                                                                <button type="submit" class="btn btn-racun" name="odbijZahtjev">Pošalji odgovor</button>
                                                             </div>
                                                         </form>
 
@@ -406,13 +389,13 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
                                     </div>
                                 </div>
-                    </div>
 
-            <?php
+                        <?php
                             endwhile;
                         else :
                             echo "<span class='text m-4'>Trenutno nema zahtjeva</span>";
                         endif; ?>
+                    </div>
 
                 </div>
             </div>

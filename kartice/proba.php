@@ -104,9 +104,6 @@ if ($rezultatKartice->num_rows > 0) {
     <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js"> </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <style>
         h3,
@@ -119,6 +116,11 @@ if ($rezultatKartice->num_rows > 0) {
 
 <body>
     <?php include '../ukljucivanje/header.php'; ?>
+
+    <br>
+    <br>
+    <br>
+
     <div class="container mt-3">
         <div class="row justify-content-center">
             <div class="col-lg-6">
@@ -187,7 +189,7 @@ if ($rezultatKartice->num_rows > 0) {
 
                     <div class="card-body">
                         <div class="d-flex justify-content-between mt-2 ml-5 mr-5">
-                            <button type="button" class="btn btn-success mx-1" id="tocno" style="width: 150px; font-size: 1rem;">Točno</button>
+                            <button type="button" class="btn gumb mx-1" id="tocno" style="width: 150px; font-size: 1rem;">Točno</button>
                             <button type="button" class="btn btn-danger mx-1" id="netocno" style="width: 150px; font-size: 1rem;">Netočno</button>
                         </div>
                     </div>
@@ -225,7 +227,7 @@ if ($rezultatKartice->num_rows > 0) {
                     <div class="row justify-content-center">
                         <div class="col text-center">
 
-                            <button style="border: none;" href="generirajQRKodGrupeKartica.php/?grupa_id=<?php echo $grupa_id ?>" data-toggle="modal" data-target="#qrKodModal"><svg fill="#1499ff" width="48px" height="48px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="#1499ff" stroke-width="0.00024000000000000003">
+                            <button style="border: none; background-color: #ffff;" href="generirajQRKodGrupeKartica.php/?grupa_id=<?php echo $grupa_id ?>" data-toggle="modal" data-target="#qrKodModal"><svg fill="#1499ff" width="48px" height="48px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="#1499ff" stroke-width="0.00024000000000000003">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                     <g id="SVGRepo_iconCarrier">
@@ -442,6 +444,12 @@ if ($rezultatKartice->num_rows > 0) {
             </div>
         </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"> </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script src="../assets/js/main.js"></script>
 </body>
 
 </html>

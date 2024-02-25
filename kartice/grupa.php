@@ -3,7 +3,7 @@ session_start();
 $con = require "../ukljucivanje/connection/spajanje.php";
 include("../ukljucivanje/functions/funkcije.php");
 
-$trenutnaStranica = "kartice2";
+$trenutnaStranica = "kartice";
 
 $putanjaDoPocetne = "../";
 $putanjaDoInstruktora = "../instruktori.php";
@@ -96,22 +96,28 @@ function dohvatipodatkevlasnika($vlasnik_id)
         <?php echo "$nazivGrupe"; ?>
     </title>
 
+    
     <?php include '../assets/css/stiliranjeSporedno.php'; ?>
-
     <link href="../assets/css/kartice.css" rel="stylesheet">
-    <script src="../assets/js/main.js"></script>
+
+
     <script src="../assets/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"> </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </head>
 
 <body>
+    
     <?php include '../ukljucivanje/header.php'; ?>
 
+    <br>
+    <br>
+    <br>
 
-    <div class="row d-flex justify-content-center">
-        <div class="col" style="background: linear-gradient(to right, #687EFF, #98E4FF); padding: 20px;">
+    <div class="row d-flex justify-content-center m-0">
+        <div class="col" style="background: linear-gradient(to right, #DA0C81, #940B92); padding: 20px;">
             <h1 class="text-center" style="color: white;">Grupa kartica</h1>
         </div>
     </div>
@@ -256,7 +262,7 @@ function dohvatipodatkevlasnika($vlasnik_id)
                                                 <input type="hidden" name="grupa_id" value="<?php echo $grupa_id; ?>" hidden> </input>
                                                 <input type="hidden" name="uredi_grupu" value="1" hidden></input>
                                                 <input type='hidden' name='action' value='uredi_grupu' hidden></input>
-                                                <button id="spremi" type="submit" class="btn btn-success mt-2 mr-2" style="display:none;">Spremi</button>
+                                                <button id="spremi" type="submit" class="btn gumb mt-2 mr-2" style="display:none;">Spremi</button>
                                                 <button type="button" id="odustani" class="btn btn-secondary  mt-2 ml-2" data-dismiss="modal">Odustani</button>
                                             </div>
                                     </div>
@@ -268,9 +274,9 @@ function dohvatipodatkevlasnika($vlasnik_id)
                         </form>
 
                         <div class="d-flex justify-content-between ml-3 mr-3 mb-3">
-                            <a class="btn btn-success" href="proba.php?grupa_id=<?php echo $grupa_id; ?> ">Započni</a>
+                            <a class="btn btn-success" style="color: #ffff !important;" href="proba.php?grupa_id=<?php echo $grupa_id; ?> ">Započni</a>
                             <?php if ($admin) : ?>
-                                <button class="btn btn-success" id="urediKartice">Uredi</button>
+                                <button class="btn gumb" id="urediKartice">Uredi</button>
                             <?php endif; ?>
                         </div>
 
@@ -281,7 +287,7 @@ function dohvatipodatkevlasnika($vlasnik_id)
                     <div class="row justify-content-center">
                         <div class="col text-center">
 
-                            <button style="border: none;" href="generirajQRKodGrupeKartica.php/?grupa_id=<?php echo $grupa_id ?>" data-toggle="modal" data-target="#qrKodModal"><svg fill="#1499ff" width="48px" height="48px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="#1499ff" stroke-width="0.00024000000000000003">
+                            <button style="border: none; background-color: #ffff;" href="generirajQRKodGrupeKartica.php/?grupa_id=<?php echo $grupa_id ?>" data-toggle="modal" data-target="#qrKodModal"><svg fill="#1499ff" width="48px" height="48px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="#1499ff" stroke-width="0.00024000000000000003">
                                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                                     <g id="SVGRepo_iconCarrier">
@@ -349,7 +355,7 @@ function dohvatipodatkevlasnika($vlasnik_id)
                         <h2 class="text-center">Pojmovi kartica i odgovori</h2>
 
                         <?php if ($admin) { ?>
-                            <button type="button" class="btn btn-success mt-2" data-toggle="modal" data-target="#novaKarticaModal">Dodaj novu karticu</button>
+                            <button type="button" class="btn gumb mt-2" data-toggle="modal" data-target="#novaKarticaModal">Dodaj novu karticu</button>
                         <?php } ?>
 
                         <div class="modal fade" id="novaKarticaModal" tabindex="-1" aria-labelledby="novaKarticaModalLabel" aria-hidden="true">
@@ -416,7 +422,7 @@ function dohvatipodatkevlasnika($vlasnik_id)
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="urediKarticuModalLabel">Dodaj novu karticu</h5>
+                                                                    <h5 class="modal-title" id="urediKarticuModalLabel">Uredi karticu</h5>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
@@ -501,10 +507,12 @@ function dohvatipodatkevlasnika($vlasnik_id)
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+
+    <script src="../assets/js/main.js"></script>
 
 </body>
-
-
 
 </html>

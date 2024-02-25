@@ -1,7 +1,7 @@
 body {
     color: #1a202c;
     text-align: left;
-    background-color: #e7e7e7;
+    background-color: #ffffff;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -10,7 +10,7 @@ body {
 }
 
 .card {
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2), 0 1px 2px 0 rgba(0, 0, 0, .06);
 }
 
 
@@ -70,38 +70,55 @@ body {
 }
 
 .nadlink {
-    color: #653fc6;
+    color: #980c94;
     border-radius: 0.4rem;
 }
 
 .nadlink:hover {
-    background-color: #8e70da;
-    color: #FFFFFF;
+    background-color: #e00c84;
+    color: #FFFFFF !important;
     border-radius: 0.4rem;
 }
 
+.gumb{
+    background-color: #980c94;
+    color: #ffff !important;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.gumb:hover{
+    background-color: #e00c84;
+    color: #ffff !important;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
 
 .aktivno {
-    background-color: #6746b9;
+    background-color: #e00c84;
     color: #FFFFFF;
     border-radius: 0.4rem;
 }
 
 .btn-racun {
-    background-color: #956bff;
-    color: #FFFFFF;
+    background-color: #980c94;
+    color: #FFFFFF !important;
     border-radius: 0.4rem;
 }
 
 .btn-racun:hover {
-    background-color: #8e70da;
-    color: #FFFFFF;
+    background-color: #e00c84;
+    color: #FFFFFF !important;
     border-radius: 0.4rem;
 }
 
 .btn-close-white::before,
 .btn-close-white::after {
-    background-color: red;
+    background-color: #e00c84;
 }
 
 .izbornik {

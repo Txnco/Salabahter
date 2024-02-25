@@ -93,6 +93,17 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") { // Provjeri da li je korisnik posla
     }
     $stmt->close();
   }
+  if (isset($_POST["obrisiZahtjevZaInstrukcije"])) {
+
+    $zahtjevID = $_POST["zahtjev"];
+
+    $sqlObrisiZahtjev = "DELETE FROM zahtjevzainstrukcije WHERE zahtjev_id = $zahtjevID";
+    $rezultatObrisiZahtjev = $con->query($sqlObrisiZahtjev);
+    if ($rezultatObrisiZahtjev) {
+      header("Location: index");
+      die;
+    }
+  }
 }
 
 // Dohvati prijavljenog korisnika iz baze
@@ -153,11 +164,11 @@ if ($rezultatRecenzije->num_rows > 0) { // Ako je korisnik instruktor onda se pr
 $sqlDohvatiZahtjeveZaInstrukcije = "SELECT * FROM zahtjevzainstrukcije WHERE poslaoKorisnik = {$_SESSION['user_id']}";
 $rezultatZahtjevaZaInstrukcije = $con->query($sqlDohvatiZahtjeveZaInstrukcije);
 
-if($instruktor){
+if ($instruktor) {
 
   $sqlDohvatiSveZahtjeveInstrukcijaZaInstruktora = "SELECT * FROM zahtjevzainstrukcije WHERE instruktor_id = {$instruktor['instruktor_id']}";
   $rezultatSviZahtjeviInstrukcijaZaInstruktora = $con->query($sqlDohvatiSveZahtjeveInstrukcijaZaInstruktora);
-  
+
   $brojZahtjevaZaInstrukcije = $rezultatSviZahtjeviInstrukcijaZaInstruktora->num_rows;
 }
 
@@ -273,11 +284,12 @@ if($instruktor){
           </div>
 
 
-          <?php if($instruktor){ if ($rezultatSviZahtjeviInstrukcijaZaInstruktora->num_rows > 0) { ?>
-            <div class="card mt-3">
-              <div class="card-body ">
-                <?php 
-                ?>
+          <?php if ($instruktor) {
+            if ($rezultatSviZahtjeviInstrukcijaZaInstruktora->num_rows > 0) { ?>
+              <div class="card mt-3">
+                <div class="card-body ">
+                  <?php
+                  ?>
                   <div class="row">
                     <div class="col-12">
                       <div class="content text-center">
@@ -290,10 +302,11 @@ if($instruktor){
                       </div>
                     </div>
                   </div>
-           
+
+                </div>
               </div>
-            </div>
-          <?php } } ?>
+          <?php }
+          } ?>
 
 
 
@@ -302,7 +315,7 @@ if($instruktor){
               <div class="card-body ">
                 <h4>Poslani zahtjevi za instrukcije</h4>
                 <?php while ($red = $rezultatZahtjevaZaInstrukcije->fetch_assoc()) :
-                  $sqlDohvatiInstruktora = "SELECT korisnik.ime, korisnik.prezime, predmeti.naziv_predmeta, zahtjevzainstrukcije.predlozeniDatum 
+                  $sqlDohvatiInstruktora = "SELECT korisnik.korisnik_id, korisnik.ime, korisnik.prezime, predmeti.naziv_predmeta, zahtjevzainstrukcije.predlozeniDatum, predmeti.predmet_boja 
                                           FROM zahtjevzainstrukcije 
                                           INNER JOIN instruktori ON zahtjevzainstrukcije.instruktor_id = instruktori.instruktor_id 
                                           INNER JOIN korisnik ON instruktori.korisnik_id = korisnik.korisnik_id 
@@ -316,13 +329,21 @@ if($instruktor){
                     <div class="col-12">
                       <div class="content text-center">
                         <div class="col">
-                          <?php echo $instruktor['ime'] . ' ' . $instruktor['prezime']; ?>
-                          <?php echo $instruktor['naziv_predmeta']; ?> <br>
-                          <?php echo $instruktor['predlozeniDatum']; ?>
+                          <a class="link" href="../../profil?korisnik=<?php echo $instruktor['korisnik_id'] ?>"><?php echo $instruktor["ime"] . " " . $instruktor["prezime"] . "<br>" ?></a>
+
+                          <span class="badge" style="background-color: <?php echo $instruktor['predmet_boja']; ?>;"><?php echo $instruktor['naziv_predmeta']; ?></span> <br>
+                          <?php
+                          $format = DateTime::createFromFormat('Y-m-d H:i:s', $instruktor['predlozeniDatum']);
+
+                          if ($format !== false) {
+                            $formatiraniDatum = $format->format('Y-m-d H:i:s');
+                            echo $formatiraniDatum;
+                          }
+                          ?>
 
                           <form method="post">
-                            <input type="hidden" name="request_id" value="<?php echo $red['zahtjev_id']; ?>">
-                            <button type="submit" class="btn btn-danger" disabled>X</button>
+                            <input type="hidden" name="zahtjev" value="<?php echo $red['zahtjev_id']; ?>">
+                            <button type="submit" class="btn btn-danger" name="obrisiZahtjevZaInstrukcije">X</button>
                           </form>
                         </div>
                       </div>
@@ -684,9 +705,10 @@ if($instruktor){
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
   <script src="../assets/js/main.js"></script>
 
-  <script src="https://code.jquery.com/jquery-3.7.1.js"> </script>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-  <script src="../../assets/js/main.js"></script>
+
 
   <script>
     $(document).ready(function() {
@@ -699,6 +721,8 @@ if($instruktor){
       $('#zatvoriPrijenosSlike').click(function() {
         $('#novaSlika').modal('hide');
       });
+
+
 
     });
   </script>

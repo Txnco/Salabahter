@@ -72,12 +72,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="justify-content-md-center mb-4">
 
-        <div class="hero-section text-center" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)), url(../assets/img/about.jpg);">
+        <div class="hero-section text-center" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)), url(../assets/img/leanv2.jpg);">
             <div class="container ">
                 <div class="row">
                     <div class="col-lg-6 mx-auto mt-5">
                         <h1 class="display-4 " style="color: #FFFFFF;">Pretražite kartice za ponavljanje</h1>
-                        <p class="lead" style="color: #FFFFFF;">Pretražite grupe kartica za ponavljanje iz nekog područja</br> koje su objavili naši korisnici ili učite i <a href="nova_grupa.php">izradite kartice </a> samostalno.</p>
+                        <p class="lead" style="color: #FFFFFF;">Pretražite grupe kartica za ponavljanje iz nekog područja</br> koje su objavili naši korisnici ili učite i <a href="nova_grupa.php" style="color: #ff70fa;">izradite kartice </a> samostalno.</p>
                     </div>
                 </div>
 
@@ -93,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                             <input class="form-control mt-2 mb-2" type="search" placeholder="Pretražite kartice" name="searchTerm">
                                         </div>
                                         <div class="col-sm">
-                                            <button class="btn btn-success mr-4" type="submit">Pretraživanje</button>
+                                            <button class="btn gumb mr-4" type="submit">Pretraživanje</button>
                                             <a href="#postavkeTrazilice" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="postavkeTrazilice" id="filtrirajTipka">Filter
                                                 <svg class="arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="display: none;">
                                                     <path d="M3.22 10.53a.749.749 0 0 1 0-1.06l4.25-4.25a.749.749 0 0 1 1.06 0l4.25 4.25a.749.749 0 1 1-1.06 1.06L8 6.811 4.28 10.53a.749.749 0 0 1-1.06 0Z"></path>
@@ -139,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="container pt-2">
             <?php if (isset($_SESSION['user_id'])) : ?>
                 <div class="col-sm mb-1 ">
-                    <a class="btn btn-success" href="nova_grupa.php" type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="white">
+                    <a class="btn gumb" href="nova_grupa.php" type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="white">
                             <path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path>
                         </svg> Izradite kartice</a>
 
@@ -158,43 +158,45 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     $rezultatPredmeta = $con->query($predmetGrupe);
                             ?>
                                     <div class="col-sm-3 mb-3 ">
-                                        <div class="card klik-za-kartice" style="height: 280px;" >
+                                        <a href="grupa.php?grupa_id='<?php echo $row['grupa_id'];  ?> '">
+                                            <div class="card" style="height: 280px;">
 
 
-                                            <?php
-                                            echo  '<a href="grupa.php?grupa_id=' . $row['grupa_id']  . '"><img src="../assets/img/predmeti/novipredmet.jpg" style="width: 100%; height: 112px; object-fit: cover;"></a>';
-                                            ?>
+                                                <?php
+                                                echo  '<img src="../assets/img/predmeti/novipredmet.jpg" style="width: 100%; height: 112px; object-fit: cover;">';
+                                                ?>
 
-                                            <div class="card-body d-flex flex-column justify-content-between p-0 ">
-                                                <div class="d-flex flex-column align-items-center text-center ml-2 mr-2" style="height: 100%; display: flex; flex-direction: column; ">
+                                                <div class="card-body d-flex flex-column justify-content-between p-0 ">
+                                                    <div class="d-flex flex-column align-items-center text-center ml-2 mr-2" style="height: 100%; display: flex; flex-direction: column; ">
 
 
-                                                    <h5 class="card-title pt-2">
-                                                        <?php echo (strlen($row["grupa_naziv"]) > 40) ? substr($row["grupa_naziv"], 0, 40) . '...' : $row["grupa_naziv"]; ?>
-                                                    </h5>
+                                                        <h5 class="card-title pt-2" style="color: #980c94;">
+                                                            <?php echo (strlen($row["grupa_naziv"]) > 40) ? substr($row["grupa_naziv"], 0, 40) . '...' : $row["grupa_naziv"]; ?>
+                                                        </h5>
 
-                                                    <?php
-                                                    if ($rezultatPredmeta->num_rows > 0) :
-                                                        while ($predmetRed = $rezultatPredmeta->fetch_assoc()) :
-                                                            $naziv_predmeta = $predmetRed['naziv_predmeta'];
-                                                            $predmetBoja = $predmetRed['predmet_boja'];
-                                                    ?>
-                                                            <p class="badge mb-2" style="background-color: <?php echo $predmetBoja; ?>;"><?php echo $naziv_predmeta; ?></p>
-                                                    <?php
-                                                        endwhile;
-                                                    endif;
-                                                    ?>
-                                                    <p class="card-text poppins-light mb-0">
-                                                        <?php echo (strlen($row["grupa_opis"]) > 120) ? substr($row["grupa_opis"], 0, 120) . '...' : $row["grupa_opis"]; ?>
-                                                    </p>
+                                                        <?php
+                                                        if ($rezultatPredmeta->num_rows > 0) :
+                                                            while ($predmetRed = $rezultatPredmeta->fetch_assoc()) :
+                                                                $naziv_predmeta = $predmetRed['naziv_predmeta'];
+                                                                $predmetBoja = $predmetRed['predmet_boja'];
+                                                        ?>
+                                                                <p class="badge mb-2" style="background-color: <?php echo $predmetBoja; ?>;"><?php echo $naziv_predmeta; ?></p>
+                                                        <?php
+                                                            endwhile;
+                                                        endif;
+                                                        ?>
+                                                        <p class="card-text poppins-light mb-0">
+                                                            <?php echo (strlen($row["grupa_opis"]) > 120) ? substr($row["grupa_opis"], 0, 120) . '...' : $row["grupa_opis"]; ?>
+                                                        </p>
 
+
+                                                    </div>
 
                                                 </div>
 
+
                                             </div>
-
-
-                                        </div>
+                                        </a>
                                     </div>
 
                             <?php

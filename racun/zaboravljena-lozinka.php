@@ -71,11 +71,13 @@ include_once("../ukljucivanje/functions/funkcije.php");
                                 </div>
 
 
-                                <div class="col-lg-6 d-none d-lg-inline-block">
-                                    <div class="account-block rounded-right">
-                                        <div class="overlay rounded-right"></div>
+                                <div class="col-lg-6 d-none d-lg-inline-block" style="padding: 0; margin: 0;">
+                                        <div class="account-block rounded-right" style="width: 100%; height: 100%;">
+                                            <div class="overlay rounded-right" style="width: 100%; height: 100%;">
+                                                <img src="../assets/img/Lean-38.jpg" class="img-fluid" alt="prijava" style="width: 100%; height: 100%; object-fit: cover;">
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
                             </div>
 
                         </div>

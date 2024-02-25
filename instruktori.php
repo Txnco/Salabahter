@@ -83,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <?php include 'ukljucivanje/header.php'; ?>
 
     <div class="justify-content-md-center mb-4">
-        <div class=" text-center" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)), url(assets/img/more-service-3.jpg);">
+        <div class="text-center" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)), url(assets/img/Lean-291.jpg); background-size: cover;">
             <div class="container ">
                 <div class="row">
                     <div class="col-lg-6 mx-auto mt-5">
@@ -104,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                             <input class="form-control mt-2 mb-2" type="search" placeholder="Pretražite instruktore" aria-label="Search" name="pretraga">
                                         </div>
                                         <div class="col-sm">
-                                            <button class="btn btn-success mt-2 mr-2 mb-2" id="pretrazi" type="submit">Pretraživanje</button>
+                                            <button class="btn gumb mt-2 mr-2 mb-2" id="pretrazi" type="submit">Pretraživanje</button>
 
                                             <a href="#postavkeTrazilice" class="btn" data-toggle="collapse" aria-expanded="false" aria-controls="postavkeTrazilice" id="filtrirajTipka">Filter
                                                 <svg class="arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="display: none;">
@@ -190,58 +190,57 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                 while ($red = $rezultatSviInstruktori->fetch_assoc()) :
                             ?>
                                     <div class="col-sm-3 mb-3 ">
-                                        <div class="card" style="height: 390px;">
-                                            <div class="card-body">
-                                                <div class="d-flex flex-column align-items-center text-center">
-                                                    <?php
+                                        <a href="profil?korisnik=<?php echo $red['korisnik_id']; ?>">
+                                            <div class="card" style="height: 300px;">
+                                                <div class="card-body">
+                                                    <div class="d-flex flex-column align-items-center text-center">
+                                                        <?php
 
-                                                    $sqlDohvatiProfilnuSliku = "SELECT slika_korisnika FROM korisnik WHERE korisnik_id = {$red['korisnik_id']}";
-                                                    $rezultatProfilnaSlika = $con->query($sqlDohvatiProfilnuSliku);
-                                                    $profilnaSlika = $rezultatProfilnaSlika->fetch_assoc();
+                                                        $sqlDohvatiProfilnuSliku = "SELECT slika_korisnika FROM korisnik WHERE korisnik_id = {$red['korisnik_id']}";
+                                                        $rezultatProfilnaSlika = $con->query($sqlDohvatiProfilnuSliku);
+                                                        $profilnaSlika = $rezultatProfilnaSlika->fetch_assoc();
 
-                                                    if ($profilnaSlika['slika_korisnika'] != null) {
-                                                        $profilnaSlika['slika_korisnika'] =  "nadzornaploca/" . $profilnaSlika['slika_korisnika'];
+                                                        if ($profilnaSlika['slika_korisnika'] != null) {
+                                                            $profilnaSlika['slika_korisnika'] =  "nadzornaploca/" . $profilnaSlika['slika_korisnika'];
 
-                                                        echo "<div class='ml-3' style='width: 100px; height: 100px; overflow: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center;'>
+                                                            echo "<div class='ml-3' style='width: 100px; height: 100px; overflow: hidden; border-radius: 50%; display: flex; align-items: center; justify-content: center;'>
                                                             <img src='{$profilnaSlika['slika_korisnika']}' alt='Profilna slika' style='width: 100%; height: 100%; object-fit: cover;' />
                                                              </div>";
-                                                    } else {
-                                                        echo '<img  src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100px">';
-                                                    }
-
-                                                    ?>
-                                                    <div class="mt-3">
-                                                        <h4>
-                                                            <?php echo $red["ime"] . " " . $red["prezime"] ?>
-                                                        </h4>
-                                                        <?php
-                                                        $sviPredmetiInstruktora = "SELECT instruktor_id, predmeti.predmet_id, naziv_predmeta, predmet_boja FROM instruktorovipredmeti, predmeti WHERE instruktorovipredmeti.predmet_id=predmeti.predmet_id AND instruktorovipredmeti.instruktor_id= {$red['instruktor_id']}";
-                                                        $rezultatPredmeta = $con->query($sviPredmetiInstruktora); // Iz baze uzima instruktor_id, predmeti.predmet_id i naziv_predmeta i sprema u $rezultatPredmeta
-
-                                                        if ($rezultatPredmeta->num_rows > 0) {
-                                                            while ($predmetRed = $rezultatPredmeta->fetch_assoc()) {
-                                                                $naziv_predmeta = $predmetRed['naziv_predmeta'];
-                                                                $predmet_id = $predmetRed['predmet_id'];
-                                                                $predmetBoja = $predmetRed['predmet_boja'];
-                                                                echo '<span class="badge" style="background-color: ' . $predmetBoja . ';">' . $naziv_predmeta . '</span> ';
-                                                            }
+                                                        } else {
+                                                            echo '<img  src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="100px">';
                                                         }
 
                                                         ?>
-                                                        <p class="text-secondary mb-1">
-                                                            <?php echo $red['status_naziv']; ?>
-                                                        </p>
-                                                        <p class="text-secondary mb-1">
-                                                            <?php echo $red["prebivaliste"]; ?>
-                                                        </p>
+                                                        <div class="mt-3">
+                                                            <h4>
+                                                                <?php echo $red["ime"] . " " . $red["prezime"] ?>
+                                                            </h4>
+                                                            <?php
+                                                            $sviPredmetiInstruktora = "SELECT instruktor_id, predmeti.predmet_id, naziv_predmeta, predmet_boja FROM instruktorovipredmeti, predmeti WHERE instruktorovipredmeti.predmet_id=predmeti.predmet_id AND instruktorovipredmeti.instruktor_id= {$red['instruktor_id']}";
+                                                            $rezultatPredmeta = $con->query($sviPredmetiInstruktora); // Iz baze uzima instruktor_id, predmeti.predmet_id i naziv_predmeta i sprema u $rezultatPredmeta
 
+                                                            if ($rezultatPredmeta->num_rows > 0) {
+                                                                while ($predmetRed = $rezultatPredmeta->fetch_assoc()) {
+                                                                    $naziv_predmeta = $predmetRed['naziv_predmeta'];
+                                                                    $predmet_id = $predmetRed['predmet_id'];
+                                                                    $predmetBoja = $predmetRed['predmet_boja'];
+                                                                    echo '<span class="badge" style="background-color: ' . $predmetBoja . ';">' . $naziv_predmeta . '</span> ';
+                                                                }
+                                                            }
 
-                                                        <a class="btn btn-primary" href="profil?korisnik=<?php echo $red['korisnik_id']; ?>">Pogledaj profil</a>
+                                                            ?>
+                                                            <p class="text-secondary mb-1">
+                                                                <?php echo $red['status_naziv']; ?>
+                                                            </p>
+                                                            <p class="text-secondary mb-1">
+                                                                <?php echo $red["prebivaliste"]; ?>
+                                                            </p>
 
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </a>
                                     </div>
 
                             <?php endwhile;

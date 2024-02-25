@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     $sqlProvjera = "SELECT * FROM neverificiranikorisnici WHERE email = '$email'";
                     $rezultat = $con->query($sqlProvjera);
-                    if($rezultat->num_rows > 0){
+                    if ($rezultat->num_rows > 0) {
                         $sqlObrisi = "DELETE FROM neverificiranikorisnici WHERE email = '$email'";
                         $con->query($sqlObrisi);
                     }
@@ -109,7 +109,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $body = str_replace('{KOD}', $verifikacijski_kod, $body);
 
                     //Server settings
-                    $mail->SMTPDebug =0;
+                    $mail->SMTPDebug = 0;
                     $mail->isSMTP();
                     $mail->Host       = 'smtp.zoho.eu';  // Specify main and backup SMTP servers
                     $mail->SMTPAuth   = true;                             // Enable SMTP authentication
@@ -140,8 +140,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
                 }
             }
-
-
         }
     }
 }
@@ -261,15 +259,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                                                 <a class="btn btn-secondary" id="sljedeciKorak">Sljedeći korak</a>
 
-                                                <div class="col-lg-6 d-none d-lg-inline-block">
-                                                    <div class="account-block rounded-right">
-                                                        <div class="overlay rounded-right"></div>
-                                                    </div>
-                                                </div>
+
 
                                         </div>
 
 
+                                    </div>
+
+                                    <div class="col-lg-6 d-none d-lg-inline-block" style="padding: 0; margin: 0;">
+                                        <div class="account-block rounded-right" style="width: 100%; height: 100%;">
+                                            <div class="overlay rounded-right" style="width: 100%; height: 100%;">
+                                                <img src="../assets/img/Lean-291.jpg" class="img-fluid" alt="prijava" style="width: 100%; height: 100%; object-fit: cover;">
+                                            </div>
+                                        </div>
                                     </div>
 
                                 </div>
@@ -351,18 +353,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 
                         </div>
-                        <!-- end card-body -->
+
                     </div>
-                    <!-- end card -->
+
 
                     <p class="text-muted text-center mt-3 mb-0">Imate korisnički račun? <a href="prijava.php" class="text-primary ml-1">Prijavite se!</a></p>
                 </div>
-                <!-- end row -->
+
 
             </div>
-            <!-- end col -->
+
         </div>
-        <!-- Row -->
+
     </div>
 
 

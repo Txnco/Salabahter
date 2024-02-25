@@ -35,6 +35,7 @@ $putanjaDoOdjave = "racun/odjava.php";
   <?php include 'assets/css/stiliranjeGlavno.php'; ?> <!-- Sve poveznice za stil web stranice -->
 
   <link href="assets/css/izbornik.css" rel="stylesheet">
+
   <script src="ukljucivanje/javascript/izbornik.js"></script>
 
 </head>
@@ -56,11 +57,11 @@ $putanjaDoOdjave = "racun/odjava.php";
   <?php include 'ukljucivanje/header.php'; ?>
 
   <!-- Slike -->
-  <section id="hero" style="height: 650px;">
-    <div class="hero-container"  >
-      <div id="heroCarousel" class="carousel slide carousel-fade"  data-bs-ride="carousel" data-bs-interval="5000">
+  <section id="hero" >
+    <div class="hero-container">
+      <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
 
-        <ol class="carousel-indicators"  id="hero-carousel-indicators"></ol>
+        <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
 
         <div class="carousel-inner" role="listbox">
 
@@ -70,8 +71,8 @@ $putanjaDoOdjave = "racun/odjava.php";
               <div class="carousel-content ">
                 <h2 class="animate__animated animate__fadeInDown">Dobrodošli na <span>Šalabahter</span></h2>
                 <p class="animate__animated animate__fadeInUp">Ovo je platforma koja promovira i spaja učeničke probleme i rješenja, učenici i studenti mogu pronaći instruktore koji odgovaraju njihovim potrebama i učiti od vršnjaka koji su već prošli kroz iste izazove i prepreke.</p>
-                <a href="/racun/registracija.php" class="btn animate__animated animate__fadeInUp scrollto">Registriraj se!</a>
-                <a href="/racun/prijava.php" class="btn btn-pocetna animate__animated animate__fadeInUp scrollto">Prijavi se!</a>
+                <a href="/racun/registracija.php" class="btn btn-pocentna  animate__animated animate__fadeInUp scrollto">Registriraj se!</a>
+                <a href="/racun/prijava.php" class="btn btn-pocentna animate__animated animate__fadeInUp scrollto">Prijavi se!</a>
               </div>
             </div>
           </div>
@@ -82,7 +83,7 @@ $putanjaDoOdjave = "racun/odjava.php";
               <div class="carousel-content">
                 <h2 class="animate__animated animate__fadeInDown">Razvoj komunikacijskih vještina</h2>
                 <p class="animate__animated animate__fadeInUp">Postavljanjem u ulogu instruktora, učenici i studenti razvijaju vještine komunikacije, poučavanja i suosjećanja, što im koristi ne samo u akademskom okruženju već i u životu općenito.</p>
-                <a href="#usluge" class="btn btn-pocetna animate__animated animate__fadeInUp scrollto">Započni</a>
+                <a href="#usluge" class="btn btn-pocentna  animate__animated animate__fadeInUp scrollto">Započni</a>
               </div>
             </div>
           </div>
@@ -92,17 +93,17 @@ $putanjaDoOdjave = "racun/odjava.php";
               <div class="carousel-content">
                 <h2 class="animate__animated animate__fadeInDown">Transparentnost podrške</h2>
                 <p class="animate__animated animate__fadeInUp">Platforma omogućava korisnicima da jasno vide kako su drugi učenici i instruktori pružili pomoć i podršku, potičući atmosferu uzajamnog povjerenja i podrške.</p>
-                <a href="#instruktor" class="btn btn-pocetna animate__animated animate__fadeInUp scrollto">Započni</a>
+                <a href="#instruktor" class="btn btn-pocentna  animate__animated animate__fadeInUp scrollto">Započni</a>
               </div>
             </div>
           </div>
 
-          <div class="carousel-item" style="background-image: url(assets/img/slide/s4.jpg);">
+          <div class="carousel-item" style="background-image: url(assets/img/Lean-38.jpg);">
             <div class="carousel-container">
               <div class="carousel-content">
                 <h2 class="animate__animated animate__fadeInDown">Samostalno učenje</h2>
                 <p class="animate__animated animate__fadeInUp">Učenici mogu međusobno dijeliti PDF skripte za učenje međusobno, stvarajući tako dinamičnu razmjenu resursa i povratnih informacija unutar zajednice.</p>
-                <a href="skripte/" class="btn btn-pocetna animate__animated animate__fadeInUp scrollto">Odvedi me na skripte</a>
+                <a href="skripte/" class="btn btn-pocentna  animate__animated animate__fadeInUp scrollto">Odvedi me na skripte</a>
               </div>
             </div>
           </div>
@@ -136,24 +137,32 @@ $putanjaDoOdjave = "racun/odjava.php";
         <div class="row justify-content-center">
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box">
-              <div class="icon"><i class="bx bxl-dribbble"></i></div>
-              <h4 class="title"><a href="">Instruktori</a></h4>
+              <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                </svg></i></div>
+              <h4 class="title"><a href="instruktori.php">Instruktori</a></h4>
               <p class="description">Pronađite instruktora koji odgovara Vama za bilo koji ponuđeni predmet.</p>
             </div>
           </div>
 
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box">
-              <div class="icon"><i class="bx bx-file"></i></div>
-              <h4 class="title"><a href="">Skripte</a></h4>
+              <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-file-earmark-pdf" viewBox="0 0 16 16">
+                  <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
+                  <path d="M4.603 14.087a.8.8 0 0 1-.438-.42c-.195-.388-.13-.776.08-1.102.198-.307.526-.568.897-.787a7.7 7.7 0 0 1 1.482-.645 20 20 0 0 0 1.062-2.227 7.3 7.3 0 0 1-.43-1.295c-.086-.4-.119-.796-.046-1.136.075-.354.274-.672.65-.823.192-.077.4-.12.602-.077a.7.7 0 0 1 .477.365c.088.164.12.356.127.538.007.188-.012.396-.047.614-.084.51-.27 1.134-.52 1.794a11 11 0 0 0 .98 1.686 5.8 5.8 0 0 1 1.334.05c.364.066.734.195.96.465.12.144.193.32.2.518.007.192-.047.382-.138.563a1.04 1.04 0 0 1-.354.416.86.86 0 0 1-.51.138c-.331-.014-.654-.196-.933-.417a5.7 5.7 0 0 1-.911-.95 11.7 11.7 0 0 0-1.997.406 11.3 11.3 0 0 1-1.02 1.51c-.292.35-.609.656-.927.787a.8.8 0 0 1-.58.029m1.379-1.901q-.25.115-.459.238c-.328.194-.541.383-.647.547-.094.145-.096.25-.04.361q.016.032.026.044l.035-.012c.137-.056.355-.235.635-.572a8 8 0 0 0 .45-.606m1.64-1.33a13 13 0 0 1 1.01-.193 12 12 0 0 1-.51-.858 21 21 0 0 1-.5 1.05zm2.446.45q.226.245.435.41c.24.19.407.253.498.256a.1.1 0 0 0 .07-.015.3.3 0 0 0 .094-.125.44.44 0 0 0 .059-.2.1.1 0 0 0-.026-.063c-.052-.062-.2-.152-.518-.209a4 4 0 0 0-.612-.053zM8.078 7.8a7 7 0 0 0 .2-.828q.046-.282.038-.465a.6.6 0 0 0-.032-.198.5.5 0 0 0-.145.04c-.087.035-.158.106-.196.283-.04.192-.03.469.046.822q.036.167.09.346z" />
+                </svg></div>
+              <h4 class="title"><a href="skripte/">Skripte</a></h4>
               <p class="description">Dijeljenje je znanje. Možete učiti iz raznih skripti za pojedini predmet.</p>
             </div>
           </div>
 
           <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
             <div class="icon-box">
-              <div class="icon"><i class="bx bx-tachometer"></i></div>
-              <h4 class="title"><a href="">Kartice za ponavljlanje</a></h4>
+              <div class="icon"><svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-card-list" viewBox="0 0 16 16">
+                  <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z" />
+                  <path d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0" />
+                </svg></div>
+              <h4 class="title"><a href="kartice/">Kartice za ponavljlanje</a></h4>
               <p class="description">Kako bi ste sve to usvojili, možete učenje učiniti zabavnim preko rješavanja kartica za ponavljanje!</p>
             </div>
           </div>
@@ -170,7 +179,7 @@ $putanjaDoOdjave = "racun/odjava.php";
         <div class="text-center">
           <h3>Prijavite se i postanite instruktor</h3>
           <p> Imate dovoljno znanja iz nekog predmeta? Zašto ne podijeliti to znanje s drugima. Prijavite se za instruktora te počnite pomagati drugima!</p>
-          <a class="cta-btn" href="#">Postani instruktor</a>
+          <a class="btn btn-pocentna" href="racun/prijava.php">Postani instruktor</a>
         </div>
 
       </div>
@@ -230,20 +239,20 @@ $putanjaDoOdjave = "racun/odjava.php";
 
           </div>
 
-          <div class="col-lg-5 align-items-stretch order-1 order-lg-2 img" style="background-image: url(assets/img/info-box.jpg);">&nbsp;</div>
+          <div class="col-lg-5 align-items-stretch order-1 order-lg-2 img" style="background-image: url(assets/img/Lean-251.jpg);">&nbsp;</div>
         </div>
 
       </div>
     </section>
 
-   
+
     <!-- Naš tim  -->
     <section id="team" class="team">
       <div class="container">
 
         <div class="section-title">
           <h2>Naš tim</h2>
-          <p>Naš tim sastoji se od dva inovativna i poduzetna učenika koji su odlučili olakšati jedan problem svakodnevice i u isto vrijeme učiniti učenje zabavnijim!</p>
+          <p>Tim koji razvija platformu „Šalabahter“ čine Antonio Ivanović koji se u slobodno vrijeme bavi fotografijom i Noa Turk koji se bavi radio-orijentacijskim trčanjem. Maturanti smo Tehničke Škole Čakovec, smjera tehničar za računalstvo. Odlučili smo kao zadnji zajednički projekt tijekom srednje škole razviti platformu koja će povezat učenike, studente i instruktore.Nadamo se da će naša ideja zaživjeti i uspjeti, te doprinijeti boljem iskustvu učenja i suradnje u obrazovnom sektoru.</p>
         </div>
 
         <div class="row justify-content-center">
@@ -251,7 +260,7 @@ $putanjaDoOdjave = "racun/odjava.php";
           <div class="col-xl-3 col-lg-4 col-md-6">
             <div class="member">
               <div style="width: 306px; height: 306px; overflow: hidden;">
-                <img src="assets/img/noa.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="">
+                <img src="assets/img/tim/Noa.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="">
               </div>
               <div class="member-info">
                 <div class="member-info-content">
@@ -271,7 +280,7 @@ $putanjaDoOdjave = "racun/odjava.php";
           <div class="col-xl-3 col-lg-4 col-md-6">
             <div class="member">
               <div style="width: 306px; height: 306px; overflow: hidden;">
-                <img src="assets/img/antonio.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="">
+                <img src="assets/img/tim/antonio.jpg" style="width: 100%; height: 100%; object-fit: cover;" alt="">
               </div>
               <div class="member-info">
                 <div class="member-info-content">
@@ -294,58 +303,10 @@ $putanjaDoOdjave = "racun/odjava.php";
       </div>
     </section>
 
-    <!-- Kontakt -->
-    <section id="contact" class="contact section-bg">
-
-      <div class="container">
-        <div class="section-title">
-          <h2>Kontaktirajte nas</h2>
-          <p>Ako imate bilo kakvih pitanja ili nedoumica slobodno nas kontaktirajte preko sljedećeg obrasca.</p>
-        </div>
-      </div>
-
-      <div class="container-fluid">
-
-        <div class="row justify-content-center">
-
-
-          <div class="col-lg-6 d-flex align-items-stretch contact-form-wrap">
-            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <label for="name">Vaše ime</label>
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Vaše ime" required>
-                </div>
-                <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <label for="email">Vaša e-pošta</label>
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Vaša e-pošta" required>
-                </div>
-              </div>
-              <div class="form-group mt-3">
-                <label for="subject">Tema</label>
-                <input type="text" class="form-control" name="subject" id="subject" placeholder="Tema" required>
-              </div>
-              <div class="form-group mt-3">
-                <label for="message">Poruka</label>
-                <textarea class="form-control" name="message" rows="8" required></textarea>
-              </div>
-              <div class="my-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-              </div>
-              <div class="text-center"><button type="submit">Pošalji poruku</button></div>
-            </form>
-          </div>
-
-        </div>
-
-      </div>
-    </section><!-- End Contact Us Section -->
 
   </main>
 
-  <!-- ======= Footer ======= -->
+  <!-- ======= Podnožje ======= -->
   <footer id="footer">
     <div class="footer-top">
       <div class="container mx-auto">
@@ -368,11 +329,9 @@ $putanjaDoOdjave = "racun/odjava.php";
           <div class="col-lg-2 col-md-6 footer-links">
             <h4>Korisne poveznice</h4>
             <ul>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Edutorij</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">e-Dnevnik</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">e-Sfera</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Terms of service</a></li>
-              <li><i class="bx bx-chevron-right"></i> <a href="#">Privacy policy</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://edutorij.carnet.hr/">Edutorij</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://ocjene.skole.hr">e-Dnevnik</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://www.e-sfera.hr/">e-Sfera</a></li>
             </ul>
           </div>
 
@@ -386,22 +345,13 @@ $putanjaDoOdjave = "racun/odjava.php";
             </ul>
           </div>
 
-          <!-- <div class="col-lg-4 col-md-6 footer-newsletter">
-            <h4>Our Newsletter</h4>
-            <p>Tamen quem nulla quae legam multos aute sint culpa legam noster magna</p>
-            <form action="" method="post">
-              <input type="email" name="email"><input type="submit" value="Subscribe">
-            </form>
-
-          </div> -->
-
         </div>
       </div>
     </div>
 
     <div class="container">
       <div class="copyright">
-        &copy; Copyright <strong><span>Šalabahter</span></strong> pridržava sva prava
+        &copy; <strong><span>Šalabahter</span></strong> pridržava sva prava
       </div>
       <div class="credits">
       </div>

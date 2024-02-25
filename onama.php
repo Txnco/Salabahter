@@ -52,7 +52,7 @@ $putanjaDoOdjave = "racun/odjava.php";
 
             <div class="row">
                 <div class="col-lg-6">
-                    <img src="assets/img/about.jpg" class="img-fluid" alt="">
+                    <img src="assets/img/pocetna2.jpg" class="img-fluid" alt="">
                 </div>
                 <div class="col-lg-6 pt-4 pt-lg-0 content">
                     <h3>Šalabahter Vam omogućava <strong>lakši pronalazak instruktora</strong></h3>

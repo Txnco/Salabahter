@@ -197,7 +197,7 @@ if ($rezultatPoslanZahtjev) {
 
   <!-- Glavni prefložak za CSS  -->
 
-  <link href="../../assets/css/style.css" rel="stylesheet">
+  <link href="../../assets/css/stil.css" rel="stylesheet">
   <link href="../../assets/css/nadzornaploca.css" rel="stylesheet">
 
 </head>

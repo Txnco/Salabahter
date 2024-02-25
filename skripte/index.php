@@ -61,8 +61,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <?php include '../assets/css/stiliranjeSporedno.php'; ?> <!-- Sve poveznice za stil web stranice -->
 
+    <link href="../assets/css/nadzornaploca.css" rel="stylesheet">
     <link href="../assets/css/skripte.css" rel="stylesheet">
-
 </head>
 
 <body>
@@ -71,12 +71,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="justify-content-md-center mb-4">
 
-        <div class="hero-section text-center" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)), url(../assets/img/about.jpg);">
+        <div class="hero-section text-center" style="background: linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5)), url(../assets/img/Lean-80.jpg); ">
             <div class="container ">
                 <div class="row">
                     <div class="col-sm-8 mx-auto mt-5">
                         <h1 class="display-4 " style="color: #FFFFFF;">Pretražite skripte</h1>
-                        <p class="lead" style="color: #FFFFFF;">Pretražite skripte koje su objavili naši korisnici i uživajte u besplatnim </br> pogodnostima platforme Šalabahter ili <a href="nova_skripta.phps">objavite skriptu samostalno</a> i pomognite ostalima.</p>
+                        <p class="lead" style="color: #FFFFFF;">Pretražite skripte koje su objavili naši korisnici i uživajte u besplatnim </br> pogodnostima platforme Šalabahter ili <a href="nova_skripta.phps" style="color: #ff70fa;">objavite skriptu samostalno</a> i pomognite ostalima.</p>
                     </div>
                 </div>
 
@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                         </div>
                                         <div class="col-sm">
 
-                                            <button class="btn btn-success mt-2 mr-5 mb-2" id="pretrazi" type="submit">Pretraživanje</button>
+                                            <button class="btn gumb mt-2 mr-5 mb-2" id="pretrazi" type="submit">Pretraživanje</button>
 
                                             <a href="#postavkeTrazilice" data-toggle="collapse" aria-expanded="false" aria-controls="postavkeTrazilice" id="filtrirajTipka">Filter
                                                 <svg class="arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" style="display: none;">
@@ -128,7 +128,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                             <div class="row mt-2 d-flex align-items-center justify-content-center">
                                                 <div class="col" id="trazilica">
-                                                    <a href="../skripte/" class="btn btn-outline-danger mt-2 ml-2 mr-2" id="izbrisi">Izbrišite filter</a>
+                                                    <a href="../skripte/" class="btn btn-outline-danger mt-2 ml-2 mr-2"  id="izbrisi">Izbrišite filter</a>
 
                                                 </div>
                                             </div>
@@ -152,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <?php if (isset($_SESSION['user_id'])) : ?>
                 <div class="col-sm mb-1">
-                    <a class="btn btn-success" href="nova_skripta.php" type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="white">
+                    <a class="btn gumb" href="nova_skripta.php" type="submit"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="white">
                             <path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"></path>
                         </svg> Dodajte skriptu</a>
                 </div>
@@ -199,7 +199,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                                             endif;
                                                             ?>
 
-                                                            <h5 class="card-title">
+                                                            <h5 class="card-title" style="color: #980c94;">
                                                                 <?php echo (strlen($red["naziv_skripte"]) > 20) ? substr($red["naziv_skripte"], 0, 20) . '...' : $red["naziv_skripte"]; ?>
                                                             </h5>
 

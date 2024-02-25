@@ -1,6 +1,6 @@
 .login-success-message {
     position: absolute;
-    top: 0.5rem;
+    top: 3rem;
     right: 1rem;
     width: fit-content;
     z-index: 1000; /* Adjust the z-index as needed */
@@ -11,3 +11,4 @@
     transform: translateY(-150px);
     transition: opacity 1s ease-in-out, transform 1s ease-in-out;
 }
+

@@ -46,7 +46,8 @@ $result = $con->query($sql);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kartice za ponavljanje</title>
 
-    <?php include '../assets/css/stiliranjeSporedno.php'; ?> <!-- Sve poveznice za stil web stranice -->
+    <?php include '../assets/css/stiliranjeSporedno.php'; ?>
+    <link href="../assets/css/kartice.css" rel="stylesheet">
 
 </head>
 
@@ -54,6 +55,8 @@ $result = $con->query($sql);
 
     <?php include '../ukljucivanje/header.php';
     ?>
+
+
 
     <div class="justify-content-md-center mb-4">
 

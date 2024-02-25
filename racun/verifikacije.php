@@ -88,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <?php include '../assets/css/stiliranjeSporedno.php' ?>
 
-    <!-- <link rel="stylesheet" type="text/css" href="../style/prijava.css">  Stil za prijavu -->
+
     <script src="../ukljucivanje/javascript/registracija.js"></script>
 
 </head>

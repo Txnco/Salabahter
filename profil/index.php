@@ -366,7 +366,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                     <select class="form-control" id="predmet" name="predmet" required>
                                       <?php
                                       while ($row = $rezultatInstruktoroviPredmeti->fetch_assoc()) : ?>
-                                        <option value="<?php echo $row['predmet_id'] . '|' . $row['naziv_predmeta']; ?>"><?php echo $row['naziv_predmeta']; ?></option>
+                                        <option value="<?php echo $row['predmet_id'] . '|' . $row['naziv_predmeta']; ?>" required><?php echo $row['naziv_predmeta']; ?> </option>
                                       <?php endwhile; ?>
                                     </select>
                                   </div>
@@ -377,7 +377,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                                   <div class="form-group">
                                     <label for="datum">Predložite datum i vrijeme instrukcija</label>
-                                    <input type="text" class="form-control" id="datum" name="datum" required readonly>
+                                    <input type="text" class="form-control" id="datum" name="datum"  readonly required>
                                   </div>
 
                                 </div>
@@ -392,7 +392,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             <input type="hidden" id="korisnik" name="korisnik" value="<?php echo $_SESSION['user_id'] ?>">
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
-                              <button type="submit" class="btn btn-success" name="zahtjevZaInstrukcije">Pošalji zahtjev</button>
+                              <button type="submit" class="btn gumb" name="zahtjevZaInstrukcije">Pošalji zahtjev</button>
                             </div>
 
                           </form>
@@ -403,7 +403,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                   <?php
                   } else if (isset($_SESSION['user_id']) && $instruktor && $korisnikVecPoslaoZahtjevZaInstrukcije) {
 
-                    echo "<button class='btn btn-success'>Zahtjev je poslan!</button>";
+                    echo "<button class='btn gumb'>Zahtjev je poslan!</button>";
                   } ?>
 
                 </div>

@@ -6,7 +6,6 @@
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
 
-
   <!-- Vendor CSS datoteke -->
   <link href="../assets/vendor/animate.css/animate.min.css" rel="stylesheet">
   <link href="../assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">

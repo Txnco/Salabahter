@@ -116,7 +116,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
     <!-- Glavni prefložak za CSS  -->
 
-    <link href="../../assets/css/style.css" rel="stylesheet">
+    <link href="../../assets/css/stil.css" rel="stylesheet">
     <link href="../../assets/css/nadzornaploca.css" rel="stylesheet">
 
 </head>
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                             <br>
 
                             <div class="d-flex justify-content-center">
-                                <a class="btn btn-primary" data-bs-toggle="collapse" href="#dodajPredmet" role="button" aria-expanded="false" aria-controls="dodajPredmet">
+                                <a class="btn gumb" data-bs-toggle="collapse" href="#dodajPredmet" role="button" aria-expanded="false" aria-controls="dodajPredmet">
                                     Dodaj predmet
                                     <svg class="arrow-up" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="white" style="display: none;">
                                         <path d="M3.22 10.53a.749.749 0 0 1 0-1.06l4.25-4.25a.749.749 0 0 1 1.06 0l4.25 4.25a.749.749 0 1 1-1.06 1.06L8 6.811 4.28 10.53a.749.749 0 0 1-1.06 0Z"></path>
@@ -216,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                                                             </div>
                                                         </div>
                                                     </div>
-                                            <?php 
+                                            <?php
                                                 endwhile;
                                             else :
                                                 echo "<span class='text m-4'>Trenutno nema zahtjeva</span>";
@@ -244,9 +244,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"></script>
 
     <script src="../../assets/js/main.js"></script>
 
