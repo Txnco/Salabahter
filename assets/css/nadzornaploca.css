@@ -194,13 +194,13 @@ body {
     color: #008CBA;
     opacity: 0;
     transition: .5s ease;
-    border-radius: 50%; /* Clip to the profile picture radius */
+    border-radius: 50%; 
 }
 
 .profile-pic-container:hover #otvoriPrijenosSlike {
     opacity: 1;
-    background-color: rgba(255, 255, 255, 0.5); /* Add a white overlay */
-    border: none; /* Remove the border */
+    background-color: rgba(255, 255, 255, 0.5); 
+    border: none; 
 }
 
 .profile-pic-container {

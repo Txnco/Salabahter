@@ -408,7 +408,7 @@ function dohvatipodatkevlasnika($vlasnik_id)
                                                     <?php if ($admin) : ?>
 
                                                         <div class="d-flex justify-content-between">
-                                                            <button type="button" class="btn btn-success mt-2" data-toggle="modal" data-target="#urediKarticuModal">Uredi</button>
+                                                            <button type="button" class="btn gumb mt-2" data-toggle="modal" data-target="#urediKarticuModal">Uredi</button>
 
                                                             <form action='akcije.php' method='GET'>
                                                                 <input type='hidden' name='kartica_id' value=<?php echo "'{$row['kartica_id']}'"; ?> />

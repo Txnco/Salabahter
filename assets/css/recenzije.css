@@ -21,7 +21,7 @@
     float: right; 
 }
 
-/* Hover behavior */
+
 .rating > label:hover,
 .rating > label:hover ~ label,
 .rating:not(:checked) > label:hover,
@@ -29,17 +29,16 @@
     color: #FFD700;  
 } 
 
-/* Selected star behavior */
+
 .rating > input:checked ~ label { 
     color: #FFD700;  
 } 
 
-/* Unselected star behavior */
 .rating:not(:checked) > label { 
     color: #ddd; 
 } 
 
-/* Hover behavior after selection */
+
 .rating > input:checked ~ label:hover, 
 .rating > input:checked ~ label:hover ~ label, 
 .rating > label:hover ~ input:checked ~ label, 
