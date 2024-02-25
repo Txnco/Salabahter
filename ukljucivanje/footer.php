@@ -7,9 +7,8 @@
         <div class="col-lg-3 col-md-6 footer-info">
           <h3 class="text">Šalabahter</h3>
           <p>
-            Glavna ulica, Čakovec<br>
-            40 000, Hrvatska<br><br>
-            <strong>Phone:</strong> +385 98 9385 653<br>
+            <strong>Adresa:</strong> 40 000, Čakovec, Hrvatska<br>
+            <strong>Broj:</strong> +385 98 9385 653<br>
             <strong>Email:</strong> info@salabahter.eu<br>
           </p>
           <div class="social-links mt-3">

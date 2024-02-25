@@ -314,11 +314,9 @@ $putanjaDoOdjave = "racun/odjava.php";
 
           <div class="col-lg-3 col-md-6 footer-info">
             <h3 class="text">Šalabahter</h3>
-            <p>
-              Glavna ulica, Čakovec<br>
-              40 000, Hrvatska<br><br>
-              <strong>Phone:</strong> +385 98 9385 653<br>
-              <strong>Email:</strong> info@salabahter.eu<br>
+            <strong>Adresa:</strong> 40 000, Čakovec, Hrvatska<br>
+            <strong>Broj:</strong> +385 98 9385 653<br>
+            <strong>Email:</strong> info@salabahter.eu<br>
             </p>
             <div class="social-links mt-3">
               <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
@@ -356,7 +354,7 @@ $putanjaDoOdjave = "racun/odjava.php";
       <div class="credits">
       </div>
     </div>
-  </footer><!-- End Footer -->
+  </footer>
 
   <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
