@@ -139,18 +139,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             </form>
 
                         </div>
-                        <!-- end card-body -->
+                       
                     </div>
-                    <!-- end card -->
+                   
 
                     <p class="text-muted text-center mt-3 mb-0">Imate korisnički račun? <a href="prijava.php" class="text-primary ml-1">Prijavite se!</a></p>
                 </div>
-                <!-- end row -->
+               
 
             </div>
-            <!-- end col -->
+           
         </div>
-        <!-- Row -->
+       
     </div>
 
 

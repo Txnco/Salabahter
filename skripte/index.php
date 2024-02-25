@@ -24,11 +24,11 @@ $resultPredmeti = $con->query($sqlPredmeti);
 
 // Pretraživanje skripti
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the search term and selected subject from the POST request
+   
     $searchTerm = $_POST["searchTerm"];
     $selectedSubject = $_POST["selectedSubject"];
 
-    // SQL query to search scripts
+ 
     $sql = "SELECT skripte.*, predmeti.naziv_predmeta, predmeti.predmet_boja FROM skripte INNER JOIN predmeti ON skripte.predmet_id = predmeti.predmet_id WHERE 1=1";
 
     if (!empty($searchTerm)) {
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql .= " AND skripte.predmet_id = $selectedSubject";
     }
 
-    // Execute the SQL query to search scripts
+   
     $result = $con->query($sql);
 } else {
     // SQL upit za dohvaćanje svih skripti

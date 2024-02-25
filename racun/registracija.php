@@ -39,19 +39,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['prijava'])) {
 
 
-            // Prepare a SQL statement
+            
             $stmt = $con->prepare("SELECT * FROM neverificiranikorisnici WHERE verifikacijski_kod = ?");
             $stmt->bind_param("i", $verifikacijski_kod);
 
-            // Execute the statement
             $stmt->execute();
 
-            // Get the result
+          
             $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
 
-                // Verification code exists, redirect back to the registration page
+                
                 header("Location: registracija.php");
                 exit();
             } else {
@@ -108,22 +107,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $body = file_get_contents('../assets/css/izgledeposteKodRegistracije.html');
                     $body = str_replace('{KOD}', $verifikacijski_kod, $body);
 
-                    //Server settings
+                    
                     $mail->SMTPDebug = 0;
                     $mail->isSMTP();
-                    $mail->Host       = 'smtp.zoho.eu';  // Specify main and backup SMTP servers
-                    $mail->SMTPAuth   = true;                             // Enable SMTP authentication
-                    $mail->Username   = 'info@salabahter.eu';              // SMTP username
-                    $mail->Password   = 'Salabahter3!';                  // SMTP password
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Use ::ENCRYPTION_STARTTLS for port 587
-                    $mail->Port = 465; // Use 587 for TLS                           // TCP port to connect to
+                    $mail->Host       = 'smtp.zoho.eu';  
+                    $mail->SMTPAuth   = true;                             
+                    $mail->Username   = 'info@salabahter.eu';              
+                    $mail->Password   = 'Salabahter3!';                  
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
+                    $mail->Port = 465;                          
 
-                    //Recipients
+                    
                     $mail->setFrom('info@salabahter.eu', 'Salabahter');
-                    $mail->addAddress($email, $ime);     // Add a recipient
+                    $mail->addAddress($email, $ime);    
 
-                    // Content
-                    $mail->isHTML(true);                                  // Set email format to HTML
+                   
+                    $mail->isHTML(true);                                  
                     $mail->Subject = 'Kod za verifikaciju registracije';
                     $mail->Body    = $body;
                     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
@@ -133,7 +132,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $_SESSION['verifikacija'] = time();
                     $_SESSION['kodPoslan'] = true;
 
-                    // Redirect to verifikacije.php
+                  
                     header('Location: verifikacije.php');
                     exit();
                 } catch (Exception $e) {
@@ -156,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     <?php include '../assets/css/stiliranjeSporedno.php' ?>
 
-    <!-- <link rel="stylesheet" type="text/css" href="../style/prijava.css">  Stil za prijavu -->
+
     <script src="../ukljucivanje/javascript/registracija.js"></script>
 
     <style>
@@ -306,7 +305,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                     <?php
                                                     if ($status1->num_rows > 0) :
                                                         while ($row = $status1->fetch_assoc()) :
-                                                            if ($row["status_id"] == 3678) continue; // Skip the iteration if status_id is 5
+                                                            if ($row["status_id"] == 3678) continue; 
                                                     ?>
 
                                                             <label class="btn btn-secondary mb-2 animate__animated animate__fadeIn" style="width: 100%; padding: 10px 0; border-radius: 8px;">
@@ -322,18 +321,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 </div>
 
                                                 <script>
-                                                    // Get all the buttons
+                                                    
                                                     var buttons = document.querySelectorAll('.btn');
 
-                                                    // Add a click event listener to each button
+                                                   
                                                     buttons.forEach(function(button) {
                                                         button.addEventListener('click', function() {
-                                                            // Remove the 'active' class from all buttons
+                                                           
                                                             buttons.forEach(function(btn) {
                                                                 btn.classList.remove('active');
                                                             });
 
-                                                            // Add the 'active' class to the clicked button
+                                                           
                                                             this.classList.add('active');
                                                         });
                                                     });

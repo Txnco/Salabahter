@@ -375,7 +375,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                         <div class="col d-flex flex-column justify-content-center">
                             <?php
-                            // Get the data URL of the QR code
+                        
                             $qrCodeDataUrl = require 'generirajQRKodSkripte.php';
                             ?>
 

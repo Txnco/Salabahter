@@ -41,22 +41,22 @@ if ($_SERVER['REQUEST_METHOD'] == "GET") {
             $body = file_get_contents('../assets/css/promjenaLozinkeeposta.html');
             $body = str_replace('{POVEZNICA}', $poveznicaZaPonovnoPostavljanjeLozinke, $body);
 
-            //Server settings
+         
             $mail->SMTPDebug = 0;
             $mail->isSMTP();
-            $mail->Host       = 'smtp.zoho.eu';  // Specify main and backup SMTP servers
-            $mail->SMTPAuth   = true;                             // Enable SMTP authentication
-            $mail->Username   = 'podrska@salabahter.eu';              // SMTP username
-            $mail->Password   = 'Salabahter1!';                  // SMTP password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; // Use ::ENCRYPTION_STARTTLS for port 587
-            $mail->Port = 465; // Use 587 for TLS                           // TCP port to connect to
+            $mail->Host       = 'smtp.zoho.eu';  
+            $mail->SMTPAuth   = true;                             
+            $mail->Username   = 'podrska@salabahter.eu';              
+            $mail->Password   = 'Salabahter1!';                 
+            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
+            $mail->Port = 465;                     
 
-            //Recipients
+           
             $mail->setFrom('podrska@salabahter.eu', 'Salabahter');
-            $mail->addAddress($eposta, "");     // Add a recipient
+            $mail->addAddress($eposta, "");     
 
-            // Content
-            $mail->isHTML(true);                                  // Set email format to HTML
+            
+            $mail->isHTML(true);                                 
             $mail->Subject = 'Ponovno postavljanje lozinke';
             $mail->Body    = $body;
             $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';

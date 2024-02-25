@@ -10,7 +10,7 @@ if (!$user) {
     die;
 }
 
-$korisnikID = $_GET['korisnik']; // Moved this line inside the if statement
+$korisnikID = $_GET['korisnik']; 
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
@@ -194,16 +194,16 @@ if ($rezultatAkojeKorisnikVecNapisaoRecenziju->num_rows > 0) {
                             </div>
 
                         </div>
-                        <!-- end card-body -->
+                       
                     </div>
-                    <!-- end card -->
+                 
 
-                    <!-- end row -->
+                 
 
                 </div>
-                <!-- end col -->
+             
             </div>
-            <!-- Row -->
+          
         </div>
 
         <script src="https://code.jquery.com/jquery-3.7.1.js"> </script>

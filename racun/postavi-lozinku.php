@@ -109,18 +109,18 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
                             </div>
 
                         </div>
-                        <!-- end card-body -->
+                     
                     </div>
-                    <!-- end card -->
+                 
 
                     <p class="text-muted text-center mt-3 mb-0">Nemate račun? <a href="registracija.php" class="text-primary ml-1">Registrirajte se!</a></p>
 
-                    <!-- end row -->
+                
 
                 </div>
-                <!-- end col -->
+         
             </div>
-            <!-- Row -->
+      
         </div>
     </div>
 

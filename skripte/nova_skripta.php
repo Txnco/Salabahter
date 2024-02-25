@@ -153,10 +153,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 }
 
                                 document.querySelector('.custom-file-input').addEventListener('change', function(e) {
-                                    // Get the selected file name
+                                 
                                     var imeDatoteke = e.target.files[0].name;
 
-                                    // Update the label text
+                                  
                                     var labela = e.target.nextElementSibling;
                                     labela.innerText = imeDatoteke;
                                 });

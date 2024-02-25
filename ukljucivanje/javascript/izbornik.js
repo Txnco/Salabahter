@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
     if (alertElement) {
-        // Your existing code
+       
         showLoginSuccessMessage();
 } else {
         console.error("Element with ID 'loginSuccessAlert' not found");
