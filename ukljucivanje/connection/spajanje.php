@@ -1,9 +1,9 @@
 <?php 
 
 $dbhost = "localhost";
-$dbuser = "u235543018_administratori";
-$dbpass = "s67Ag6fiC3!";
-$dbname = "u235543018_salabahter";
+$dbuser = "root";
+$dbpass = "";
+$dbname = "salabahter";
 
 $con = new mysqli(hostname: $dbhost,
                      username: $dbuser,
