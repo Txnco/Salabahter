@@ -49,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $query .= " AND gradovi.zupanija_id = $zupanijaId";
     }
 
+
     $rezultatSviInstruktori = $con->query($query);
 
 
@@ -126,7 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 <select class="form-control" name="zupanija">
                                                     <option value="">Odaberite županiju</option>
                                                     <?php
-                                                    $rezultatZupanije = $con->query("SELECT naziv_zupanije,zupanija.zupanija_id FROM zupanija");
+                                                    $rezultatZupanije = $con->query("SELECT naziv_zupanije,zupanija.zupanija_id FROM zupanija ORDER BY naziv_zupanije ASC");
                                                     while ($red = $rezultatZupanije->fetch_assoc()) {
                                                         $selected = isset($_POST['zupanija']) && $_POST['zupanija'] == $red['zupanija_id'] ? 'selected' : '';
                                                         echo '<option value="' . $red['zupanija_id'] . '" ' . $selected . '>' . $red['naziv_zupanije'] . '</option>';
@@ -140,7 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 <select class="form-control" name="grad">
                                                     <option value="">Odaberite grad</option>
                                                     <?php
-                                                    $rezultatGradovi = $con->query("SELECT * FROM gradovi");
+                                                    $rezultatGradovi = $con->query("SELECT * FROM gradovi ORDER BY naziv_grada ASC");
                                                     while ($red = $rezultatGradovi->fetch_assoc()) {
                                                         $selected = isset($_POST['grad']) && $_POST['grad'] == $red['grad_id'] ? 'selected' : '';
                                                         echo '<option value="' . $red['grad_id'] . '" ' . $selected . '>' . $red['naziv_grada'] . '</option>';
@@ -154,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 <select class="form-control" name="predmet">
                                                     <option value="">Odaberite predmet</option>
                                                     <?php
-                                                    $rezultatPredmeti = $con->query("SELECT * FROM predmeti");
+                                                    $rezultatPredmeti = $con->query("SELECT * FROM predmeti ORDER BY naziv_predmeta ASC");
                                                     while ($red = $rezultatPredmeti->fetch_assoc()) {
                                                         $selected = isset($_POST['predmet']) && $_POST['predmet'] == $red['predmet_id'] ? 'selected' : '';
                                                         echo '<option value="' . $red['predmet_id'] . '" ' . $selected . '>' . $red['naziv_predmeta'] . '</option>';

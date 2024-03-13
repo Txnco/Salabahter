@@ -20,8 +20,7 @@ $rezultatPredmeti = $con->query($sqlPredmeti);
 
 $user = provjeri_prijavu($con);
 if (!isset($_SESSION["user_id"])) {
-    header("Location: ../racun/prijava.php");
-    exit;
+    $korisnikId=0;
 } else {
     $korisnikId = $_SESSION["user_id"];
 }
@@ -181,7 +180,7 @@ if ($rezultatKartice->num_rows > 0) {
                     </div>
 
                     <!-- OVDJE PRIKAŽI SAMO JEDNO PITANJE -->
-                    <div class=" card-body d-flex flex-column justify-content-center align-items-center text-center mt-3" id="kartica" style="height: 400px;">
+                    <div class=" card-body d-flex flex-column justify-content-center align-items-center text-center mt-3" id="kartica" style="min-height: 400px;">
                         <h3 class="card-title" id="pitanje"></h3>
                         <h3 class="card-title" id="odgovor" style="display: none;"></h3>
                         <p class="text-primary mt-5" id="prikaziLink">Prikaži odgovor</p>

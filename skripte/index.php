@@ -19,7 +19,7 @@ $putanjaDoRacuna = "../nadzornaploca";
 $putanjaDoOdjave = "../racun/odjava.php";
 
 // Dohvaćanje svih predmeta iz baze podataka
-$sqlPredmeti = "SELECT * FROM predmeti";
+$sqlPredmeti = "SELECT * FROM predmeti ORDER BY naziv_predmeta ASC";
 $resultPredmeti = $con->query($sqlPredmeti);
 
 // Pretraživanje skripti

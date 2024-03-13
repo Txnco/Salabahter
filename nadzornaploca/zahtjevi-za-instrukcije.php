@@ -335,7 +335,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                                                                 <input type="hidden" name="predmet" value="<?php echo $rezultat['naziv_predmeta']; ?>">
                                                                 <input type="hidden" name="zahtjev_id" value="<?php echo $rezultat['zahtjev_id']; ?>">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
-                                                                <button type="submit" class="btn btn-racun" name="posaljiOdgovor">Pošalji odgovor</button>
+                                                                <button id="submit-button" type="submit" class="btn btn-racun" name="posaljiOdgovor">Pošalji odgovor</button>
                                                             </div>
                                                         </form>
 
@@ -376,7 +376,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
                                                                 <input type="hidden" name="zahtjev_id" value="<?php echo $rezultat['zahtjev_id']; ?>">
                                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Zatvori</button>
-                                                                <button type="submit" class="btn btn-racun" name="odbijZahtjev">Pošalji odgovor</button>
+                                                                <button id="submit-button" type="submit" class="btn btn-racun" name="odbijZahtjev">Pošalji odgovor</button>
                                                             </div>
                                                         </form>
 
@@ -406,7 +406,15 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 
 
-
+    <script>
+        document.getElementById('submit-button').addEventListener('click', function(event) {
+            var button = this;
+            setTimeout(function() {
+                button.disabled = true;
+                button.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Slanje zahtjeva...';
+            }, 100);
+        });
+    </script>
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>

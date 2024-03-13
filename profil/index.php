@@ -287,18 +287,17 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <?php echo $korisnik['status_naziv']; ?>
                   </p>
 
-                  <p class="text-muted font-size-sm"><?php echo $korisnik["adresa"] . ",  ";
-                                                      echo $korisnik['prebivaliste']; ?>
+                  <p class="text-muted font-size-sm"><?php echo $korisnik['prebivaliste']; ?>
                   </p>
 
                   <?php
 
                   if (isset($_SESSION['user_id'])) {
-                    if($instruktor){
+                    if ($instruktor) {
 
                       $sqlProvjeraZahtjevaZaInstrukcije = "SELECT * FROM zahtjevzainstrukcije WHERE poslaoKorisnik = {$_SESSION['user_id']} AND instruktor_id = {$instruktor['instruktor_id']}";
                       $rezultatProvjeraZahtjevaZaInstrukcije = $con->query($sqlProvjeraZahtjevaZaInstrukcije);
-                      
+
                       if ($rezultatProvjeraZahtjevaZaInstrukcije->num_rows > 0) {
                         $korisnikVecPoslaoZahtjevZaInstrukcije = true;
                       } else if ($rezultatProvjeraZahtjevaZaInstrukcije->num_rows == 0) {
@@ -377,7 +376,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
                                   <div class="form-group">
                                     <label for="datum">Predložite datum i vrijeme instrukcija</label>
-                                    <input type="text" class="form-control" id="datum" name="datum"  readonly required>
+                                    <input type="text" class="form-control" id="datum" name="datum" readonly required>
                                   </div>
 
                                 </div>
@@ -392,8 +391,18 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             <input type="hidden" id="korisnik" name="korisnik" value="<?php echo $_SESSION['user_id'] ?>">
                             <div class="modal-footer">
                               <button type="button" class="btn btn-secondary" data-dismiss="modal">Odustani</button>
-                              <button type="submit" class="btn gumb" name="zahtjevZaInstrukcije">Pošalji zahtjev</button>
+                              <button id="submit-button" type="submit" class="btn gumb" name="zahtjevZaInstrukcije">Pošalji zahtjev</button>
                             </div>
+
+                            <script>
+                              document.getElementById('submit-button').addEventListener('click', function(event) {
+                                var button = this;
+                                setTimeout(function() {
+                                  button.disabled = true;
+                                  button.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Slanje zahtjeva...';
+                                }, 100);
+                              });
+                            </script>
 
                           </form>
                         </div>
@@ -546,8 +555,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     <h6 class="mb-0">Adresa</h6>
                   </div>
                   <div class="col-sm-7 text-secondary">
-                    <label type="text"><?php echo $korisnik["adresa"] . ", " .  $korisnik["prebivaliste"] // Ispis koriskinove adrese stanovanja 
-                                        ?></label>
+                    <label type="text"><?php echo $korisnik["prebivaliste"]; // Ispis koriskinove adrese stanovanja ?></label>
                   </div>
                 </div>
                 <hr>

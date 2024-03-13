@@ -18,7 +18,7 @@ $putanjaDoRacuna = "../nadzornaploca";
 $putanjaDoOdjave = "../racun/odjava.php";
 
 // Dohvaćanje svih predmeta iz baze podataka
-$sqlPredmeti = "SELECT * FROM predmeti";
+$sqlPredmeti = "SELECT * FROM predmeti ORDER BY naziv_predmeta ASC";
 $rezultatPredmeti = $con->query($sqlPredmeti);
 
 // Pretraživanje skripti
@@ -47,7 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "SELECT * FROM grupekartica WHERE javno = 1";
     $result = $con->query($sql);
 }
-
 
 
 ?>
@@ -158,7 +157,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     $rezultatPredmeta = $con->query($predmetGrupe);
                             ?>
                                     <div class="col-sm-3 mb-3 ">
-                                        <a href="grupa.php?grupa_id='<?php echo $row['grupa_id'];  ?> '">
+                                        <a href="grupa.php?grupa_id=<?php echo $row['grupa_id'];  ?>">
                                             <div class="card" style="height: 280px;">
 
 

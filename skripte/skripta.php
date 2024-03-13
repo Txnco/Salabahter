@@ -172,6 +172,53 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                         </svg></button>
                                     <a href="<?php echo $putanjaDoOdabraneSkripte; ?>" class="btn btn-racun">Preuzmi</a>
 
+                                    <!-- Modal za QR Kod -->
+                                    <div class="modal fade" id="qrKodModal" tabindex="-1" role="dialog" aria-labelledby="qrKodModal" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">QR KOD SKRIPTE</h5>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+
+                                                <div class="modal-body">
+
+
+                                                    <div class="row">
+
+
+                                                        <div class="col d-flex flex-column justify-content-center">
+                                                            <?php
+
+                                                            $qrCodeDataUrl = require 'generirajQRKodSkripte.php';
+                                                            ?>
+
+                                                        </div>
+                                                        <div class="col d-flex flex-column justify-content-center align-items-center">
+
+                                                            <div class="text-center">
+                                                                <h3><?php echo $nazivSkripte; ?></h3>
+                                                            </div>
+
+                                                            <h6 class="card-info text-center" style="font-family: Poppins;">
+                                                                <a class="link" href="../profil?korisnik=<?php echo $kreator_id ?>">
+                                                                    <?php echo $imePrezimeKorisnika; ?>
+                                                                </a>,
+                                                                <?php echo "$datum   <br>";
+                                                                echo '<span class="badge" style="background-color: ' . $predmetBoja . ';">' . $predmetNaziv . '</span> '; ?>
+                                                            </h6>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
                             </div>
@@ -356,53 +403,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
 
-    <!-- Modal za QR Kod -->
-    <div class="modal fade" id="qrKodModal" tabindex="-1" role="dialog" aria-labelledby="qrKodModal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">QR KOD SKRIPTE</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
 
-                <div class="modal-body">
-
-
-                    <div class="row">
-
-
-                        <div class="col d-flex flex-column justify-content-center">
-                            <?php
-                        
-                            $qrCodeDataUrl = require 'generirajQRKodSkripte.php';
-                            ?>
-
-                        </div>
-                        <div class="col d-flex flex-column justify-content-center align-items-center">
-
-                            <div class="text-center">
-                                <h3><?php echo $nazivSkripte; ?></h3>
-                            </div>
-
-                            <h6 class="card-info text-center" style="font-family: Poppins;">
-                                <a class="link" href="../profil?korisnik=<?php echo $kreator_id ?>">
-                                    <?php echo $imePrezimeKorisnika; ?>
-                                </a>,
-                                <?php echo "$datum   <br>";
-                                echo '<span class="badge" style="background-color: ' . $predmetBoja . ';">' . $predmetNaziv . '</span> '; ?>
-                            </h6>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-    </div>
     <?php include '../ukljucivanje/footer.php'; ?>
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

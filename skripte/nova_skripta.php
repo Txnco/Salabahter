@@ -27,10 +27,18 @@ if (!isset($_SESSION["user_id"])) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
     if (isset($_FILES["skripta"]) && $_FILES["skripta"]["error"] == 0) {
         $uploadDir = "skripte/";
         $uniqueFilename = uniqid() . "_" . $_FILES["skripta"]["name"];
         $skripta_putanja = $uploadDir . $uniqueFilename;
+
+        $fileType = mime_content_type($_FILES["skripta"]["tmp_name"]);
+        if ($fileType != "application/pdf") {
+            $_SESSION['poruka'] = "Došlo je do greške. Molimo prenesite PDF datoteku.";
+            header('Location: nova_skripta.php');
+            exit;
+        }
 
         if (move_uploaded_file($_FILES["skripta"]["tmp_name"], $skripta_putanja)) {
 
@@ -84,8 +92,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="hero-section text-center" style="background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.2)), url(../assets/img/about.jpg);">
         <div class="row justify-content-center ">
             <div class="col-sm-8 mt-3 mb-3">
-            <h1 class="display-4 " style="color: #FFFFFF;">Prenesite svoju skriptu</h1>
-            <p class="lead" style="color: #FFFFFF;">Radite svoje skripte za učenje? Slobodno ih podijelite i sa drugima.</p>
+                <h1 class="display-4 " style="color: #FFFFFF;">Prenesite svoju skriptu</h1>
+                <p class="lead" style="color: #FFFFFF;">Radite svoje skripte za učenje? Slobodno ih podijelite i sa drugima.</p>
             </div>
         </div>
     </div>
@@ -131,6 +139,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <input type="file" class="custom-file-input" id="skripta" name="skripta" accept=".pdf" required>
                                     <label class="custom-file-label" for="skripta" data-browse="Traži">Odaberite PDF datoteku</label>
                                 </div>
+                                <?php
+                                if (isset($_SESSION['poruka'])) {
+                                echo "<p class='alert alert-danger mt-2 p-2'>" . $_SESSION['poruka'] . "</p>";
+                                unset($_SESSION['poruka']);
+                                } ?>
                             </div>
 
                             <script>
@@ -153,10 +166,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 }
 
                                 document.querySelector('.custom-file-input').addEventListener('change', function(e) {
-                                 
+
                                     var imeDatoteke = e.target.files[0].name;
 
-                                  
+
                                     var labela = e.target.nextElementSibling;
                                     labela.innerText = imeDatoteke;
                                 });

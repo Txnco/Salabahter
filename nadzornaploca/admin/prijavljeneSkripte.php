@@ -58,7 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $con->query($sqlIzbrisiZahtjev);  // Izvršavanje upita
 
         if ($con->affected_rows > 0) {
-            header("Location: prijaverecenzija.php");
+            header("Location: prijavljeneSkripte.php");
         }
     } elseif (isset($_POST['izbrisiSkriptu'])) {
 

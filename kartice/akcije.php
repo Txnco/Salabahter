@@ -30,6 +30,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'uredi_grupu') {
     $opis_grupe = $_GET['grupa_opis'];
     $javno = $_GET['javno'];
 
+
     $sql = "UPDATE grupekartica SET grupa_naziv = ?, grupa_opis = ?, javno = ?, predmet_id=? WHERE grupa_id = ?";
 
     $stmt = $con->prepare($sql);
@@ -37,7 +38,9 @@ if (isset($_GET['action']) && $_GET['action'] === 'uredi_grupu') {
 
     if ($stmt->execute()) {
         echo "Grupa je uspješno ažurirana.";
+        
         header("Location: grupa.php?grupa_id=$grupa_id");
+        die;
     } else {
         echo "Došlo je do greške prilikom ažuriranja grupe: " . $stmt->error;
     }

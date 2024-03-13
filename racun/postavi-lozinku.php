@@ -19,17 +19,18 @@ $rezultat = $stmt->get_result();
 
 $korisnik = $rezultat->fetch_assoc();
 
-if($korisnik === null){
+if ($korisnik === null) {
     die("Nemoguće postaviti lozinku!");
 }
 
-if(strtotime($korisnik['zeton_istice']) < time()){
+if (strtotime($korisnik['zeton_istice']) < time()) {
     die("Zahtjev za postavljanje lozinke je istekao!");
 }
 
-if($_SERVER['REQUEST_METHOD'] === "POST"){
+if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $novaLozinka = $_POST['unosLozinke'];
-    
+    $ponoviLozinku = $_POST['ponoviLozinke'];
+
 
     $encrypt_password = password_hash($novaLozinka, PASSWORD_DEFAULT);
 
@@ -41,7 +42,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 
     $stmt->execute();
 
-    if($con->affected_rows > 0){
+    if ($con->affected_rows > 0) {
         header("Location: prijava.php");
         exit;
     }
@@ -59,7 +60,11 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     <title>Postavljanje nove lozinke</title>
 
     <?php include '../assets/css/stiliranjeSporedno.php' ?>
+
     <link rel="stylesheet" type="text/css" href="..\style\prijava.css">
+
+    <link href="../assets/css/nadzornaploca.css" rel="stylesheet">
+
 
 </head>
 
@@ -89,12 +94,25 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
                                                 <input type="password" class="form-control" name="unosLozinke" id="unosLozinke" required>
                                             </div>
                                             <div class="form-group">
-                                                <label for="unosLozinke">Ponovite novu lozinku</label>
-                                                <input type="password" class="form-control" name="unosLozinke" id="unosLozinke" required>
+                                                <label for="ponoviLozinke">Ponovite novu lozinku</label>
+                                                <input type="password" class="form-control" name="ponoviLozinke" id="ponoviLozinke" required>
+                                            </div>
+                                            <div class="form-group">
+                                                <div id="passwordError" class="alert alert-danger" style="display: none;">
+                                                    Loznike se ne podudaraju!
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div id="lozinke-se-podudaraju" class="alert alert-success" style="display: none;">
+                                                    Loznike se podudaraju!
+                                                </div>
                                             </div>
 
                                             
-                                            <button type="submit" class="btn btn-theme">Promijeni lozinku</button>
+
+
+                                            <button id="ponovno-postavi-lozinku" type="submit" class="btn gumb">Promijeni lozinku</button>
                                         </form>
 
                                         <a href="prijava.php" class="forgot-link float-right text-primary">Sjetili ste se lozinke? Prijavite se ovdje!</a>
@@ -109,24 +127,66 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
                             </div>
 
                         </div>
-                     
+
                     </div>
-                 
+
 
                     <p class="text-muted text-center mt-3 mb-0">Nemate račun? <a href="registracija.php" class="text-primary ml-1">Registrirajte se!</a></p>
 
-                
+
 
                 </div>
-         
+
             </div>
-      
+
         </div>
     </div>
 
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+    <!-- Bootstrap JS library -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
+    <script>
+        $(document).ready(function() {
+            var timer;
 
+            $('#unosLozinke').on('keyup', function() {
+                clearTimeout(timer);
+                timer = setTimeout(checkPasswords, 300);
+            });
+
+            $('#ponoviLozinke').on('keyup', function() {
+                clearTimeout(timer);
+                timer = setTimeout(checkPasswords, 300);
+            });
+
+            $('#unosLozinke').on('keydown', function() {
+                $('#passwordError').hide();
+                $('#ponovno-postavi-lozinku').prop('disabled', false);
+            });
+
+            $('#ponoviLozinke').on('keydown', function() {
+                $('#passwordError').hide();
+                $('#ponovno-postavi-lozinku').prop('disabled', false);
+            });
+
+            function checkPasswords() {
+                var password = $('#unosLozinke').val();
+                var confirmPassword = $('#ponoviLozinke').val();
+
+                if (password != confirmPassword) {
+                    $('#passwordError').show();
+                    $('#ponovno-postavi-lozinku').prop('disabled', true);
+                }
+                if (password == confirmPassword) {
+                    $('#lozinke-se-podudaraju').show();
+                    
+                }
+            }
+        });
+    </script>
 
 
 </body>

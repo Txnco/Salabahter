@@ -22,8 +22,7 @@ $rezultatPredmeti = $con->query($sqlPredmeti);
 
 $user = provjeri_prijavu($con);
 if (!isset($_SESSION["user_id"])) {
-    header("Location: ../racun/prijava.php");
-    exit;
+    $korisnikId = 0;
 } else {
     $korisnikId = $_SESSION["user_id"];
 }
@@ -36,10 +35,11 @@ if (isset($korisnikrPravaPrava)) {
     }
 }
 
-$grupa_id = "0";
+
 $grupa_id = $_GET['grupa_id'];
 $sqlGrupa = "SELECT * FROM grupekartica WHERE grupa_id = $grupa_id";
 $rezultatGrupa = $con->query($sqlGrupa);
+
 
 if ($rezultatGrupa->num_rows == 0) {
     header("Location: index.php");
@@ -96,7 +96,7 @@ function dohvatipodatkevlasnika($vlasnik_id)
         <?php echo "$nazivGrupe"; ?>
     </title>
 
-    
+
     <?php include '../assets/css/stiliranjeSporedno.php'; ?>
     <link href="../assets/css/kartice.css" rel="stylesheet">
 
@@ -109,7 +109,7 @@ function dohvatipodatkevlasnika($vlasnik_id)
 </head>
 
 <body>
-    
+
     <?php include '../ukljucivanje/header.php'; ?>
 
     <br>
@@ -408,7 +408,7 @@ function dohvatipodatkevlasnika($vlasnik_id)
                                                     <?php if ($admin) : ?>
 
                                                         <div class="d-flex justify-content-between">
-                                                            <button type="button" class="btn gumb mt-2" data-toggle="modal" data-target="#urediKarticuModal">Uredi</button>
+                                                            <button type="button" class="btn gumb mt-2" data-toggle="modal" data-target="#urediKarticuModal<?php echo $row['kartica_id']; ?>">Uredi</button>
 
                                                             <form action='akcije.php' method='GET'>
                                                                 <input type='hidden' name='kartica_id' value=<?php echo "'{$row['kartica_id']}'"; ?> />
@@ -418,11 +418,11 @@ function dohvatipodatkevlasnika($vlasnik_id)
                                                         </div>
                                                     <?php endif; ?>
 
-                                                    <div class="modal fade" id="urediKarticuModal" tabindex="-1" aria-labelledby="urediKarticuModal" aria-hidden="true">
+                                                    <div class="modal fade" id="urediKarticuModal<?php echo $row['kartica_id']; ?>" tabindex="-1" aria-labelledby="urediKarticuModalLabel<?php echo $row['kartica_id']; ?>" aria-hidden="true">
                                                         <div class="modal-dialog">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
-                                                                    <h5 class="modal-title" id="urediKarticuModalLabel">Uredi karticu</h5>
+                                                                    <h5 class="modal-title" id="urediKarticuModalLabel<?php echo $row['kartica_id']; ?>">Uredi karticu</h5>
                                                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                                         <span aria-hidden="true">&times;</span>
                                                                     </button>
@@ -435,7 +435,7 @@ function dohvatipodatkevlasnika($vlasnik_id)
                                                                         <label for="odgovor">Odgovor:</label>
                                                                         <textarea name="odgovor" id="odgovor" class="form-control" required><?php echo $row['odgovor']; ?></textarea><br>
                                                                         <input type='hidden' name='grupa_id' value="<?php echo $grupa_id; ?>" />
-                                                                        <input type='hidden' name='kartica_id' value="<?php echo "{$row['kartica_id']}"; ?>" />
+                                                                        <input type='hidden' name='kartica_id' value="<?php echo $row['kartica_id']; ?>" />
                                                                         <button type="submit" class="btn btn-primary">Uredi karticu</button>
                                                                     </form>
                                                                 </div>

@@ -14,10 +14,6 @@ if (isset($_SESSION['verifikacija']) && time() - $_SESSION['verifikacija'] < 5 *
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-$sql = "SELECT * FROM statusKorisnika";
-
-$status1 = $con->query($sql);
-
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
@@ -39,18 +35,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['prijava'])) {
 
 
-            
+
             $stmt = $con->prepare("SELECT * FROM neverificiranikorisnici WHERE verifikacijski_kod = ?");
             $stmt->bind_param("i", $verifikacijski_kod);
 
             $stmt->execute();
 
-          
+
             $result = $stmt->get_result();
 
             if ($result->num_rows > 0) {
 
-                
+
                 header("Location: registracija.php");
                 exit();
             } else {
@@ -107,22 +103,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $body = file_get_contents('../assets/css/izgledeposteKodRegistracije.html');
                     $body = str_replace('{KOD}', $verifikacijski_kod, $body);
 
-                    
+
                     $mail->SMTPDebug = 0;
                     $mail->isSMTP();
-                    $mail->Host       = 'smtp.zoho.eu';  
-                    $mail->SMTPAuth   = true;                             
-                    $mail->Username   = 'info@salabahter.eu';              
-                    $mail->Password   = 'Salabahter3!';                  
-                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
-                    $mail->Port = 465;                          
+                    $mail->Host       = 'smtp.zoho.eu';
+                    $mail->SMTPAuth   = true;
+                    $mail->Username   = 'info@salabahter.eu';
+                    $mail->Password   = 'Salabahter3!';
+                    $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+                    $mail->Port = 465;
 
-                    
+
                     $mail->setFrom('info@salabahter.eu', 'Salabahter');
-                    $mail->addAddress($email, $ime);    
+                    $mail->addAddress($email, $ime);
 
-                   
-                    $mail->isHTML(true);                                  
+
+                    $mail->isHTML(true);
                     $mail->Subject = 'Kod za verifikaciju registracije';
                     $mail->Body    = $body;
                     $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
@@ -132,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $_SESSION['verifikacija'] = time();
                     $_SESSION['kodPoslan'] = true;
 
-                  
+
                     header('Location: verifikacije.php');
                     exit();
                 } catch (Exception $e) {
@@ -154,6 +150,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Prijava</title>
 
     <?php include '../assets/css/stiliranjeSporedno.php' ?>
+
 
 
     <script src="../ukljucivanje/javascript/registracija.js"></script>
@@ -229,6 +226,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                     <select type="text" class="form-control" name="unosObliznjegGrada" id="unosObliznjegGrada" required>
                                                         <option value="" disabled selected>Odaberite grad</option>
                                                         <?php
+
                                                         $sql = "SELECT * FROM gradovi ORDER BY naziv_grada ASC";
                                                         $result = $con->query($sql);
                                                         while ($row = $result->fetch_assoc()) : ?>
@@ -303,9 +301,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                                                 <div class="btn-group d-flex flex-column align-items-center" role="group" aria-label="Vertical button group">
                                                     <?php
+
+                                                    $sql = "SELECT * FROM statuskorisnika";
+
+                                                    $status1 = $con->query($sql);
+
+
                                                     if ($status1->num_rows > 0) :
                                                         while ($row = $status1->fetch_assoc()) :
-                                                            if ($row["status_id"] == 3678) continue; 
+                                                            if ($row["status_id"] == 3678) continue;
                                                     ?>
 
                                                             <label class="btn btn-secondary mb-2 animate__animated animate__fadeIn" style="width: 100%; padding: 10px 0; border-radius: 8px;">
@@ -321,24 +325,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 </div>
 
                                                 <script>
-                                                    
                                                     var buttons = document.querySelectorAll('.btn');
 
-                                                   
+
                                                     buttons.forEach(function(button) {
                                                         button.addEventListener('click', function() {
-                                                           
+
                                                             buttons.forEach(function(btn) {
                                                                 btn.classList.remove('active');
                                                             });
 
-                                                           
+
                                                             this.classList.add('active');
                                                         });
                                                     });
                                                 </script>
 
-                                                <button type="submit" class="btn btn-theme mt-3" style="width: 100%; padding: 10px 0;" name="prijava">Prijavi se</button>
+                                                <button type="submit" class="btn gumb mt-3" style="width: 100%; padding: 10px 0;" name="prijava" id="submit-button">Prijavi se</button>
+
+
                                             </div>
                                         </div>
                                     </div>
@@ -365,6 +370,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
 
     </div>
+
+
+    <script>
+        document.getElementById('submit-button').addEventListener('click', function(event) {
+            var button = this;
+            setTimeout(function() {
+                button.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Registracija...';
+                button.disabled = true;
+            }, 100);
+        });
+    </script>
 
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
